@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null &&
+             (request.auth.token.email in ['hidayetaslan@gmail.com','mylife.carelio@gmail.com']);
+    }
+    match /kb/{doc}     { allow read: if true; allow write: if isAdmin(); }
+    match /chunks/{doc} { allow read: if true; allow write: if isAdmin(); }
+    match /{doc=**}     { allow read: if false; }
+  }
+}

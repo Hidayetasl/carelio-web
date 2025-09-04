@@ -1,0 +1,21 @@
+<!doctype html><meta charset="utf-8"><title>Upload Test</title>
+<input type="file" id="f"><button id="b">Yükle</button><pre id="o"></pre>
+<script src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
+<script src="/__/firebase/10.12.2/firebase-auth-compat.js"></script>
+<script src="/__/firebase/10.12.2/firebase-storage-compat.js"></script>
+<script src="/__/firebase/init.js?useEmulator=false"></script>
+<script>
+const o=document.getElementById('o'), log=m=>o.textContent+=m+"\n";
+firebase.auth().onAuthStateChanged(u=>{
+  if(!u){ location.href='/auth'; return; }
+  document.getElementById('b').onclick=async ()=>{
+    const f=document.getElementById('f').files[0]; if(!f) return alert('Dosya seç');
+    const p=`users/${u.uid}/library/${Date.now()}-${f.name}`;
+    try{
+      await firebase.storage().ref().child(p).put(f);
+      const url=await firebase.storage().ref().child(p).getDownloadURL();
+      log('OK: '+url);
+    }catch(e){ log('HATA: '+(e.code||'')+' '+(e.message||e)); }
+  };
+});
+</script>

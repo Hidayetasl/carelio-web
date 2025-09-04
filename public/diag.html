@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>Diag</title>
+<button onclick="test()">TEST ÇALIŞTIR</button>
+<pre id="out" style="white-space:pre-wrap"></pre>
+<script src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
+<script src="/__/firebase/10.12.2/firebase-auth-compat.js"></script>
+<script src="/__/firebase/10.12.2/firebase-storage-compat.js"></script>
+<script src="/__/firebase/init.js?useEmulator=false"></script>
+<script>
+const out = document.getElementById('out');
+function log(m){ out.textContent += m + '\n'; console.log(m); }
+log('INLINE JS ÇALIŞTI');
+function test(){
+  log('typeof firebase: ' + typeof firebase);
+  try{
+    log('apps length: ' + (firebase.apps?.length ?? 'yok'));
+    if(firebase.apps?.length){ log('bucket: ' + (firebase.app().options.storageBucket||'')); }
+    log('auth exists: ' + (!!firebase.auth));
+  }catch(e){ log('hata: ' + e); }
+}
+</script>

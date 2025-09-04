@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carelio – Yönetim Paneli (Storage'siz • Yerelde PDF/DOCX → Firestore)</title>
+  <style>
+    body{font:15px/1.4 system-ui;margin:0;background:#0f0b1a;color:#f7f7fb}
+    header{display:flex;gap:12px;align-items:center;padding:12px 16px;background:#17132a;border-bottom:1px solid #2a2448}
+    h1{font-size:18px;margin:0} .wrap{max-width:1024px;margin:0 auto;padding:16px}
+    .card{background:#17132a;border:1px solid #2a2448;border-radius:12px;padding:12px;margin:12px 0}
+    input,textarea,button,select{background:#221c3d;border:1px solid #2e2951;color:#fff;border-radius:8px;padding:8px}
+    label{display:block;margin:8px 0 4px;color:#c8c5d9} button.primary{background:#7b5cf1;border-color:#7b5cf1;cursor:pointer}
+    table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid #2a2448;padding:8px;text-align:left}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .muted{color:#c8c5d9}
+  </style>
+  <!-- PDF ve DOCX parser cdn -->
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.js"></script>
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDS-Yr56kYNxaLiCYcUapcJYHycy3ITuFY",
+      authDomain: "carelio-web.firebaseapp.com",
+      projectId: "carelio-web",
+      storageBucket: "carelio-web.firebasestorage.app",
+      messagingSenderId: "956481490629",
+      appId: "1:956481490629:web:c58c873d9d598380492aac"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // UI
+    const emailEl = document.getElementById('email');
+    const passEl = document.getElementById('pass');
+    const loginBtn = document.getElementById('login');
+    const logoutBtn = document.getElementById('logout');
+    const meEl = document.getElementById('me');
+
+    const kbQ = document.getElementById('kbQ');
+    const kbA = document.getElementById('kbA');
+    const kbTags = document.getElementById('kbTags');
+    const kbAdd = document.getElementById('kbAdd');
+    const kbList = document.getElementById('kbList');
+
+    const fileInput = document.getElementById('file');
+    const upBtn = document.getElementById('upload');
+    const upProg = document.getElementById('upProg');
+    const chList = document.getElementById('chunks');
+
+    loginBtn.onclick = async ()=>{ await signInWithEmailAndPassword(auth, emailEl.value, passEl.value); };
+    logoutBtn.onclick = ()=> signOut(auth);
+    onAuthStateChanged(auth, (user)=>{ meEl.textContent = user? (user.email + " (giriş)") : "Çıkış"; document.body.classList.toggle('authed', !!user); });
+
+    kbAdd.onclick = async ()=>{
+      const q = kbQ.value.trim(); const a = kbA.value.trim(); const tags = kbTags.value.trim().split(',').map(s=>s.trim()).filter(Boolean);
+      if(!q||!a) return alert('Soru ve cevap gerekli');
+      await addDoc(collection(db, 'kb'), { q, a, tags, createdAt: serverTimestamp() });
+      kbQ.value = ""; kbA.value = ""; kbTags.value = "";
+    };
+
+    onSnapshot(query(collection(db,'kb'), orderBy('createdAt','desc')), (snap)=>{
+      kbList.innerHTML = "";
+      snap.forEach(docu => {
+        const d = docu.data();
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${d.q}</td><td class="muted">${(d.tags||[]).join(', ')}</td>
+                         <td class="muted">${(d.a||'').slice(0,80)}...</td>
+                         <td><button data-id="${docu.id}" class="del">Sil</button></td>`;
+        kbList.appendChild(tr);
+      });
+      kbList.querySelectorAll('.del').forEach(b=> b.onclick = async ()=> await deleteDoc(doc(db,'kb',b.dataset.id)) );
+    });
+
+    function norm(s=''){ return s.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/\s+/g,' ').trim(); }
+    function chunkText(text, size=900, overlap=120){
+      const res=[]; let i=0; while(i<text.length){ const end=Math.min(text.length,i+size); res.push(text.slice(i,end)); i=end-overlap; if(i<0) i=0; } return res;
+    }
+    function topKeywords(text, k=8){
+      const stop=new Set('ve veya ile icin ama fakat ancak cunku mi mu ise de da ki ya yada hem'.split(' '));
+      const freq=Object.create(null); for(const w of norm(text).split(' ')){ if(w.length<3||stop.has(w)) continue; freq[w]=(freq[w]||0)+1; }
+      return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,k).map(x=>x[0]);
+    }
+
+    async function parsePDF(arrayBuffer){
+      const pdfjsLib = window['pdfjs-dist/build/pdf'];
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js';
+      const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+      let full='';
+      for(let p=1;p<=pdf.numPages;p++){
+        const page = await pdf.getPage(p);
+        const content = await page.getTextContent();
+        full += content.items.map(i=> i.str).join(' ') + '\n';
+      }
+      return full;
+    }
+    async function parseDOCX(arrayBuffer){
+      const r = await window.mammoth.extractRawText({arrayBuffer});
+      return r.value || '';
+    }
+
+    upBtn.onclick = async ()=>{
+      const files = fileInput.files;
+      if(!files || files.length===0) return alert('PDF/DOCX seçin (çoklu seçim desteklenir)');
+      for(const f of files){
+        upProg.textContent = 'İşleniyor: ' + f.name;
+        const ab = await f.arrayBuffer();
+        let text='';
+        if(/pdf$/i.test(f.name)) text = await parsePDF(ab);
+        else if(/docx?$/i.test(f.name)) text = await parseDOCX(ab);
+        else { continue; }
+        text = text.replace(/\s+/g,' ').trim();
+        const chunks = chunkText(text, 900, 120);
+        for(const t of chunks){
+          await addDoc(collection(db,'chunks'), { text:t, srcName:f.name, keywords: topKeywords(t), ts: serverTimestamp() });
+        }
+      }
+      upProg.textContent = 'Tamamlandı ✓';
+      alert('Yükleme/indeksleme tamam.');
+    };
+
+    onSnapshot(query(collection(db,'chunks'), orderBy('ts','desc')), (snap)=>{
+      chList.innerHTML = "";
+      snap.forEach(d => {
+        const it = d.data();
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${it.srcName||'doküman'}</strong> • ${(it.text||'').slice(0,140)}… <div class="muted">${(it.keywords||[]).join(', ')}</div>`;
+        chList.appendChild(li);
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Carelio Yönetim Paneli (Storage'siz)</h1>
+    <span id="me" class="muted">Çıkış</span>
+  </header>
+  <div class="wrap">
+    <div class="card">
+      <h3>Giriş</h3>
+      <div class="row">
+        <label>E-posta</label><input id="email" placeholder="hidayetaslan@gmail.com" />
+        <label>Şifre</label><input id="pass" type="password" placeholder="••••••••" />
+        <button id="login" class="primary">Giriş Yap</button>
+        <button id="logout">Çıkış</button>
+      </div>
+      <div class="muted">Not: Storage gerekmez; seçtiğiniz PDF/DOCX dosyası **tarayıcıda** metne çevrilir ve Firestore'a indekslenir.</div>
+    </div>
+
+    <div class="card">
+      <h3>Bilgi Tabanı (Q&A)</h3>
+      <label>Soru</label><input id="kbQ" placeholder="Örn: Carelio nedir?" />
+      <label>Cevap</label><textarea id="kbA" rows="4" placeholder="Cevabı girin…"></textarea>
+      <label>Etiketler (virgülle)</label><input id="kbTags" placeholder="paket,fiyat,doktor" />
+      <button id="kbAdd" class="primary">Ekle</button>
+      <table><thead><tr><th>Soru</th><th>Etiketler</th><th>Cevap</th><th></th></tr></thead><tbody id="kbList"></tbody></table>
+    </div>
+
+    <div class="card">
+      <h3>Döküman İçe Aktar (PDF / DOCX) – Storage Kullanmaz</h3>
+      <div class="row">
+        <input id="file" type="file" accept=".pdf,.doc,.docx" multiple />
+        <button id="upload" class="primary">İşle & İndeksle</button>
+        <span id="upProg" class="muted"></span>
+      </div>
+      <p class="muted">Seçtiğiniz dosyalar tarayıcıda okunur; metin parçalara bölünüp <code>chunks</code> koleksiyonuna yazılır.</p>
+      <ul id="chunks"></ul>
+    </div>
+  </div>
+</body>
+</html>

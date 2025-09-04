@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><title>Loona Komut Gönderici</title>
+<button onclick="cmd({type:'loona:command',cmd:'trigger',name:'fire'})">🔥 Yangın</button>
+<button onclick="cmd({type:'loona:command',cmd:'trigger',name:'medicine'})">💊 İlaç</button>
+<button onclick="cmd({type:'loona:command',cmd:'mood',value:'happy'})">🙂 Mood: happy</button>
+<button onclick="cmd({type:'loona:command',cmd:'speak',text:'Merhaba, Carelio buradayım.'})">🗣️ Konuş</button>
+<script>
+  const bus = new BroadcastChannel('carelio-bus');
+  function cmd(msg){ bus.postMessage(msg); }
+</script>
