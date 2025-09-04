@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /kb/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.email.matches('.*@carelio\.com$');
+    }
+    match /chunks/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.email.matches('.*@carelio\.com$');
+    }
+  }
+}

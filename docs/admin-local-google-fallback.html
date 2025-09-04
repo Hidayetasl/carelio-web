@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Carelio – Admin (Google Fallback)</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo="/>
+<link rel="stylesheet" href="./style.css"/>
+<script src="./config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Carelio – Admin (Google Fallback)</h1>
+      <div class="flex">
+        <button id="signIn">Google ile Giriş</button>
+        <button id="signOut" style="background:#374151">Çıkış</button>
+        <span id="who" class="small">—</span>
+      </div>
+      <div id="gate" class="small" style="margin-top:8px;display:block">
+        Giriş yapın. Yalnızca yetkili e-postalar: <code>hidayetaslan@gmail.com</code>, <code>mylife.carelio@gmail.com</code>
+      </div>
+
+      <div id="app" style="display:none">
+        <div class="hr"></div>
+        <h2>KB Ekle + Otomatik Chunk</h2>
+        <div class="row">
+          <div>
+            <label>Başlık</label>
+            <input id="title" placeholder="Örn. Carelio nedir?"/>
+          </div>
+          <div>
+            <label>Etiketler (virgüllü)</label>
+            <input id="tags" placeholder="paket,fiyat,doktor,acil"/>
+          </div>
+        </div>
+        <label>İçerik</label>
+        <textarea id="body" rows="8" placeholder="Metni girin..."></textarea>
+        <div class="flex">
+          <button id="saveKB">Kaydet + Chunkla</button>
+          <span id="status" class="small">—</span>
+        </div>
+        <p class="small">Not: Doküman yükleme (PDF/DOCX) demo paketinde kapalı. Blaze+Storage ile etkinleştirilebilir.</p>
+      </div>
+
+      <div id="hint" class="small" style="margin-top:10px;color:#fca5a5"></div>
+      <footer>v1.0 • Clean build • Firestore-only</footer>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"\;
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect,
+      getRedirectResult, onAuthStateChanged, signOut, setPersistence,
+      browserLocalPersistence, browserSessionPersistence
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"\;
+    import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"\;
+
+    const log = (...a)=>console.log("[ADMIN]", ...a);
+    const warn= (...a)=>console.warn("[ADMIN]", ...a);
+    const err = (...a)=>console.error("[ADMIN]", ...a);
+    const $ = (id)=>document.getElementById(id);
+    const showHint = (t)=>{ const h=$("hint"); h.textContent=t||""; };
+
+    if (!window.CARELIO_CONFIG) { err("CARELIO_CONFIG eksik!"); showHint("Konfigürasyon bulunamadı (config.js)."); }
+
+    const ADMIN_EMAILS = new Set(["hidayetaslan@gmail.com","mylife.carelio@gmail.com"]);
+    const app  = initializeApp(window.CARELIO_CONFIG);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    // Persistense
+    setPersistence(auth, browserLocalPersistence).catch(()=>setPersistence(auth, browserSessionPersistence));
+
+    const els = { signIn:$("signIn"), signOut:$("signOut"), who:$("who"), gate:$("gate"), app:$("app"),
+                  title:$("title"), tags:$("tags"), body:$("body"), status:$("status") };
+
+    async function login(){
+      const provider = new GoogleAuthProvider();
+      try{
+        showHint(""); log("Popup ile giriş deneniyor…");
+        await signInWithPopup(auth, provider);
+      }catch(e){
+        warn("Popup giriş hatası:", e.code, e.message);
+        showHint("Pop-up engellendi veya kapatıldı. Yönlendirme ile deniyorum…");
+        await signInWithRedirect(auth, provider);
+      }
+    }
+
+    async function afterRedirect(){
+      try {
+        const res = await getRedirectResult(auth);
+        if (res?.user) { log("Redirect sonrası giriş tamam:", res.user.email); }
+      } catch(e) {
+        warn("Redirect sonucu:", e.code, e.message);
+        if (e.code === "auth/unauthorized-domain") {
+          showHint("Authorized domains eksik. Firebase → Authentication → Settings → carelio-web.web.app & firebaseapp.com ekleyin.");
+        } else {
+          showHint("Redirect hatası: " + (e.code||e.message));
+        }
+      }
+    }
+
+    onAuthStateChanged(auth, (user)=>{
+      if (!user) {
+        log("Kullanıcı yok (henüz giriş yapılmadı).");
+        els.gate.style.display = "block"; els.app.style.display = "none"; els.who.textContent = "—";
+        return;
+      }
+      log("Giriş yapıldı:", user.email);
+      els.who.textContent = user.email || user.uid;
+      const allowed = ADMIN_EMAILS.has(user.email || "");
+      els.gate.style.display = allowed ? "none" : "block";
+      els.app.style.display  = allowed ? "block" : "none";
+      if (!allowed) { showHint("Giriş başarılı ama bu hesap yönetici listesinde değil."); }
+    });
+
+    els.signIn.addEventListener("click", login);
+    els.signOut.addEventListener("click", ()=>signOut(auth));
+    $("saveKB")?.addEventListener("click", saveKBAndChunk);
+    afterRedirect();
+
+    // --- Lookbehind'sız chunk bölücü (sadece kelime sınırına göre)
+    function splitIntoChunks(text, size=600){
+      const words = String(text).split(/\s+/);
+      const parts = [];
+      let buf = "";
+      for (const w of words){
+        const add = (buf ? " " : "") + w;
+        if ((buf + add).length > size){ if (buf.trim()) parts.push(buf.trim()); buf = w; }
+        else { buf += add; }
+      }
+      if (buf.trim()) parts.push(buf.trim());
+      return parts;
+    }
+
+    async function saveKBAndChunk(){
+      const title = (els.title.value||"").trim();
+      const tags  = (els.tags.value||"").split(",").map(s=>s.trim()).filter(Boolean);
+      const body  = (els.body.value||"").trim();
+      if (!title || !body){ return showHint("Başlık ve içerik gerekli."); }
+      try{
+        showHint("Kaydediliyor…");
+        const kbRef = await addDoc(collection(db,"kb"), { title, content: body, tags, createdAt: serverTimestamp() });
+        const chunks = splitIntoChunks(body, 600);
+        let count=0;
+        for (const ch of chunks){
+          await addDoc(collection(db,"chunks"), { docId: kbRef.id, docTitle: title, text: ch, summary: ch.slice(0,160), tags, source:"KB", createdAt: serverTimestamp() });
+          count++;
+        }
+        showHint("KB kaydedildi. " + count + " parça (chunk) oluşturuldu.");
+        els.body.value="";
+      }catch(e){ showHint("Hata: " + (e.message||e.code)); err(e); }
+    }
+  </script>
+</body>
+</html>
