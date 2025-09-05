@@ -1,4 +1,43 @@
-<!doctype html><meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=/auth">
-<title>Yönlendiriliyor…</title>
-<a href="/auth">/auth</a> sayfasına gidiliyor…
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Üye Girişi • Carelio</title>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main style="max-width:800px;margin:24px auto;font:15px/1.5 system-ui;padding:0 12px">
+    <h1>Üye Girişi</h1>
+    <form id="loginForm" style="display:grid;gap:12px;max-width:420px">
+      <label>
+        E-posta
+        <input id="email" type="email" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:10px"/>
+      </label>
+      <label>
+        Parola
+        <input id="pass" type="password" required style="width:100%;padding:10px;border:1px solid #ccc;border-radius:10px"/>
+      </label>
+      <button type="submit" style="padding:12px 14px;border:0;border-radius:12px;background:#7c3aed;color:#fff;font-weight:700">
+        Giriş Yap
+      </button>
+      <p id="msg" style="color:#16a34a;display:none;margin:0">Giriş yapıldı.</p>
+    </form>
+    <script>
+      // DEMO: localStorage.userName atayıp anasayfaya dön
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mail = document.getElementById('email').value.trim();
+        const name = mail.split('@')[0] || 'Misafir';
+        localStorage.setItem('userName', name);
+        document.getElementById('msg').style.display='block';
+        setTimeout(() => location.href = './', 600);
+      });
+    </script>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="assets/_layout.js"></script>
+</body>
+</html>
