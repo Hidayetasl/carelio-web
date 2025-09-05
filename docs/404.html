@@ -186,7 +186,6 @@
   <link rel="stylesheet" href="assets/layout.css">
   <script defer src="assets/_layout.js"></script>
 <body>
-  <div id="site-header"></div>
   <!-- Header -->
   <header class="site-header">
     <div class="container nav">
@@ -341,6 +340,5 @@
     mobileMenuBtn.addEventListener('click',()=>{mainMenu.classList.toggle('active');mobileMenuBtn.innerHTML=mainMenu.classList.contains('active')?'<i class="fas fa-times"></i>':'<i class="fas fa-bars"></i>'});
     document.querySelectorAll('.menu a').forEach(link=>{link.addEventListener('click',()=>{mainMenu.classList.remove('active');mobileMenuBtn.innerHTML='<i class="fas fa-bars"></i>'})});
   </script>
-  <div id="site-footer"></div>
 </body>
 </html>

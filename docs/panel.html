@@ -18,7 +18,6 @@ header{background:#0f172a;color:#fff;padding:10px 16px;position:sticky;top:56px;
 <script defer src="/__/firebase/10.12.2/firebase-storage-compat.js"></script>
 <script defer src="/__/firebase/init.js?useEmulator=false"></script>
 </head><body>
-  <div id="site-header"></div>
   <link rel="stylesheet" href="assets/layout.css">
   <script defer src="assets/_layout.js"></script>
 
@@ -48,7 +47,7 @@ header{background:#0f172a;color:#fff;padding:10px 16px;position:sticky;top:56px;
     <span id="userName" class="d-none d-md-inline"></span>
     <img id="userPhoto" style="width:32px;height:32px;border-radius:50%" alt="">
     <!-- Link + onclick: JS çalışmasa bile /auth'a gider -->
-    <a class="btn btn-sm btn-outline-light" href="./auth.html" onclick="return CARELIO.brutalLogout(event)">Çıkış</a>
+    <a class="btn btn-sm btn-outline-light" href="/auth" onclick="return CARELIO.brutalLogout(event)">Çıkış</a>
   </div>
 </header>
 
@@ -291,5 +290,4 @@ function gid(id){return document.getElementById(id)} function val(id){return (gi
 document.addEventListener('DOMContentLoaded', ()=> CARELIO.start().catch(e=>alert(e.message||e)));
 </script>
 <script defer src="/js/drive.js"></script>
-  <div id="site-footer"></div>
 </body></html>
