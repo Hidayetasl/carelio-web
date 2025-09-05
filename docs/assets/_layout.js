@@ -1,7 +1,7 @@
 (() => {
   // ---- Ayarlar ----
   // Project Page (kullanici.github.io/repo/) ise repo adını gir; User/Org Page ise boş bırak.
-  const PROJECT_SLUG = ""; // örn: "carelio-web"
+  const PROJECT_SLUG = "carelio-web"; // örn: "carelio-web"
   const BASE = PROJECT_SLUG ? `/${PROJECT_SLUG}/` : "/";
 
   // Ana sayfa kendi menüsünü zaten gösteriyorsa true yapar
