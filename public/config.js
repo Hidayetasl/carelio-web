@@ -7,3 +7,4 @@ window.CARELIO_CONFIG = {
   appId: "1:956481490629:web:c58c873d9d598380492aac"
 };
 window.CARELIO_FEATURES = { allowUploads: false };
+

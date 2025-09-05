@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: 1
 reviews:
   auto_review: true
@@ -19,3 +20,51 @@ rules:
 comments:
   tone: constructive
   max_comments: 30
+=======
+language: tr
+review:
+  level: strict
+  depth: deep
+  summarization: true
+
+include:
+  paths:
+    - "**/*.html"
+    - "**/*.css"
+    - "**/*.scss"
+    - "**/*.js"
+    - "**/*.mjs"
+    - "**/*.ts"
+    - "**/*.tsx"
+    - "**/*.json"
+    - "**/*.md"
+
+ignore:
+  paths:
+    - "node_modules/**"
+    - "dist/**"
+    - "build/**"
+    - ".next/**"
+    - ".vercel/**"
+    - "coverage/**"
+    - "**/*.min.js"
+    - "public/images/**"
+    - "public/videos/**"
+    - "assets/**"
+    - "**/*.png"
+    - "**/*.jpg"
+    - "**/*.jpeg"
+    - "**/*.webp"
+    - "**/*.avif"
+    - "**/*.gif"
+    - "**/*.mp4"
+    - "**/*.mov"
+    - "**/*.pdf"
+
+rules:
+  - "Erişilebilirlik: alt metin, kontrast, heading/landmark hiyerarşisi."
+  - "Performans: render-blocking, gereksiz kütüphane, büyük görseller."
+  - "Güvenlik: inline script, tehlikeli innerHTML, gizli anahtar sızıntısı."
+  - "SEO: <title>/<meta description>, tek H1, anlamlı link metinleri."
+  - "Kod kalitesi: tekrar eden CSS/JS, magic number, yorum/dosya yapısı."
+>>>>>>> restore/coderabbit-review

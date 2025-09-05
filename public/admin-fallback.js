@@ -92,3 +92,4 @@ $("saveKB").addEventListener("click", function(){
   })
   .catch(function(e){ show("Hata: " + (e && e.message ? e.message : e)); });
 });
+

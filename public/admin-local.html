@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="tr">
 <head>
+  <meta name="description" content="Carelio – sağlık hizmetleri platformu. Bu sayfaya ait kısa açıklama sonradan özelleştirilecektir.">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Carelio – Yönetim Paneli (Storage'siz • Yerelde PDF/DOCX → Firestore)</title>
@@ -16,8 +17,8 @@
     .muted{color:#c8c5d9}
   </style>
   <!-- PDF ve DOCX parser cdn -->
-  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.js"></script>
-  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.js" defer></script>
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js" defer></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -175,3 +176,4 @@
   </div>
 </body>
 </html>
+
