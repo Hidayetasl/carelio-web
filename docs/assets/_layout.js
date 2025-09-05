@@ -1,11 +1,18 @@
 (() => {
   // ---- Ayarlar ----
-  // Project Page (kullanici.github.io/repo/) ise repo adını gir; User/Org Page ise boş bırak.
-  const PROJECT_SLUG = "carelio-web"; // örn: "carelio-web"
+  const PROJECT_SLUG = "carelio-web";           // project page kullanıyorsun
   const BASE = PROJECT_SLUG ? `/${PROJECT_SLUG}/` : "/";
-
-  // Ana sayfa kendi menüsünü zaten gösteriyorsa true yapar
   const SKIP_HEADER = !!(window && window.SKIP_HEADER);
+
+  // Sayfada yerel menü/header var mı? Varsa injection yapma.
+  function hasOwnHeader() {
+    return !!(
+      document.querySelector("header.site-header") ||
+      document.querySelector("header .nav") ||
+      document.querySelector(".navbar, .topbar, .top-menu") ||
+      document.querySelector("nav[role='navigation']")
+    );
+  }
 
   // ---- Yardımcılar ----
   async function fetchText(url) {
@@ -27,7 +34,6 @@
   }
 
   function normalize(pathname) {
-    // /repo/hakkimizda.html -> /hakkimizda.html
     return PROJECT_SLUG
       ? pathname.replace(new RegExp(`^/${PROJECT_SLUG}`), "") || "/"
       : pathname || "/";
@@ -91,7 +97,7 @@
 
   // ---- Başlatıcı ----
   document.addEventListener("DOMContentLoaded", async () => {
-    if (!SKIP_HEADER) {
+    if (!(SKIP_HEADER || hasOwnHeader())) {
       await inject("site-header", "partials/header.html", "start");
     }
     await inject("site-footer", "partials/footer.html", "end");
