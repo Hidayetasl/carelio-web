@@ -1,0 +1,9 @@
+.site-header { position: sticky; top:0; background:#0b1020; color:#fff; z-index:999; }
+.nav { max-width:1200px; margin:auto; display:flex; gap:16px; align-items:center; padding:10px 16px; }
+.nav a { color:#fff; text-decoration:none; opacity:0.95; }
+.nav a:hover { opacity:1; text-decoration:underline; }
+.brand { font-weight:700; letter-spacing:.3px; }
+.site-footer { margin-top:40px; padding:24px 16px; background:#f6f7fb; color:#333; text-align:center; }
+body { margin:0; }
+main { max-width:1200px; margin:auto; padding:16px; }
+.hidden { display:none !important; }
