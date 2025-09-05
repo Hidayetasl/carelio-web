@@ -55,6 +55,8 @@
   </div>
 
 <script>
+window.addEventListener("DOMContentLoaded", function() {
+
 (function(){
   function $(id){ return document.getElementById(id); }
   function show(t){ var h=$("hint"); if(h) h.textContent=t||""; }
@@ -152,6 +154,7 @@
     });
   });
 })();
+});
 </script>
 </body>
 </html>
