@@ -7,12 +7,12 @@
 <title>Carelio – Admin (Google Compat)</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo="/>
 <link rel="stylesheet" href="./style.css"/>
-<script src="./config.js"></script>
+<script src="./config.js" defer></script>
 
 <!-- Firebase v9 compat (module'siz, klasik kullanım) -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js" defer></script>
 </head>
 <body>
   <div class="container">
@@ -156,7 +156,7 @@
 </body>
 </html>
 <!-- === DOCX YÜKLE (istemci tarafında) === -->
-<script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js" defer></script>
 <div id="docx-uploader" style="margin-top:16px;display:flex;gap:12px;align-items:center;">
   <input id="docxFile" type="file" accept=".docx" />
   <button id="docxToTextarea" type="button" style="padding:8px 12px;border-radius:8px;">DOCX'i İçeriğe Aktar</button>
