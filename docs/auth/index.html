@@ -1,3 +1,94 @@
-<!doctype html><meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=../auth.html">
-<link rel="canonical" href="../auth.html">
+<!doctype html><html lang="tr"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Carelio • Üyelik</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<style>body{background:#f4f7fb}.wrap{max-width:980px;margin:48px auto;padding:32px;background:#fff;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.06)}.nav-pills .nav-link{border-radius:12px}.tag{display:inline-block;padding:6px 10px;background:#e8f0fb;border-radius:8px;margin-right:12px;margin-bottom:8px;font-weight:600}.rounded-12{border-radius:12px}</style>
+<script defer src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
+<script defer src="/__/firebase/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="/__/firebase/init.js?useEmulator=false"></script>
+</head><body>
+  <link rel="stylesheet" href="assets/layout.css">
+  <script defer src="assets/_layout.js"></script>
+<div class="wrap">
+  <h1 class="fw-bold display-5 mb-4">Carelio • Üyelik</h1>
+  <ul class="nav nav-pills mb-3">
+    <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-login" type="button">Üye Giriş</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-register" type="button">Üye Ol</button></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="tab-login" class="tab-pane fade show active">
+      <div class="mb-2">
+        <button onclick="return CARELIO.google()" class="tag btn btn-link p-0">Google ile devam et</button>
+        <span class="tag">Facebook (yakında)</span><span class="tag">Apple (yakında)</span>
+      </div>
+      <h5 class="mt-4 mb-2">E-posta ile giriş</h5>
+      <div class="row g-3 align-items-end">
+        <div class="col-md-6"><input id="emailIn" type="email" placeholder="E-posta" class="form-control rounded-12"></div>
+        <div class="col-md-6"><input id="passIn"  type="password" placeholder="Şifre" class="form-control rounded-12"></div>
+        <div class="col-md-6 d-grid"><button onclick="return CARELIO.emailIn()" class="btn btn-primary rounded-12">Giriş Yap</button></div>
+        <div class="col-md-6 d-grid"><button onclick="return CARELIO.reset()"   class="btn btn-light rounded-12">Şifremi Sıfırla</button></div>
+      </div>
+    </div>
+
+    <div id="tab-register" class="tab-pane fade">
+      <div class="mb-2">
+        <button onclick="return CARELIO.google()" class="tag btn btn-link p-0">Google ile devam et</button>
+        <span class="tag">Facebook (yakında)</span><span class="tag">Apple (yakında)</span>
+      </div>
+      <h5 class="mt-4 mb-2">E-posta ile kayıt</h5>
+      <div class="row g-3 align-items-end">
+        <div class="col-md-6"><input id="emailUp" type="email" placeholder="E-posta" class="form-control rounded-12"></div>
+        <div class="col-md-6"><input id="passUp"  type="password" placeholder="Şifre (min 6 karakter)" class="form-control rounded-12"></div>
+        <div class="col-md-6 d-grid"><button onclick="return CARELIO.emailUp()" class="btn btn-success rounded-12">Kayıt Ol</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener('error', e=>alert('JS Hatası: '+(e.message||e.error)));
+window.addEventListener('unhandledrejection', e=>alert('İşlem hatası: '+(e.reason?.message||e.reason)));
+
+window.CARELIO = {
+  async ready(){
+    if(!window.firebase||!firebase.apps) throw new Error('Firebase SDK yüklenemedi');
+    this.auth = firebase.auth();
+    try{ await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); }catch(_){}
+    this.auth.onAuthStateChanged(u => { if(u) location.href='/panel.html'; });
+  },
+  async google(){
+    const p = new firebase.auth.GoogleAuthProvider();
+    try{ await this.auth.signInWithPopup(p); location.href='/panel.html'; }
+    catch(e){ try{ await this.auth.signInWithRedirect(p); } catch(e2){ alert('Giriş başarısız: '+(e2?.message||e2)); } }
+    return false;
+  },
+  async emailIn(){
+    const email=(document.getElementById('emailIn')?.value||'').trim();
+    const pass =(document.getElementById('passIn') ?.value||'');
+    if(!email||!pass) return alert('E-posta ve şifre gerekli.'), false;
+    try{ await this.auth.signInWithEmailAndPassword(email, pass); location.href='/panel.html'; }
+    catch(e){ alert('Giriş hatası: '+(e?.message||e)); }
+    return false;
+  },
+  async reset(){
+    const email=(document.getElementById('emailIn')?.value||'').trim();
+    if(!email) return alert('Lütfen e-posta yazın.'), false;
+    try{ await this.auth.sendPasswordResetEmail(email); alert('Sıfırlama maili gönderildi.'); }
+    catch(e){ alert('Sıfırlama hatası: '+(e?.message||e)); }
+    return false;
+  },
+  async emailUp(){
+    const email=(document.getElementById('emailUp')?.value||'').trim();
+    const pass =(document.getElementById('passUp') ?.value||'');
+    if(!email||!pass) return alert('E-posta ve şifre gerekli.'), false;
+    if(pass.length<6) return alert('Şifre en az 6 karakter olmalı.'), false;
+    try{ await this.auth.createUserWithEmailAndPassword(email, pass); location.href='/panel.html'; }
+    catch(e){ alert('Kayıt hatası: '+(e?.message||e)); }
+    return false;
+  }
+};
+document.addEventListener('DOMContentLoaded', ()=> CARELIO.ready().catch(err=>alert(err.message||err)));
+</script>
+</body></html>
