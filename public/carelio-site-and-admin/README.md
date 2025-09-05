@@ -33,3 +33,4 @@ Ayrıca:
 ## Notlar
 - TTS/STT: Chrome/Edge önerilir. iOS Safari'de STT sınırlı olabilir.
 - Anket: “fiyat / paket / öneri” gibi niyetlerde kısa anket teklifi otomatik görünür; “Evet” denince `https://carelio-web.web.app/anket.html` açılır.
+
