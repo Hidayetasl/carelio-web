@@ -1,11 +1,27 @@
----
 version: 1
+reviews:
+  auto_review: true
+  summary: true
+  inline_comments: true
+  files:
+    include:
+      - "docs/**/*.html"
+      - "docs/**/*.js"
+      - "docs/**/*.css"
+    exclude:
+      - "docs/videos/**"
 rules:
-  enable:
-    - accessibility
-    - performance
-    - security
-    - maintainability
+  performance: true
+  security: true
+  accessibility: true
+  best_practices: true
+  maintainability: true
+comments:
+  tone: constructive
+  max_comments: 30
+language: tr
+review:
+  level: strict
 exclude:
   - node_modules/**
   - dist/**
