@@ -109,3 +109,4 @@ try{
     __extra.forEach(([k,v])=>window.CARELIO.NORMALIZE.set(k,v));
   }
 }catch(e){ console.warn("normalize extra skip:", e); }
+// audit: 2025-09-06

@@ -24,3 +24,4 @@ export function answerWithRAG(q, kb, chunks){
   if(bestCH && bestCH.s>=2){ const src = bestCH.it.srcName || bestCH.it.src || 'doküman'; const text = (bestCH.it.text||'').slice(0,400) + '…'; return { type:'doc', text: `${text}\n\nKaynak: ${src}` }; }
   return { type:'fallback', text:'Bunu doğrudan bulamadım. Biraz daha netleştirebilir misiniz (örn. paket fiyatları, kurulum adımları)?' };
 }
+// audit: 2025-09-06
