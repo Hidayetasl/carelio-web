@@ -142,6 +142,7 @@
             font-size: 1.5rem;
             color: var(--white);
             cursor: pointer;
+            z-index: 1001;
         }
         
         /* Hero Section - GÜNCELLENDİ */
@@ -164,6 +165,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         
         .hero-content {
@@ -267,7 +269,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            background-color: #0d47a1; /* Video yüklenene kadar arkaplan */
+            background-color: #0d47a1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -278,6 +280,22 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Mobil için butonların video altında gösterilmesi */
+        .hero-buttons-mobile {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            margin-top: 30px;
+        }
+        
+        .hero-buttons-mobile .btn-primary,
+        .hero-buttons-mobile .btn-secondary,
+        .hero-buttons-mobile .btn-anket {
+            width: 100%;
+            text-align: center;
         }
         
         /* Services Section - Daire Şeklinde Resimler */
@@ -695,9 +713,11 @@
                 padding: 20px;
                 transition: 0.5s;
                 box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                z-index: 999;
+                overflow-y: auto;
             }
             
-            .menu active {
+            .menu.active {
                 left: 0;
             }
             
@@ -747,6 +767,15 @@
             .service-label::before, .service-label::after {
                 display: none;
             }
+            
+            /* Mobilde butonları video altında göster */
+            .hero-buttons {
+                display: none;
+            }
+            
+            .hero-buttons-mobile {
+                display: flex;
+            }
         }
         
         @media (max-width: 576px) {
@@ -774,35 +803,27 @@
                 height: 35px;
             }
             
-            .hero-buttons {
+            .hero-buttons-mobile {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .btn-primary, .btn-secondary, .btn-anket {
+            .hero-buttons-mobile .btn-primary, 
+            .hero-buttons-mobile .btn-secondary, 
+            .hero-buttons-mobile .btn-anket {
                 width: 100%;
                 text-align: center;
             }
         }
 
-        /* Mobilde 2 sütun override - siteyi bozmadan sadece hizmetler ızgarasını hedefler */
+        /* Mobilde 2 sütun override */
         @media (max-width: 600px){
-          /* En sık görülen sınıf adları: sadece varsa etkiler */
-          .services-grid,
-          .hizmetler-grid,
-          .grid.services,
-          .cards.grid,
-          [data-grid="services"]{
+          .services-grid {
             display: grid !important;
             grid-template-columns: repeat(2, minmax(0,1fr)) !important;
             gap: 15px !important;
           }
-          /* Eski flex/width kalıntılarını sıfırla */
-          .services-grid > *, 
-          .hizmetler-grid > *, 
-          .grid.services > *, 
-          .cards.grid > *,
-          [data-grid="services"] > *{
+          .services-grid > * {
             width: auto !important;
             margin: 0 !important;
           }
@@ -854,6 +875,13 @@
                     <source src="videos/slvd_16x9_fill.mp4" type="video/mp4">
                     Tarayıcınız video etiketini desteklemiyor.
                 </video>
+            </div>
+
+            <!-- Mobil için butonlar (video altında gösterilecek) -->
+            <div class="hero-buttons-mobile">
+                <a href="anket.html" class="btn-anket">Ankete Katıl</a>
+                <a href="hizmetler.html#" class="btn-primary">Bize Katıl</a>
+                <a href="hizmetler.html#" class="btn-secondary">Bilgi Talep Et</a>
             </div>
         </div>
     </section>
@@ -1211,7 +1239,7 @@
                     <h3>Aile Bilgilendirme</h3>
                     <h4>Avantajlar</h4>
                     <ul>
-                        <li>Anlık bildirimler
+                        <li>Anlık bildirimlar
                             <div class="advantage-detail">
                                 <p>Acil durumlarda anında aile üyelerine bildirim.</p>
                             </div>
@@ -1306,45 +1334,98 @@
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mainMenu = document.getElementById('mainMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mainMenu.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mainMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mainMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && mainMenu.classList.contains('active')) {
-                mainMenu.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        // Mobile Menu Toggle - TAMAMEN YENİLENDİ
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainMenu = document.getElementById('mainMenu');
+            const menuLinks = document.querySelectorAll('.menu a');
+            
+            let isMenuOpen = false;
+            
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                mainMenu.classList.toggle('active', isMenuOpen);
+                
+                const icon = mobileMenuBtn.querySelector('i');
+                if (isMenuOpen) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                    document.body.style.overflow = '';
+                }
             }
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+            
+            function closeMenu() {
+                if (isMenuOpen) {
+                    isMenuOpen = false;
+                    mainMenu.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.replace('fa-times', 'fa-bars');
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            // Hamburger menü butonuna tıklama
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+            
+            // Menü linklerine tıklama
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+            
+            // Dışarı tıklama ile menüyü kapat
+            document.addEventListener('click', function(e) {
+                if (isMenuOpen && !mainMenu.contains(e.target) && e.target !== mobileMenuBtn && !mobileMenuBtn.contains(e.target)) {
+                    closeMenu();
+                }
+            });
+            
+            // ESC tuşu ile menüyü kapat
+            document.addEventListener('keydown', function(e) {
+                if (isMenuOpen && e.key === 'Escape') {
+                    closeMenu();
+                }
+            });
+            
+            // Yumuşak kaydırma için
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#' || targetId === '#!') return;
                     
-                    // Close mobile menu if open
-                    if (mainMenu.classList.contains('active')) {
-                        mainMenu.classList.remove('active');
-                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        closeMenu();
                     }
+                });
+            });
+            
+            // Sayfa yüklendiğinde hash varsa kaydır
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            }
+            
+            // Pencere boyutu değiştiğinde menüyü kapat
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeMenu();
                 }
             });
         });
