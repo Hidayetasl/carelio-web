@@ -194,6 +194,24 @@
 }
 .rot-out { opacity:0; transform:translateY(-10px); }
 .rot-in  { opacity:1; transform:translateY(0); }
+</style><style id="btns-3d-equal">
+.btn-group{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:16px;justify-content:flex-start}
+.btn-3d{
+  border:0;border-radius:999px;padding:0 28px;font-weight:700;letter-spacing:.2px;
+  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
+  width:260px;height:56px;
+  box-shadow:0 10px 20px rgba(0,0,0,.18),0 6px 10px rgba(0,0,0,.10),
+  inset 0 -3px 6px rgba(0,0,0,.15),inset 0  2px 6px rgba(255,255,255,.20);
+  transform-style:preserve-3d;transition:transform .25s, box-shadow .25s, filter .25s;
+}
+.btn-3d:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 18px 32px rgba(0,0,0,.25),0 10px 16px rgba(0,0,0,.15),
+  inset 0 -3px 6px rgba(0,0,0,.12),inset 0  3px 8px rgba(255,255,255,.25);filter:saturate(1.05)}
+.btn-3d:active{transform:translateY(-1px) scale(.99)}
+.btn-navy{background:linear-gradient(145deg,#1E3A66,#2a4f91);color:#fff;}
+.btn-navy:hover{background:linear-gradient(145deg,#234474,#345ea6)}
+.btn-yellow{background:linear-gradient(145deg,#F8C531,#E8A90A);color:#1E293B;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.btn-yellow:hover{background:linear-gradient(145deg,#FFD24D,#F0B018)}
+@media(max-width:640px){.btn-3d{width:100%;height:52px}}
 </style></head>
 <body>
 <!-- Header -->
@@ -232,7 +250,7 @@
 <div class="combined-text">
 <h2>Sağlığınızı <span class="rotate-highlight" id="rotateTarget">dijital asistanınıza</span> Emanet Edin</h2>
 <p>Carelio ile sağlık hizmetlerine erişim artık çok daha kolay, güvenli ve konforlu. İhtiyacınız olan tüm sağlık hizmetleri tek platformda.</p>
-<a class="btn" href="hizmetler.html">Hizmetlerimizi Keşfedin</a>
+<div class="btn-group"><a class="btn-navy btn-3d" href="hizmetler.html">Hizmetlerimiz</a><a class="btn-yellow btn-3d" href="anket.html">Anketimize Katılın</a></div>
 </div>
 <div class="video-side">
 <div class="section-title">
