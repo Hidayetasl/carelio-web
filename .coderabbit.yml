@@ -11,7 +11,7 @@ reviews:
     htmlhint:
       enabled: true
     biome:
-      enabled: true   # ESLint alternatifi; istersen sadece eslint kullan
+      enabled: true
     eslint:
       enabled: true
     markdownlint:
@@ -19,7 +19,7 @@ reviews:
 
   path_instructions:
     - path: "**/*.html"
-      instructions: "WCAG 2.2 AA: keyboard/focus order/landmarks/labels/alt; SEO: title/meta/rel=canonical; avoid multiple H1; async/defer scripts."
+      instructions: "WCAG 2.2 AA: keyboard/focus order, labels, alt; SEO: title/meta/rel=canonical; avoid multiple H1; async/defer scripts; avoid layout shift."
     - path: "**/*.js"
       instructions: "Null-safe DOM queries; handle promise rejections; debounce scroll/resize; resilient mobile menu toggles."
     - path: "**/*.css"
