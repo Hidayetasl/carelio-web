@@ -697,7 +697,7 @@
                 box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
             }
             
-            .menu.active {
+            .menu active {
                 left: 0;
             }
             
@@ -809,8 +809,6 @@
         }
     </style>
 </head>
-  <link rel="stylesheet" href="assets/layout.css">
-  <script defer src="assets/_layout.js"></script>
 <body>
     <!-- Header -->
     <header class="site-header">
@@ -869,11 +867,15 @@
             
             <!-- İlk Sıra - 4 Hizmet -->
             <div class="services-grid">
-                <a class="service-card" href="hizmetler.html#ilac">
-                    <div class="service-icon" style="background-image: url('images/ilac.webp');"></div>
-                    <div class="service-label">İlaç Hatırlatma</div>
+                <a class="service-card" href="hizmetler.html#saglikkocu">
+                    <div class="service-icon" style="background-image: url('images/saglikkocu.webp');"></div>
+                    <div class="service-label">Sağlık Koçunuz</div>
                 </a>
-                <a class="service-card" href="hizmetler.html#doktor">
+                <a class="service-card" href="hizmetler.html#acilyardim">
+                    <div class="service-icon" style="background-image: url('images/ambulans.webp');"></div>
+                    <div class="service-label">Acil Yardım</div>
+                </a>
+                <a class="service-card" href="hizmetler.html#doktorgorusmesi">
                     <div class="service-icon" style="background-image: url('images/doktor.webp');"></div>
                     <div class="service-label">Doktor Görüşmesi</div>
                 </a>
@@ -881,27 +883,23 @@
                     <div class="service-icon" style="background-image: url('images/psikolog.webp');"></div>
                     <div class="service-label">Psikolog & Diyetisyen</div>
                 </a>
-                <a class="service-card" href="hizmetler.html#ambulans">
-                    <div class="service-icon" style="background-image: url('images/ambulans.webp');"></div>
-                    <div class="service-label">Acil Yardım</div>
-                </a>
             </div>
             
             <!-- İkinci Sıra - 4 Hizmet -->
             <div class="services-grid">
-                <a class="service-card" href="hizmetler.html#akilliev">
-                    <div class="service-icon" style="background-image: url('images/akilliev.webp');"></div>
-                    <div class="service-label">Akıllı Ev</div>
+                <a class="service-card" href="hizmetler.html#ilac">
+                    <div class="service-icon" style="background-image: url('images/ilac.webp');"></div>
+                    <div class="service-label">İlaç Hatırlatma</div>
                 </a>
                 <a class="service-card" href="hizmetler.html#checkup">
                     <div class="service-icon" style="background-image: url('images/checkup.webp');"></div>
                     <div class="service-label">Check-Up</div>
                 </a>
-                <a class="service-card" href="hizmetler.html#veri">
-                    <div class="service-icon" style="background-image: url('images/veri.webp');"></div>
-                    <div class="service-label">Sağlık Verisi</div>
+                <a class="service-card" href="hizmetler.html#akilliev">
+                    <div class="service-icon" style="background-image: url('images/akilliev.webp');"></div>
+                    <div class="service-label">Akıllı Ev</div>
                 </a>
-                <a class="service-card" href="hizmetler.html#bilgi">
+                <a class="service-card" href="hizmetler.html#aile">
                     <div class="service-icon" style="background-image: url('images/bilgi.webp');"></div>
                     <div class="service-label">Aile Bilgilendirme</div>
                 </a>
@@ -909,38 +907,94 @@
         </div>
     </section>
 
-    <!-- İlaç Hatırlatma -->
-    <section class="service-detail" id="ilac">
+    <!-- Sağlık Koçunuz -->
+    <section class="service-detail" id="saglikkocu">
         <div class="container">
             <div class="service-detail">
                 <div class="service-info">
-                    <h3>İlaç Hatırlatma</h3>
+                    <h3>Sağlık Koçunuz</h3>
                     <h4>Avantajlar</h4>
                     <ul>
-                        <li>İlaç saatlerini kaçırmazsınız
+                        <li>İlaç Takibi
                             <div class="advantage-detail">
-                                <p>Özelleştirilmiş hatırlatmalarla ilaçlarınızı zamanında alırsınız, tedavi süreciniz aksamaz.</p>
+                                <p>Saatlik hatırlatma, "Aldım/Atladım" onayı, aile/doktor raporu.</p>
                             </div>
                         </li>
-                        <li>Sesli uyarı
+                        <li>Uyku & Hareket
                             <div class="advantage-detail">
-                                <p>Yüksek sesli bildirimlerle ilaç saatlerini asla kaçırmazsınız, özellikle işitme problemi olan kullanıcılar için ideal.</p>
+                                <p>Uyku hedefi, adım sayacı, 5 dk esneme rehberi.</p>
                             </div>
                         </li>
-                        <li>Doktor entegrasyonu
+                        <li>Kilo & Beslenme
                             <div class="advantage-detail">
-                                <p>Doktorunuzun reçetesi otomatik olarak sisteme eklenir, manuel giriş gerektirmez.</p>
+                                <p>Kilo grafiği, su sayacı, günlük menü önerileri.</p>
+                            </div>
+                        </li>
+                        <li>Stres & Ruh Hali
+                            <div class="advantage-detail">
+                                <p>Günlük his yoklaması, 2 dk nefes egzersizi.</p>
+                            </div>
+                        </li>
+                        <li>Demans Desteği
+                            <div class="advantage-detail">
+                                <p>Hafıza egzersizleri, rutin seslendirme, aile hatırlatma kartı.</p>
+                            </div>
+                        </li>
+                        <li>Gerçek Aksiyon
+                            <div class="advantage-detail">
+                                <p>Işık/ısı ayarı, kapı/çağrı otomasyonu, acil durumda hızlı müdahale.</p>
                             </div>
                         </li>
                     </ul>
                     <h4>Senaryo</h4>
-                    <p>Ayşe Teyze sabah ilacını Carelio sayesinde zamanında aldı. Sistem, ilacını alana kadar her 5 dakikada bir hatırlattı ve ailesine bildirim gönderdi.</p>
+                    <p>Fatma Teyze, Carelio Sağlık Koçunuz sayesinde ilaçlarını zamanında aldı; uyku ve adım hedeflerini kolayca takip etti. Sistem su içmesini hatırlattı, kısa egzersizler yaptırdı ve hafıza egzersizi sundu. Aile üyeleri gün sonunda raporları aldı.</p>
+                    <a class="btn" href="saglikkocu.html">Canlı Demo</a>
                 </div>
                 
                 <div class="service-media">
                     <div class="video-container">
                         <video autoplay muted loop playsinline preload="auto">
-                            <source src="videos/ilac.mp4" type="video/mp4">
+                            <source src="videos/saglikkocu.mp4" type="video/mp4">
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acil Yardım -->
+    <section class="service-detail" id="acilyardim">
+        <div class="container">
+            <div class="service-detail">
+                <div class="service-info">
+                    <h3>Acil Yardım</h3>
+                    <h4>Avantajlar</h4>
+                    <ul>
+                        <li>Tek tuşla acil çağrı
+                            <div class="advantage-detail">
+                                <p>GPS konumu ve önemli sağlık bilgileri ekiplerle anında paylaşılır.</p>
+                            </div>
+                        </li>
+                        <li>Otomatik algılama
+                            <div class="advantage-detail">
+                                <p>Düşme/gaz/su baskını gibi durumlarda sistem otomatik arama başlatır.</p>
+                            </div>
+                        </li>
+                        <li>Akıllı ev entegrasyonu
+                            <div class="advantage-detail">
+                                <p>Kapı açma, ışık yakma gibi aksiyonlar acil durum senaryolarında tetiklenir.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4>Senaryo</h4>
+                    <p>Evinizde düşme algılandığında, sistem akrabaya ve çağrı merkezine haber verir, gerektiğinde kapıyı açar.</p>
+                </div>
+                
+                <div class="service-media">
+                    <div class="video-container">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/ambulans.mp4" type="video/mp4">
                             Tarayıcınız video etiketini desteklemiyor.
                         </video>
                     </div>
@@ -950,31 +1004,31 @@
     </section>
 
     <!-- Doktor Görüşmesi -->
-    <section class="service-detail" id="doktor">
+    <section class="service-detail" id="doktorgorusmesi">
         <div class="container">
             <div class="service-detail">
                 <div class="service-info">
                     <h3>Doktor Görüşmesi</h3>
                     <h4>Avantajlar</h4>
                     <ul>
-                        <li>Evden çıkmadan uzman doktorlarla görüşün
+                        <li>Güvenli görüntülü görüşme
                             <div class="advantage-detail">
-                                <p>Yüzlerce uzman doktora evinizin konforundan ulaşın, seyahat derdi olmadan konsültasyon yapın.</p>
+                                <p>Randevu ile uzman hekimlere güvenli bağlantı.</p>
                             </div>
                         </li>
-                        <li>Randevu bekleme süresi olmadan hızlı erişim
+                        <li>Rapor ve reçete paylaşımı
                             <div class="advantage-detail">
-                                <p>Aciliyet gerektiren durumlarda ortalama 15 dakika içinde bir doktorla görüşme imkanı.</p>
+                                <p>Tetkik ve sonuçlar tek ekranda toplanır.</p>
                             </div>
                         </li>
-                        <li>Güvenli video konferans iletişimi
+                        <li>Aile katılımı
                             <div class="advantage-detail">
-                                <p>Uçtan uca şifreleme ile tüm görüşmeleriniz güvende, hiçbir kişisel veriniz üçüncü şahıslarla paylaşılmaz.</p>
+                                <p>Aile üyeleri onayla görüşmeye davet edilebilir.</p>
                             </div>
                         </li>
                     </ul>
                     <h4>Senaryo</h4>
-                    <p>Mehmet Bey evinden çıkmadan Kardiyoloji uzmanı ile görüşerek EKG sonuçlarını değerlendirdi. Doktor, gereken tedavi planını anında oluşturdu ve Mehmet Bey'in ilaçları eczaneye sipariş olarak gönderildi.</p>
+                    <p>Evden ayrılmadan doktorla görüşün; sonuçlar otomatik arşivlenir.</p>
                 </div>
                 
                 <div class="service-media">
@@ -997,24 +1051,24 @@
                     <h3>Psikolog & Diyetisyen</h3>
                     <h4>Avantajlar</h4>
                     <ul>
-                        <li>Ruh sağlığı và beslenme uzmanlarına kolay erişim
+                        <li>Uzaktan seans desteği
                             <div class="advantage-detail">
-                                <p>Alanında uzman psikolog ve diyetisyenlere tek tıkla ulaşın, kendinize en uygun profesyoneli seçin.</p>
+                                <p>Güvenli video görüşmeleri ile düzenli takip.</p>
                             </div>
                         </li>
-                        <li>Kişiye özel terapi ve diyet programları
+                        <li>Kişiye özel plan
                             <div class="advantage-detail">
-                                <p>Sağlık durumunuza, yaşam tarzınıza ve ihtiyaçlarınıza özel olarak hazırlanmış programlar.</p>
+                                <p>Psikoloji ve beslenme planları entegre izlenir.</p>
                             </div>
                         </li>
-                        <li>Düzenli takip ve destek
+                        <li>Hatırlatmalar
                             <div class="advantage-detail">
-                                <p>Haftalık ilerleme raporları ve düzenli geri bildirimlerle sürekli destek alın.</p>
+                                <p>Seans ve plan hatırlatmaları otomatik yapılır.</p>
                             </div>
                         </li>
                     </ul>
                     <h4>Senaryo</h4>
-                    <p>Zeynep Hanım online psikolog desteği ile pandemi dönemi kaygılarını yönetmeyi öğrendi. Diyetisyen ile birlikte çalışarak hem mental hem fiziksel sağlığını iyileştirdi ve 6 ayda 12 kilo vererek hedefine ulaştı.</p>
+                    <p>Haftalık seanslar ve diyet planları tek ekrandan takip edilir.</p>
                 </div>
                 
                 <div class="service-media">
@@ -1029,38 +1083,158 @@
         </div>
     </section>
 
-    <!-- Acil Yardım -->
-    <section class="service-detail" id="ambulans">
+    <!-- İlaç Hatırlatma -->
+    <section class="service-detail" id="ilac">
         <div class="container">
             <div class="service-detail">
                 <div class="service-info">
-                    <h3>Acil Yardım</h3>
+                    <h3>İlaç Hatırlatma</h3>
                     <h4>Avantajlar</h4>
                     <ul>
-                        <li>Tek tuşla acil servis ve yakınlara bildirim
+                        <li>Akıllı hatırlatma
                             <div class="advantage-detail">
-                                <p>Acil durum butonuna basıldığında otomatik olarak en yakın acil servise ve belirlediğiniz yakınlarınıza konum bilgisiyle bildirim gider.</p>
+                                <p>İlaç saatlerinde sesli ve ışıklı hatırlatma.</p>
                             </div>
                         </li>
-                        <li>Konum paylaşımı ile hızlı müdahale
+                        <li>Takip ve raporlama
                             <div class="advantage-detail">
-                                <p>GPS ile tam konumunuz acil servislerle paylaşılır, müdahale süresi en aza iner.</p>
+                                <p>İlaç alımı kaydedilir, aile ve doktorla paylaşılır.</p>
                             </div>
                         </li>
-                        <li>Medikal bilgilerin otomatik iletilmesi
+                        <li>Eczane entegrasyonu
                             <div class="advantage-detail">
-                                <p>Önceden kayıtlı sağlık bilgileriniz (alerjiler, kronik hastalıklar, kullanılan ilaçlar) acil servisle otomatik paylaşılır.</p>
+                                <p>İlaç bitmeden eczaneye sipariş oluşturulur.</p>
                             </div>
                         </li>
                     </ul>
                     <h4>Senaryo</h4>
-                    <p>Ahmet Bey evinde düşüp kalçasını incittiğinde, Carelio bilekliğindeki acil çağrı butonuna bastı. Sistem otomatik olarak ambulans çağırdı, kızına bildirim gönderdi ve sağlık bilgilerini hastaneye iletti. Ambulans 8 dakika içinde geldi.</p>
+                    <p>İlaç saatinde ekran ışıkları yanar, sesli hatırlatma yapılır.</p>
                 </div>
                 
                 <div class="service-media">
                     <div class="video-container">
                         <video autoplay muted loop playsinline preload="auto">
-                            <source src="videos/ambulans.mp4" type="video/mp4">
+                            <source src="videos/ilac.mp4" type="video/mp4">
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Check-Up -->
+    <section class="service-detail" id="checkup">
+        <div class="container">
+            <div class="service-detail">
+                <div class="service-info">
+                    <h3>Check-Up</h3>
+                    <h4>Avantajlar</h4>
+                    <ul>
+                        <li>Düzenli sağlık taraması
+                            <div class="advantage-detail">
+                                <p>Belirli periyotlarla sağlık durumu ölçümleri.</p>
+                            </div>
+                        </li>
+                        <li>Evde tetkik imkanı
+                            <div class="advantage-detail">
+                                <p>Basit tetkikler evde yapılır, sonuçlar kaydedilir.</p>
+                            </div>
+                        </li>
+                        <li>Doktor raporlaması
+                            <div class="advantage-detail">
+                                <p>Sonuçlar doktorla paylaşılır, yorum alınır.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4>Senaryo</h4>
+                    <p>Aylık tansiyon ve şeker ölçümleri otomatik kaydedilir.</p>
+                </div>
+                
+                <div class="service-media">
+                    <div class="video-container">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/checkup.mp4" type="video/mp4">
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Akıllı Ev -->
+    <section class="service-detail" id="akilliev">
+        <div class="container">
+            <div class="service-detail">
+                <div class="service-info">
+                    <h3>Akıllı Ev</h3>
+                    <h4>Avantajlar</h4>
+                    <ul>
+                        <li>Ortam izleme
+                            <div class="advantage-detail">
+                                <p>Sıcaklık, nem, hava kalitesi takibi.</p>
+                            </div>
+                        </li>
+                        <li>Otomatik ayarlar
+                            <div class="advantage-detail">
+                                <p>Işık, ısıtma, havalandırma otomatik düzenlenir.</p>
+                            </div>
+                        </li>
+                        <li>Güvenlik
+                            <div class="advantage-detail">
+                                <p>Gaz, su, duman algılama ve otomatik müdahale.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4>Senaryo</h4>
+                    <p>Oda sıcaklığı düştüğünde klima otomatik devreye girer.</p>
+                </div>
+                
+                <div class="service-media">
+                    <div class="video-container">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/ev.mp4" type="video/mp4">
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aile Bilgilendirme -->
+    <section class="service-detail" id="aile">
+        <div class="container">
+            <div class="service-detail">
+                <div class="service-info">
+                    <h3>Aile Bilgilendirme</h3>
+                    <h4>Avantajlar</h4>
+                    <ul>
+                        <li>Anlık bildirimler
+                            <div class="advantage-detail">
+                                <p>Acil durumlarda anında aile üyelerine bildirim.</p>
+                            </div>
+                        </li>
+                        <li>Günlük raporlar
+                            <div class="advantage-detail">
+                                <p>İlaç, aktivite, sağlık durumu özeti gönderilir.</p>
+                            </div>
+                        </li>
+                        <li>Uzaktan izleme
+                            <div class="advantage-detail">
+                                <p>Aile üyeleri izinle canlı durum takibi yapabilir.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <h4>Senaryo</h4>
+                    <p>Her akşam aile üyelerine günlük sağlık raporu gönderilir.</p>
+                </div>
+                
+                <div class="service-media">
+                    <div class="video-container">
+                        <video autoplay muted loop playsinline preload="auto">
+                            <source src="videos/bilgi.mp4" type="video/mp4">
                             Tarayıcınız video etiketini desteklemiyor.
                         </video>
                     </div>
@@ -1072,9 +1246,9 @@
     <!-- CTA Section -->
     <section class="cta">
         <div class="container">
-            <h2>Carelio ile Sağlığınızı Güvence Altına Alın</h2>
-            <p>Hizmetlerimizden yararlanmak için hemen üye olun veya detaylı bilgi almak için bizimle iletişime geçin.</p>
-            <a href="hizmetler.html#" class="btn">Hemen Başlayın</a>
+            <h2>Carelio ile Sağlığınızı Kontrol Altına Alın</h2>
+            <p>Teknoloji ve sağlığı birleştiren çözümlerimizle yanınızdayız. Hemen başlayın ve hayatınızı kolaylaştırın.</p>
+            <a href="paketler.html" class="btn">Paketleri Görüntüle</a>
         </div>
     </section>
 
@@ -1084,24 +1258,23 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Carelio</h3>
-                    <p>Teknoloji ve insanı birleştirerek, herkes için erişilebilir sağlık hizmeti sunmayı amaçlıyoruz.</p>
+                    <p>Teknoloji ve sağlığı birleştirerek hayatınızı kolaylaştırıyoruz.</p>
                     <div class="social-links">
-                        <a href="hizmetler.html#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="hizmetler.html#"><i class="fab fa-twitter"></i></a>
-                        <a href="hizmetler.html#"><i class="fab fa-instagram"></i></a>
-                        <a href="hizmetler.html#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="hizmetler.html#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 
                 <div class="footer-column">
                     <h3>Hizmetler</h3>
                     <ul class="footer-links">
-                        <li><a href="hizmetler.html#ilac">İlaç Hatırlatma</a></li>
-                        <li><a href="hizmetler.html#doktor">Doktor Görüşmesi</a></li>
+                        <li><a href="hizmetler.html#saglikkocu">Sağlık Koçunuz</a></li>
+                        <li><a href="hizmetler.html#acilyardim">Acil Yardım</a></li>
+                        <li><a href="hizmetler.html#doktorgorusmesi">Doktor Görüşmesi</a></li>
                         <li><a href="hizmetler.html#psikolog">Psikolog & Diyetisyen</a></li>
-                        <li><a href="hizmetler.html#ambulans">Acil Yardım</a></li>
-                        <li><a href="hizmetler.html#akilliev">Akıllı Ev</a></li>
+                        <li><a href="hizmetler.html#ilac">İlaç Hatırlatma</a></li>
                     </ul>
                 </div>
                 
@@ -1109,21 +1282,19 @@
                     <h3>Kurumsal</h3>
                     <ul class="footer-links">
                         <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                        <li><a href="haberler.html">Haberler</a></li>
                         <li><a href="paketler.html">Paketler</a></li>
                         <li><a href="teknoloji.html">Teknoloji</a></li>
-                        <li><a href="haberler.html">Haberler</a></li>
                         <li><a href="iletisim.html">İletişim</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Destek</h3>
+                    <h3>İletişim</h3>
                     <ul class="footer-links">
-                        <li><a href="hizmetler.html#">Sıkça Sorulan Sorular</a></li>
-                        <li><a href="hizmetler.html#">Gizlilik Politikası</a></li>
-                        <li><a href="hizmetler.html#">Kullanım Koşulları</a></li>
-                        <li><a href="hizmetler.html#">Çerez Politikası</a></li>
-                        <li><a href="hizmetler.html#">KVKK Aydınlatma Metni</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> 1234 Teknoloji Cad. İstanbul</li>
+                        <li><i class="fas fa-phone"></i> (0212) 123 45 67</li>
+                        <li><i class="fas fa-envelope"></i> info@carelio.com</li>
                     </ul>
                 </div>
             </div>
@@ -1135,62 +1306,46 @@
     </footer>
 
     <script>
-        // Mobil menü açma/kapama işlevselliği
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mainMenu = document.getElementById('mainMenu');
-            
-            if (mobileMenuBtn && mainMenu) {
-                mobileMenuBtn.addEventListener('click', function() {
-                    mainMenu.classList.toggle('active');
-                    
-                    // İkon değiştirme (hamburger -> X)
-                    const icon = this.querySelector('i');
-                    if (mainMenu.classList.contains('active')) {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    } else {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
-                
-                // Menü dışına tıklandığında menüyü kapat
-                document.addEventListener('click', function(event) {
-                    if (!event.target.closest('#mainMenu') && !event.target.closest('#mobileMenuBtn')) {
-                        mainMenu.classList.remove('active');
-                        const icon = mobileMenuBtn.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    }
-                });
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainMenu = document.getElementById('mainMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mainMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mainMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && mainMenu.classList.contains('active')) {
+                mainMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             }
-            
-            // Sayfa içi linkler için yumuşak kaydırma
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                     
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        // Mobil menü açıksa kapat
-                        if (mainMenu.classList.contains('active')) {
-                            mainMenu.classList.remove('active');
-                            const icon = mobileMenuBtn.querySelector('i');
-                            icon.classList.remove('fa-times');
-                            icon.classList.add('fa-bars');
-                        }
-                        
-                        // Yumuşak kaydırma
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
+                    // Close mobile menu if open
+                    if (mainMenu.classList.contains('active')) {
+                        mainMenu.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
-                });
+                }
             });
         });
     </script>
