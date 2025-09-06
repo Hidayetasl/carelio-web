@@ -19,11 +19,11 @@ reviews:
 
   path_instructions:
     - path: "**/*.html"
-      instructions: "WCAG 2.2 AA: keyboard/focus order, labels, alt; SEO: title/meta/rel=canonical; avoid multiple H1; async/defer scripts; avoid layout shift."
+      instructions: "WCAG 2.2 AA; keyboard/focus order; labels/alt; SEO: title, meta, rel=canonical; tek H1; async/defer; layout shift önleme."
     - path: "**/*.js"
-      instructions: "Null-safe DOM queries; handle promise rejections; debounce scroll/resize; resilient mobile menu toggles."
+      instructions: "Null-safe DOM queries; promise rejection yakala; scroll/resize debounce; mobil menü toggle/escape/focus sağlam."
     - path: "**/*.css"
-      instructions: "Responsive breakpoints; prefers-reduced-motion; min contrast 4.5:1; reduce unused CSS; avoid !important."
+      instructions: "Responsive breakpoints; prefers-reduced-motion; min contrast 4.5:1; kullanılmayan CSS’i azalt; !important’tan kaçın."
 
   path_filters:
     - "!node_modules/**"
