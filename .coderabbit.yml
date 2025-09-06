@@ -7,44 +7,27 @@ reviews:
   summary: true
   inline_comments: true
 
-  # Hangi araçlar çalışacak?
   tools:
     htmlhint:
       enabled: true
     biome:
-      enabled: true     # (ESLint alternatifi; istersen sadece eslint kullan)
+      enabled: true   # ESLint alternatifi; istersen sadece eslint kullan
     eslint:
       enabled: true
     markdownlint:
       enabled: true
 
-  # Dosya/dizin filtreleri (negation ile hariç bırakma)
+  path_instructions:
+    - path: "**/*.html"
+      instructions: "WCAG 2.2 AA: keyboard/focus order/landmarks/labels/alt; SEO: title/meta/rel=canonical; avoid multiple H1; async/defer scripts."
+    - path: "**/*.js"
+      instructions: "Null-safe DOM queries; handle promise rejections; debounce scroll/resize; resilient mobile menu toggles."
+    - path: "**/*.css"
+      instructions: "Responsive breakpoints; prefers-reduced-motion; min contrast 4.5:1; reduce unused CSS; avoid !important."
+
   path_filters:
     - "!node_modules/**"
     - "!dist/**"
     - "!build/**"
     - "!**/*.min.js"
     - "!**/*.map"
-    - "!**/vendor/**"
-    - "!docs/videos/**"
-
-  # Yol bazlı denetim talimatları
-  path_instructions:
-    - path: "docs/**/*.html"
-      instructions: >
-        WCAG 2.2 AA: klavye/focus sırası, landmark/label/alt; ARIA sadece gerektiğinde;
-        SEO: <title>, meta description, rel=canonical, structured data; birden fazla H1 olmasın;
-        script'leri defer/async; layout shift (CLS) tetikleme.
-    - path: "docs/**/*.js"
-      instructions: >
-        DOM sorgularını korumalı yap; null-safe event binding; promise rejections yakala;
-        scroll/resize için debounce/throttle; uzun görevlerden kaçın;
-        mobil menüde sağlam toggle/escape/focus tuşları.
-    - path: "docs/**/*.css"
-      instructions: >
-        Responsive breakpoints; prefers-reduced-motion; minimum kontrast 4.5:1;
-        kullanılmayan CSS'i azalt; !important'tan kaçın; mümkünse logical properties kullan.
-    - path: "functions/**/*.js"
-      instructions: >
-        Hata yakalama, giriş doğrulama, güvenli API çağrıları; hassas bilgiyi loglama.
-
