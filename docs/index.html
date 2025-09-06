@@ -1,14 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carelio - Dijital Sağlık Asistanı</title>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Carelio - Dijital Sağlık Asistanı</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<style>
     :root{--primary:#2c83b6;--primary-light:#6cbbd4;--navy:#1a365d;--secondary:#4CAF50;--dark:#2c3e50;--light:#f8f9fa;--gray:#6c757d;--white:#ffffff;--shadow:0 4px 20px rgba(0,0,0,.08);--transition:all .3s ease}
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Open Sans',sans-serif;color:#333;background-color:var(--light);line-height:1.6}
@@ -134,9 +133,8 @@
       }
     }
   </style>
-
-  <!-- Sitespeak Chatbot (head içinde) -->
-  <script type="text/javascript">
+<!-- Sitespeak Chatbot (head içinde) -->
+<script type="text/javascript">
     (function () {
       var d = document;
       var s = d.createElement("script");
@@ -145,7 +143,6 @@
       d.getElementsByTagName("head")[0].appendChild(s);
     })();
   </script>
-
 <style>
   #sitespeak-chat-container {
     background: #f5f5f5 !important;
@@ -181,164 +178,153 @@
     #sitespeak-chat-container .user-message { max-width: 90% !important; }
   }
 </style>
-
 </head>
-  <link rel="stylesheet" href="assets/layout.css">
-  <script defer src="assets/_layout.js"></script>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <img class="logo" src="images/logo.png" alt="Carelio" />
-        <span class="brand-name">Carelio</span>
-      </div>
-
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <nav class="menu" id="mainMenu">
-        <a href="index.html" class="active">Ana Sayfa</a>
-        <a href="hizmetler.html">Hizmetler</a>
-        <a href="paketler.html">Paketler</a>
-        <a href="teknoloji.html">Teknoloji</a>
-        <a href="hakkimizda.html">Hakkımızda</a>
-        <a href="haberler.html">Haberler</a>
-        <a href="iletisim.html">İletişim</a>
-        <a href="anket.html">Anket</a>
-        <a class="btn-login" href="auth.html">Üye Girişi</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero Video -->
-  <section class="hero-video">
-    <video autoplay muted loop playsinline>
-      <source src="videos/slvd_16x9_fill.mp4" type="video/mp4" />
+<!-- Header -->
+<header class="site-header">
+<div class="container nav">
+<div class="brand">
+<img alt="Carelio" class="logo" src="images/logo.png"/>
+<span class="brand-name">Carelio</span>
+</div>
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+<i class="fas fa-bars"></i>
+</button>
+<nav class="menu" id="mainMenu">
+<a class="active" href="index.html">Ana Sayfa</a>
+<a href="hizmetler.html">Hizmetler</a>
+<a href="paketler.html">Paketler</a>
+<a href="teknoloji.html">Teknoloji</a>
+<a href="hakkimizda.html">Hakkımızda</a>
+<a href="haberler.html">Haberler</a>
+<a href="iletisim.html">İletişim</a>
+<a href="anket.html">Anket</a>
+<a class="btn-login" href="auth.html">Üye Girişi</a>
+</nav>
+</div>
+</header>
+<!-- Hero Video -->
+<section class="hero-video">
+<video autoplay="" loop="" muted="" playsinline="">
+<source src="videos/slvd_16x9_fill.mp4" type="video/mp4"/>
       Tarayıcınız video etiketini desteklemiyor.
     </video>
-  </section>
-
-  <!-- Combined -->
-  <section class="combined-section">
-    <div class="container combined-content">
-      <div class="combined-text">
-        <h2>Sağlığınızı Dijital Asistanınıza Emanet Edin</h2>
-        <p>Carelio ile sağlık hizmetlerine erişim artık çok daha kolay, güvenli ve konforlu. İhtiyacınız olan tüm sağlık hizmetleri tek platformda.</p>
-        <a href="hizmetler.html" class="btn">Hizmetlerimizi Keşfedin</a>
-      </div>
-
-      <div class="video-side">
-        <div class="section-title">
-          <h2 style="color:#fff;">Neden Carelio?</h2>
-        </div>
-        <div class="video-container">
-          <iframe src="https://www.youtube.com/embed/EzusqZbFZC8" title="Carelio Tanıtım Videosu" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features">
-    <div class="container">
-      <div class="section-title"><h2>Carelio Avantajları</h2></div>
-      <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>7/24 Erişim</h3><p>İhtiyacınız olan sağlık hizmetlerine dilediğiniz zaman, dilediğiniz yerden ulaşın.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Güvenli</h3><p>Sağlık verileriniz şifrelenmiş olarak saklanır, maksimum gizlilik ve güvenlik.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-user-md"></i></div><h3>Uzman Doktorlar</h3><p>Alanında uzman hekimlerle online görüşme imkanı.</p></div>
-        <div class="feature-card"><div class="feature-icon"><i class="fas fa-house-user"></i></div><h3>Ev Konforu</h3><p>Evden çıkmadan sağlık hizmeti almanın konforunu yaşayın.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section class="services-preview">
-    <div class="container">
-      <div class="section-title"><h2>Popüler Hizmetlerimiz</h2></div>
-
-      <div class="services-grid">
-        <div class="service-card"><div class="service-img" style="background-image:url('images/ilac.webp')"></div><div class="service-content"><h3>İlaç Hatırlatma</h3><p>İlaç saatlerinizi kaçırmayın, düzenli kullanım için hatırlatıcılarımızdan yararlanın.</p><a href="hizmetler.html#ilac" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/doktor.webp')"></div><div class="service-content"><h3>Doktor Görüşmesi</h3><p>Evden çıkmadan uzman doktorlarla görüşün, randevu bekleme derdi olmadan.</p><a href="hizmetler.html#doktor" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/psikolog.webp')"></div><div class="service-content"><h3>Psikolog & Diyetisyen</h3><p>Ruh sağlığı ve beslenme uzmanlarına kolay erişim sağlayın.</p><a href="hizmetler.html#psikolog" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/ambulans.webp')"></div><div class="service-content"><h3>Acil Yardım</h3><p>Tek tuşla acil servis ve yakınlarınıza bildirim gönderin.</p><a href="hizmetler.html#ambulans" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-      </div>
-
-      <div class="services-grid">
-        <div class="service-card"><div class="service-img" style="background-image:url('images/akilliev.webp')"></div><div class="service-content"><h3>Akıllı Ev</h3><p>Akıllı cihazlarla sağlık takibi ve otomatik bildirim sistemi.</p><a href="hizmetler.html#akilliev" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/checkup.webp')"></div><div class="service-content"><h3>Check-Up</h3><p>Evde sağlık tarama hizmeti ve düzenli sağlık durumu raporlaması.</p><a href="hizmetler.html#checkup" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/veri.webp')"></div><div class="service-content"><h3>Sağlık Verisi</h3><p>Tüm sağlık verileriniz tek platformda, güvenli bulut saklama.</p><a href="hizmetler.html#veri" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-        <div class="service-card"><div class="service-img" style="background-image:url('images/bilgi.webp')"></div><div class="service-content"><h3>Aile Bilgilendirme</h3><p>Sevdikleriniz sağlık durumunuzdan haberdar olsun.</p><a href="hizmetler.html#bilgi" class="read-more">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div>
-      </div>
-
-      <div style="text-align:center;margin-top:30px;">
-        <a href="hizmetler.html" class="btn btn-primary">Tüm Hizmetlerimiz</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container">
-      <h2>Carelio'ya Hemen Katılın</h2>
-      <p>Dijital sağlık asistanınızı hemen edinin ve sağlık hizmetlerini konforlu bir şekilde deneyimlemeye başlayın.</p>
-      <a href="paketler.html" class="btn">Paketleri Görüntüle</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column">
-          <h3>Carelio</h3>
-          <p>Sağlık hizmetlerini dijital platforma taşıyarak herkes için erişilebilir kılmak vizyonuyla yola çıktık.</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-        <div class="footer-column">
-          <h3>Hızlı Erişim</h3>
-          <ul class="footer-links">
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="hizmetler.html">Hizmetler</a></li>
-            <li><a href="paketler.html">Paketler</a></li>
-            <li><a href="teknoloji.html">Teknoloji</a></li>
-            <li><a href="hakkimizda.html">Hakkımızda</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>Hizmetler</h3>
-          <ul class="footer-links">
-            <li><a href="hizmetler.html#ilac">İlaç Hatırlatma</a></li>
-            <li><a href="hizmetler.html#doktor">Doktor Görüşmesi</a></li>
-            <li><a href="hizmetler.html#psikolog">Psikolog & Diyetisyen</a></li>
-            <li><a href="hizmetler.html#ambulans">Acil Yardım</a></li>
-            <li><a href="hizmetler.html#akilliev">Akıllı Ev Entegrasyonu</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3>İletişim</h3>
-          <ul class="footer-links">
-            <li><i class="fas fa-map-marker-alt"></i> Carelio Ataşehir, Istanbul</li>
-            <li><i class="fas fa-phone"></i> +90 (216) 444 1 700</li>
-            <li><i class="fas fa-envelope"></i> info@carelio.com</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom"><p>&copy; 2025 Carelio. Tüm Hakları Saklıdır.</p></div>
-    </div>
-  </footer>
-
-  <script>
+</section>
+<!-- Combined -->
+<section class="combined-section">
+<div class="container combined-content">
+<div class="combined-text">
+<h2>Sağlığınızı Dijital Asistanınıza Emanet Edin</h2>
+<p>Carelio ile sağlık hizmetlerine erişim artık çok daha kolay, güvenli ve konforlu. İhtiyacınız olan tüm sağlık hizmetleri tek platformda.</p>
+<a class="btn" href="hizmetler.html">Hizmetlerimizi Keşfedin</a>
+</div>
+<div class="video-side">
+<div class="section-title">
+<h2 style="color:#fff;">Neden Carelio?</h2>
+</div>
+<div class="video-container">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" src="https://www.youtube.com/embed/EzusqZbFZC8" title="Carelio Tanıtım Videosu"></iframe>
+</div>
+</div>
+</div>
+</section>
+<!-- Features -->
+<section class="features">
+<div class="container">
+<div class="section-title"><h2>Carelio Avantajları</h2></div>
+<div class="features-grid">
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>7/24 Erişim</h3><p>İhtiyacınız olan sağlık hizmetlerine dilediğiniz zaman, dilediğiniz yerden ulaşın.</p></div>
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Güvenli</h3><p>Sağlık verileriniz şifrelenmiş olarak saklanır, maksimum gizlilik ve güvenlik.</p></div>
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-user-md"></i></div><h3>Uzman Doktorlar</h3><p>Alanında uzman hekimlerle online görüşme imkanı.</p></div>
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-house-user"></i></div><h3>Ev Konforu</h3><p>Evden çıkmadan sağlık hizmeti almanın konforunu yaşayın.</p></div>
+</div>
+</div>
+</section>
+<!-- Services -->
+<section class="services-preview">
+<div class="container">
+<div class="section-title"><h2>Popüler Hizmetlerimiz</h2></div>
+<div class="services-grid">
+<div class="service-card"><div class="service-img" style="background-image:url('images/saglikkocu.webp')"></div><div class="service-content"><h3>Sağlık Koçunuz</h3><p>Sağlık Koçunuz; günlük ölçümler, uyku-beslenme-egzersiz takibi ve akıllı önerilerle sağlığınızı adım adım yönetir.</p><a class="read-more" href="hizmetler.html#veri">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/ilac.webp')"></div><div class="service-content"><h3>İlaç Hatırlatma</h3><p>İlaç saatlerinizi kaçırmayın, düzenli kullanım için hatırlatıcılarımızdan yararlanın.</p><a class="read-more" href="hizmetler.html#ilac">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/doktor.webp')"></div><div class="service-content"><h3>Doktor Görüşmesi</h3><p>Evden çıkmadan uzman doktorlarla görüşün, randevu bekleme derdi olmadan.</p><a class="read-more" href="hizmetler.html#doktor">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/psikolog.webp')"></div><div class="service-content"><h3>Psikolog &amp; Diyetisyen</h3><p>Ruh sağlığı ve beslenme uzmanlarına kolay erişim sağlayın.</p><a class="read-more" href="hizmetler.html#psikolog">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/ambulans.webp')"></div><div class="service-content"><h3>Acil Yardım</h3><p>Tek tuşla acil servis ve yakınlarınıza bildirim gönderin.</p><a class="read-more" href="hizmetler.html#ambulans">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/akilliev.webp')"></div><div class="service-content"><h3>Akıllı Ev</h3><p>Akıllı cihazlarla sağlık takibi ve otomatik bildirim sistemi.</p><a class="read-more" href="hizmetler.html#akilliev">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/checkup.webp')"></div><div class="service-content"><h3>Check-Up</h3><p>Evde sağlık tarama hizmeti ve düzenli sağlık durumu raporlaması.</p><a class="read-more" href="hizmetler.html#checkup">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div><div class="service-card"><div class="service-img" style="background-image:url('images/bilgi.webp')"></div><div class="service-content"><h3>Aile Bilgilendirme</h3><p>Sevdikleriniz sağlık durumunuzdan haberdar olsun.</p><a class="read-more" href="hizmetler.html#bilgi">Daha Fazla <i class="fas fa-arrow-right"></i></a></div></div></div>
+<div style="text-align:center;margin-top:30px;">
+<a class="btn btn-primary" href="hizmetler.html">Tüm Hizmetlerimiz</a>
+</div>
+</div>
+</section>
+<!-- CTA -->
+<section class="cta">
+<div class="container">
+<h2>Carelio'ya Hemen Katılın</h2>
+<p>Dijital sağlık asistanınızı hemen edinin ve sağlık hizmetlerini konforlu bir şekilde deneyimlemeye başlayın.</p>
+<a class="btn" href="paketler.html">Paketleri Görüntüle</a>
+</div>
+</section>
+<!-- Footer -->
+<footer class="site-footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-column">
+<h3>Carelio</h3>
+<p>Sağlık hizmetlerini dijital platforma taşıyarak herkes için erişilebilir kılmak vizyonuyla yola çıktık.</p>
+<div class="social-links">
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+</div>
+</div>
+<div class="footer-column">
+<h3>Hızlı Erişim</h3>
+<ul class="footer-links">
+<li><a href="index.html">Ana Sayfa</a></li>
+<li><a href="hizmetler.html">Hizmetler</a></li>
+<li><a href="paketler.html">Paketler</a></li>
+<li><a href="teknoloji.html">Teknoloji</a></li>
+<li><a href="hakkimizda.html">Hakkımızda</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>Hizmetler</h3>
+<ul class="footer-links">
+<li><a href="hizmetler.html#ilac">İlaç Hatırlatma</a></li>
+<li><a href="hizmetler.html#doktor">Doktor Görüşmesi</a></li>
+<li><a href="hizmetler.html#psikolog">Psikolog &amp; Diyetisyen</a></li>
+<li><a href="hizmetler.html#ambulans">Acil Yardım</a></li>
+<li><a href="hizmetler.html#akilliev">Akıllı Ev Entegrasyonu</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h3>İletişim</h3>
+<ul class="footer-links">
+<li><i class="fas fa-map-marker-alt"></i> Carelio Ataşehir, Istanbul</li>
+<li><i class="fas fa-phone"></i> +90 (216) 444 1 700</li>
+<li><i class="fas fa-envelope"></i> info@carelio.com</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom"><p>© 2025 Carelio. Tüm Hakları Saklıdır.</p></div>
+</div>
+</footer>
+<script>
     const mobileMenuBtn=document.getElementById('mobileMenuBtn');
     const mainMenu=document.getElementById('mainMenu');
     mobileMenuBtn.addEventListener('click',()=>{mainMenu.classList.toggle('active');mobileMenuBtn.innerHTML=mainMenu.classList.contains('active')?'<i class="fas fa-times"></i>':'<i class="fas fa-bars"></i>'});
     document.querySelectorAll('.menu a').forEach(link=>{link.addEventListener('click',()=>{mainMenu.classList.remove('active');mobileMenuBtn.innerHTML='<i class="fas fa-bars"></i>'})});
   </script>
-</body>
+<style>
+/* FORCE 4x2 GRID for desktop */
+#hizmetler .services-grid, #hizmetler .cards, #hizmetler .row {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+}
+#hizmetler .service-card, #hizmetler .card { height: 100% !important; display:flex !important; flex-direction:column !important; }
+@media(max-width: 1024px){
+  #hizmetler .services-grid, #hizmetler .cards, #hizmetler .row { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+@media(max-width: 640px){
+  #hizmetler .services-grid, #hizmetler .cards, #hizmetler .row { grid-template-columns: 1fr !important; }
+}
+</style></body>
 </html>
