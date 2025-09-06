@@ -178,7 +178,23 @@
     #sitespeak-chat-container .user-message { max-width: 90% !important; }
   }
 </style>
-</head>
+<style id="rotate-css">
+.rotate-highlight {
+  color: #1E3A66;                /* Lacivert ton */
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  transition: opacity .35s, transform .35s;
+  animation: softGlow 3s infinite;
+}
+@keyframes softGlow {
+  0%   { text-shadow: 0 0 4px #2a4f91; }
+  50%  { text-shadow: 0 0 10px #3d6bbd; }
+  100% { text-shadow: 0 0 4px #2a4f91; }
+}
+.rot-out { opacity:0; transform:translateY(-10px); }
+.rot-in  { opacity:1; transform:translateY(0); }
+</style></head>
 <body>
 <!-- Header -->
 <header class="site-header">
@@ -214,7 +230,7 @@
 <section class="combined-section">
 <div class="container combined-content">
 <div class="combined-text">
-<h2>Sağlığınızı Dijital Asistanınıza Emanet Edin</h2>
+<h2>Sağlığınızı <span class="rotate-highlight" id="rotateTarget">dijital asistanınıza</span> Emanet Edin</h2>
 <p>Carelio ile sağlık hizmetlerine erişim artık çok daha kolay, güvenli ve konforlu. İhtiyacınız olan tüm sağlık hizmetleri tek platformda.</p>
 <a class="btn" href="hizmetler.html">Hizmetlerimizi Keşfedin</a>
 </div>
@@ -326,5 +342,20 @@
 @media(max-width: 640px){
   #hizmetler .services-grid, #hizmetler .cards, #hizmetler .row { grid-template-columns: 1fr !important; }
 }
-</style></body>
+</style><script id="rotate-js">
+(function(){
+  var el=document.getElementById('rotateTarget'); if(!el) return;
+  var words=["dijital asistanınıza","uzman doktorlara","akıllı teknolojiye","güvenli ellere"];
+  var i=0;
+  function swap(t){
+    el.classList.add('rot-out');
+    setTimeout(function(){
+      el.textContent=t;
+      el.classList.remove('rot-out'); el.classList.add('rot-in');
+      setTimeout(function(){ el.classList.remove('rot-in'); }, 320);
+    },200);
+  }
+  setInterval(function(){ i=(i+1)%words.length; swap(words[i]); }, 2200);
+})();
+</script></body>
 </html>
