@@ -25,3 +25,4 @@ export function answerWithRAG(q, kb, chunks){
   return { type:'fallback', text:'Bunu doğrudan bulamadım. Biraz daha netleştirebilir misiniz (örn. paket fiyatları, kurulum adımları)?' };
 }
 
+// audit: 2025-09-06

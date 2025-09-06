@@ -66,3 +66,4 @@ exports.indexUploadedDoc = functions.storage.object().onFinalize(async (object)=
     console.error('Index error', e);
   }
 });
+// audit: 2025-09-06

@@ -8,3 +8,4 @@ window.CARELIO_CONFIG = {
 };
 window.CARELIO_FEATURES = { allowUploads: false };
 
+// audit: 2025-09-06

@@ -110,3 +110,4 @@ try{
   }
 }catch(e){ console.warn("normalize extra skip:", e); }
 
+// audit: 2025-09-06

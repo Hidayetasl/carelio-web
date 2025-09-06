@@ -75,3 +75,4 @@ document.addEventListener("click", (e) => {
 console.debug("Carelio RAG overrides loaded.");
 // ---- /overrides ----
 
+// audit: 2025-09-06
