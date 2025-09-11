@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İletişim • Carelio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .site-header {
+      background: linear-gradient(135deg, #0b3650 0%, #0a4b6d 100%);
+      color: white;
+      padding: 12px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    
+    .name {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .menu {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 6px;
+      transition: all 0.3s;
+      font-size: 15px;
+      position: relative;
+    }
+    
+    .menu a:hover:not(.btn-login) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .menu a.active {
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+    }
+    
+    .menu a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 3px;
+      background: white;
+      border-radius: 3px;
+    }
+    
+    .btn-login {
+      background: #ff6b3d;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-left: 15px;
+      transition: all 0.3s;
+    }
+    
+    .btn-login:hover {
+      background: #ff844d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+    }
+    
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+    
+    /* HERO BÖLÜMÜ - TEKNOLOJİ SAYFASINDAKİ GİBİ */
+    .hero {
+      padding: 60px 0;
+      background: linear-gradient(135deg, #2c83b6 0%, #6cbbd4 100%);
+      color: white;
+      margin-top: 20px;
+      border-radius: 12px;
+      width: min(1200px, 95%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .hero-video-container {
+      flex: 1;
+      height: 280px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    .hero-video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background: white;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 30px;
+      background: white;
+      color: #2c83b6;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      background: transparent;
+      color: white;
+    }
+    
+    .btn-secondary {
+      display: inline-block;
+      padding: 12px 30px;
+      background: transparent;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid white;
+    }
+    
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      background: white;
+      color: #2c83b6;
+    }
+
+    /* İLETİŞİM BİLGİLERİ */
+    .contact-info {
+      padding: 60px 0;
+      background: #fff;
+    }
+    
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .contact-card {
+      text-align: center;
+      padding: 40px 25px;
+      border-radius: 12px;
+      background: #f9f9f9;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
+      flex: 1;
+      min-width: 250px;
+      max-width: 280px;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .contact-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+      color: #0b3650;
+    }
+    
+    .contact-card h3 {
+      font-size: 20px;
+      color: #0b3650;
+      margin-bottom: 15px;
+    }
+    
+    .contact-card p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    .contact-card a {
+      color: #2c83b6;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .contact-card a:hover {
+      color: #0b3650;
+      text-decoration: underline;
+    }
+    
+    /* İLETİŞİM FORMU */
+    .contact-form {
+      padding: 60px 0;
+      background: linear-gradient(135deg, #f4f6f8 0%, #e9ecf0 100%);
+    }
+    
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .form-title {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #0b3650;
+      font-size: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #0b3650;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: #2c83b6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(44, 131, 182, 0.1);
+    }
+    
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: #0b3650;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-submit:hover {
+      background: #0a4b6d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 54, 80, 0.3);
+    }
+    
+    .site-footer {
+      background: #0b3650;
+      color: white;
+      text-align: center;
+      padding: 40px 0;
+    }
+    
+    @media (max-width: 992px) {
+      .menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        flex-direction: column;
+        background: #0b3650;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 20px 0;
+        gap: 0;
+      }
+      
+      .menu.active {
+        left: 0;
+      }
+      
+      .menu a {
+        padding: 15px;
+        width: 100%;
+        display: block;
+        border-radius: 0;
+      }
+      
+      .menu a.active::after {
+        display: none;
+      }
+      
+      .menu a.active {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+      
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+      
+      .hero {
+        width: 100%;
+        border-radius: 0;
+        margin-top: 0;
+      }
+      
+      .hero-inner {
+        flex-direction: column;
+      }
+      
+      .hero-content {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      
+      .hero h1::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .hero-video-container {
+        width: 100%;
+        max-width: 500px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 40px 0;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .form-container {
+        padding: 30px 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero {
+        padding: 30px 0;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+      
+      .btn-login {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      
+      .brand {
+        flex-direction: row;
+      }
+      
+      .name {
+        font-size: 20px;
+      }
+      
+      .btn-primary, .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <img class="logo" src="images/logo.png" alt="Carelio">
+        <span class="name">Carelio</span>
+      </div>
+      
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <nav class="menu" id="nav-menu">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="hizmetler.html">Hizmetler</a>
+        <a href="paketler.html">Paketler</a>
+        <a href="teknoloji.html">Teknoloji</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+        <a href="haberler.html">Haberler</a>
+        <a class="active" href="iletisim.html">İletişim</a>
+        <a href="anket.html">Anket</a>
+        <a class="btn-login" href="auth.html">Üye Girişi</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO BÖLÜMÜ - TEKNOLOJİ SAYFASINDAKİ GİBİ -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>İletişim</h1>
+        <p>Sorularınız, görüşleriniz ve önerileriniz için bize ulaşın. Size en kısa sürede dönüş yapalım.</p>
+        <div class="hero-buttons">
+          <a href="iletisim.html#iletisim-formu" class="btn-primary">İletişim Formu</a>
+          <a href="iletisim.html#iletisim-bilgileri" class="btn-secondary">İletişim Bilgileri</a>
+        </div>
+      </div>
+      <div class="hero-video-container">
+        <video autoplay muted loop playsinline>
+          <source src="videos/slvd_16x9_fill.mp4" type="video/mp4">
+          Tarayıcınız video öğesini desteklemiyor.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM BİLGİLERİ -->
+  <section class="contact-info" id="iletisim-bilgileri">
+    <div class="container">
+      <h2 class="section-title">İletişim Bilgilerimiz</h2>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-globe"></i></div>
+          <h3>Web Sitesi</h3>
+          <p><a href="https://www.carelio.com" target="_blank">www.carelio.com</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <h3>E-posta</h3>
+          <p><a href="mailto:iletisim@carelio.com">iletisim@carelio.com</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <h3>Telefon</h3>
+          <p><a href="tel:4441700">444 1 700</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM FORMU -->
+  <section class="contact-form" id="iletisim-formu">
+    <div class="container">
+      <div class="form-container">
+        <h2 class="form-title">Bize Mesaj Gönderin</h2>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Adınız Soyadınız</label>
+            <input type="text" id="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="email">E-posta Adresiniz</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Telefon Numaranız</label>
+            <input type="tel" id="phone" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="subject">Konu</label>
+            <input type="text" id="subject" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Mesajınız</label>
+            <textarea id="message" class="form-control" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Gönder</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Carelio • Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const navMenu = document.getElementById('nav-menu');
+      
+      mobileMenu.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+      
+      const menuItems = document.querySelectorAll('.menu a');
+      menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          mobileMenu.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+      
+      // Form gönderim işlemi
+      const contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          alert('Mesajınız başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz.');
+          contactForm.reset();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
