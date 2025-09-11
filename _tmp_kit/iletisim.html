@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carelio – İletişim</title>
+  <link rel="stylesheet" href="css/styles.css?v=1" />
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="container">
+    <section class="hero small">
+      <h1>İletişim</h1>
+      <p>Size yardımcı olmaktan memnuniyet duyarız.</p>
+    </section>
+
+    <div id="spinner" class="spinner">Yükleniyor…</div>
+    <div id="contact-container" class="embed"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/injector.js?v=1"></script>
+  <script src="js/debug.js?v=1"></script>
+  <script>
+  async function safeFetch(url, opts={{}}, timeoutMs=12000){{
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort('timeout'), timeoutMs);
+    try{{
+      const res = await fetch(url, {{...opts, signal: ctrl.signal, cache:'no-store'}});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      return await res.text();
+    }}finally{{ clearTimeout(t); }}
+  }}
+  async function loadContact(){{
+    const spinner = document.getElementById('spinner');
+    const container = document.getElementById('contact-container');
+    try{{
+      spinner.style.display='block';
+      const html = await safeFetch('partials/iletisim-content.html?v=1');
+      container.innerHTML = html;
+    }}catch(e){{
+      container.innerHTML = '<div class="error">İletişim içeriği yüklenemedi. ('+String(e)+')</div>';
+      console.error('Contact error', e);
+    }}finally{{
+      spinner.style.display='none';
+    }}
+  }}
+  document.addEventListener('DOMContentLoaded', loadContact);
+  </script>
+</body>
+</html>

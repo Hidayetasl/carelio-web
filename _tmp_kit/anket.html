@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carelio – Anket</title>
+  <link rel="stylesheet" href="css/styles.css?v=1" />
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="container">
+    <section class="hero small">
+      <h1>Anket</h1>
+      <p>Görüşleriniz bizim için önemli.</p>
+    </section>
+
+    <div id="spinner" class="spinner">Yükleniyor…</div>
+    <div id="form-container" class="embed"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/injector.js?v=1"></script>
+  <script src="js/debug.js?v=1"></script>
+  <script>
+  async function safeFetch(url, opts={{}}, timeoutMs=12000){{
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort('timeout'), timeoutMs);
+    try{{
+      const res = await fetch(url, {{...opts, signal: ctrl.signal, cache:'no-store'}});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      return await res.text();
+    }}finally{{ clearTimeout(t); }}
+  }}
+  async function loadForm(){{
+    const spinner = document.getElementById('spinner');
+    const container = document.getElementById('form-container');
+    try{{
+      spinner.style.display='block';
+      // ÖRNEK partial (kendi Google Form embed kodunla değiştir)
+      const html = await safeFetch('partials/anket-embed.html?v=1');
+      container.innerHTML = html;
+    }}catch(e){{
+      container.innerHTML = '<div class="error">Form yüklenemedi. ('+String(e)+')</div>';
+      console.error('Form error', e);
+    }}finally{{
+      spinner.style.display='none';
+    }}
+  }}
+  document.addEventListener('DOMContentLoaded', loadForm);
+  </script>
+</body>
+</html>

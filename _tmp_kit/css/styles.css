@@ -1,0 +1,18 @@
+/* Minimal stiller – proje CSS'inle birleştir */
+:root{ --bg:#0b1220; --ink:#fff; --muted:#93a3b8; --accent:#ff7a45; }
+*{ box-sizing:border-box; }
+body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif; color:#0f172a; }
+.container{ max-width:1100px; margin:0 auto; padding:24px; }
+.hero{ background:linear-gradient(135deg, #3a7bd5 0%, #3a6073 100%); color:#fff; padding:32px; border-radius:16px; margin:16px 0 24px; }
+.hero.small{ padding:24px; }
+.hero h1{ margin:0 0 8px; font-size:36px; }
+.hero p{ margin:0 0 16px; opacity:.95; }
+.btns{ display:flex; gap:12px; }
+.btn{ display:inline-block; padding:10px 16px; border-radius:999px; background:#fff; color:#0b1220; font-weight:600; text-decoration:none; }
+.btn.outline{ background:transparent; border:2px solid #fff; color:#fff; }
+.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:24px 0; }
+.card{ display:block; padding:16px; border:1px solid #e2e8f0; border-radius:12px; text-decoration:none; color:#0f172a; background:#fff; }
+.spinner{ display:none; margin:16px 0; padding:12px 16px; background:#f1f5f9; border:1px dashed #cbd5e1; border-radius:8px; }
+.embed iframe{ width:100%; min-height:680px; border:0; border-radius:12px; background:#fff; }
+.error{ padding:12px 16px; border-radius:8px; background:#fee2e2; color:#7f1d1d; border:1px solid #fecaca; margin-top:12px; }
+footer{ margin:40px 0 0; padding:16px; color:#475569; text-align:center; border-top:1px solid #e2e8f0; }

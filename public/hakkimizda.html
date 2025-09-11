@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hakkımızda • Carelio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* GENEL STİLLER */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* HEADER STİLLERİ - Ana sayfayla uyumlu */
+    .site-header {
+      background: linear-gradient(135deg, #0b3650 0%, #0a4b6d 100%);
+      color: white;
+      padding: 12px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    
+    .name {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .menu {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 6px;
+      transition: all 0.3s;
+      font-size: 15px;
+      position: relative;
+    }
+    
+    .menu a:hover:not(.btn-login) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .menu a.active {
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+    }
+    
+    .menu a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 3px;
+      background: white;
+      border-radius: 3px;
+    }
+    
+    .btn-login {
+      background: #ff6b3d;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-left: 15px;
+      transition: all 0.3s;
+    }
+    
+    .btn-login:hover {
+      background: #ff844d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* HAMBURGER MENÜ */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+    }
+    
+    .menu-toggle span {
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+    
+    /* HERO BÖLÜMÜ - YAZI SOLDA, VİDEO SAĞDA */
+    .hero {
+      padding: 60px 0;
+      background: linear-gradient(135deg, #2c83b6 0%, #6cbbd4 100%);
+      color: white;
+      margin-top: 20px;
+      border-radius: 12px;
+      width: min(1200px, 95%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .hero-video-container {
+      flex: 1;
+      height: 280px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    .hero-video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background: white;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 30px;
+      background: white;
+      color: #2c83b6;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      background: transparent;
+      color: white;
+    }
+    
+    .btn-secondary {
+      display: inline-block;
+      padding: 12px 30px;
+      background: transparent;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 2px solid white;
+    }
+    
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      background: white;
+      color: #2c83b6;
+    }
+
+    /* HAKKIMIZDA İÇERİK - Logo sol tarafta */
+    .about-section {
+      padding: 60px 0;
+    }
+    
+    .about-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    
+    .about-logo {
+      flex: 1;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    .about-logo img {
+      max-width: 100%;
+      height: auto;
+      width: 300px;
+      background: transparent;
+    }
+    
+    .certificates {
+      text-align: center;
+    }
+    
+    .certificates img {
+      height: 50px;
+      width: auto;
+      opacity: 0.95;
+    }
+    
+    .about-content {
+      flex: 2;
+      min-width: 320px;
+      text-align: left;
+    }
+    
+    .about-content p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    
+    .highlight {
+      color: #0b3650;
+      font-weight: 600;
+    }
+    
+    /* DEĞERLERİMİZ BÖLÜMÜ */
+    .values-section {
+      background: linear-gradient(135deg, #f4f6f8 0%, #e9ecf0 100%);
+      padding: 80px 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #0b3650;
+      font-size: 2.2rem;
+    }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    
+    .value-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .value-icon {
+      font-size: 40px;
+      color: #0b3650;
+      margin-bottom: 20px;
+    }
+    
+    .value-card h3 {
+      font-size: 20px;
+      color: #0b3650;
+      margin-bottom: 15px;
+    }
+    
+    .value-card p {
+      font-size: 16px;
+      color: 555;
+      line-height: 1.6;
+    }
+    
+    /* İSTATİSTİKLER BÖLÜMÜ */
+    .stats-section {
+      padding: 80px 0;
+      background: white;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+    
+    .stat-item {
+      padding: 20px;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0b3650;
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      font-size: 16px;
+      color: #666;
+    }
+    
+    /* VİZYON BÖLÜMÜ */
+    .vision-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #0b3650 0%, #0a4b6d 100%);
+      color: white;
+      text-align: center;
+    }
+    
+    .vision-section .section-title {
+      color: white;
+    }
+    
+    .vision-content {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    
+    /* FOOTER */
+    .site-footer {
+      background: #0b3650;
+      color: white;
+      text-align: center;
+      padding: 40px 0;
+    }
+    
+    /* MOBİL UYUMLULUK */
+    @media (max-width: 992px) {
+      .menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        flex-direction: column;
+        background: #0b3650;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 20px 0;
+        gap: 0;
+      }
+      
+      .menu.active {
+        left: 0;
+      }
+      
+      .menu a {
+        padding: 15px;
+        width: 100%;
+        display: block;
+        border-radius: 0;
+      }
+      
+      .menu a.active::after {
+        display: none;
+      }
+      
+      .menu a.active {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+      
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+      
+      .hero {
+        width: 100%;
+        border-radius: 0;
+        margin-top: 0;
+      }
+      
+      .hero-inner {
+        flex-direction: column;
+      }
+      
+      .hero-content {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      
+      .hero h1::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .hero-video-container {
+        width: 100%;
+        max-width: 500px;
+      }
+      
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .about-content {
+        text-align: center;
+      }
+      
+      .values-grid, .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 40px 0;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .about-logo img {
+        width: 220px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero {
+        padding: 30px 0;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+      
+      .btn-login {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      
+      .brand {
+        flex-direction: row;
+      }
+      
+      .name {
+        font-size: 20px;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+      }
+      
+      .btn-primary, .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ÜST MENÜ - Ana sayfayla uyumlu -->
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        <img class="logo" src="images/logo.png" alt="Carelio">
+        <span class="name">Carelio</span>
+      </div>
+      
+      <div class="menu-toggle" id="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <nav class="menu" id="nav-menu">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="hizmetler.html">Hizmetler</a>
+        <a href="paketler.html">Paketler</a>
+        <a href="teknoloji.html">Teknoloji</a>
+        <a class="active" href="hakkimizda.html">Hakkımızda</a>
+        <a href="haberler.html">Haberler</a>
+        <a href="iletisim.html">İletişim</a>
+        <a href="anket.html">Anket</a>
+        <a class="btn-login" href="https://carelio-web.web.app/auth.html">Üye Girişi</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO BÖLÜMÜ - YAZI SOLDA, VİDEO SAĞDA -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>Hakkımızda</h1>
+        <p>Bir dost kadar yakın, bir aile kadar değerli. Yaşlılarımızın ve sevdiklerimizin hayatını daha güvenli, konforlu ve mutlu kılmak için tasarlanmış yapay zeka destekli bir yaşam asistanı.</p>
+        <div class="hero-buttons">
+          <a href="hakkimizda.html#degerlerimiz" class="btn-primary">Değerlerimiz</a>
+          <a href="hakkimizda.html#vizyonumuz" class="btn-secondary">Vizyonumuz</a>
+        </div>
+      </div>
+      <div class="hero-video-container">
+        <video autoplay muted loop playsinline>
+          <source src="videos/slvd_16x9_fill.mp4" type="video/mp4">
+          Tarayıcınız video öğesini desteklemiyor.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- HAKKIMIZDA İÇERİK - Logo sol tarafta -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-container">
+        <div class="about-logo">
+          <img src="images/carelilogoack.png" alt="Carelio Logo">
+          <div class="certificates">
+            <img src="images/sertifikalar.png" alt="Sertifikalar">
+          </div>
+        </div>
+
+        <div class="about-content">
+          <p><strong>Bir dost kadar yakın, bir aile kadar değerli…</strong></p>
+          <p>Carelio, yaşlılarımızın ve sevdiklerimizin hayatını daha güvenli, konforlu ve mutlu kılmak için tasarlanmış yapay zeka destekli bir yaşam asistanıdır. Bizim için teknoloji, sadece cihazlardan ibaret değil; kalplere dokunan, yaşamı kolaylaştıran ve güven veren bir dost olmalı.</p>
+          <p>Dünya genelinde 65 yaş üstü nüfus hızla artmaktadır. Türkiye İstatistik Kurumu verilerine göre, ülkemizde yaşlı nüfus oranının 2030'da %12,9'a, 2060'ta ise %22,6'ya ulaşması beklenmektedir. Araştırmalar, yaşlı bireylerin çoğunun kendi evlerında bağımsız olarak yaşlanmayı tercih ettiğini göstermektedir. Ancak değişen aile yapıları, göçler ve bakım personeli yetersizliği, evde bakım süreçlerini zorlaştırmaktadır.</p>
+          <p>Carelio, bu zorlukları teknolojiyle aşmak için geliştirildi. Düşme algılama, sağlık ölçümlerinin takibi, acil durum çağrısı, ev otomasyonu ve kişisel asistan hizmetlerini tek bir platformda sunarak hem kullanıcıların hem de ailelerinin içini rahatlatır.</p>
+          <p>Bilimsel araştırmalar, yapay zeka destekli bakım robotlarının yaşlı bireylerin günlük yaşam aktivitelerini artırdığını, stres ve depresyon düzeylerini azalttığını ve sosyal iletişimlerini güçlendirdiğini ortaya koymaktadır. Örneğin, Paro isimli sosyal robotla yapılan bir çalışmada yaşlıların ruh halinin iyileştiği, depresyon ilaçları kullanımının azaldığı gözlenmiştir.</p>
+          <p>Amacımız, yalnızca ileri teknoloji üretmek değil; yaşam kalitesini artıracak, güven veren và hayatın küçük anlarını değerli kılacak <span class="highlight">yenilikçi çözümler</span> sunmaktır. Carelio, bilimsel temeller üzerine inşa edilmiş yapısıyla, sevdiklerinizin yanında daima hazır ve nazırdır.</p>
+          <p><strong>Carelio – Hayatın her anında yanınızda.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEĞERLERİMİZ BÖLÜMÜ -->
+  <section class="values-section" id="degerlerimiz">
+    <div class="container">
+      <h2 class="section-title">Değerlerimiz</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-heart"></i></div>
+          <h3>Şefkat ve Empati</h3>
+          <p>Teknolojimizi insan ihtiyaçlarına duyarlılıkla tasarlıyor, her kullanıcımızı bir aile ferdi olarak görüyoruz.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Güvenlik ve Gizlilik</h3>
+          <p>Kullanıcı verilerinin güvenliği ve mahremiyeti bizim için en öncelikli konudur.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+          <h3>Yenilikçilik</h3>
+          <p>Sürekli öğrenen ve gelişen bir sistemle her zaman en iyi hizmeti sunmayı hedefliyoruz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- İSTATİSTİKLER BÖLÜMÜ -->
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="section-title">Carelio ile Fark Yaratıyoruz</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Mutlu Kullanıcı</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">%99</div>
+          <div class="stat-label">Memnuniyet Oranı</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">7/24</div>
+          <div class="stat-label">Kesintisiz Destek</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">15</div>
+          <div class="stat-label">Ödül ve Sertifika</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VİZYON BÖLÜMÜ -->
+  <section class="vision-section" id="vizyonumuz">
+    <div class="container">
+      <h2 class="section-title">Vizyonumuz</h2>
+      <div class="vision-content">
+        <p>Teknoloji ve insani değerleri bir araya getirerek, herkesin ileri yaşlarda da bağımsız, güvenli ve mutlu bir yaşam sürmesini sağlamak. Carelio olarak, yaşlanan nüfusun ihtiyaçlarına çözüm sunan küresel bir marka olmayı ve Türkiye'de yaşlı bakım teknolojilerinin gelişimine öncülük etmeyi hedefliyoruz.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Carelio • Tüm Hakları Saklıdır.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menü işlevselliği
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const navMenu = document.getElementById('nav-menu');
+      
+      mobileMenu.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+      
+      // Menü öğelerine tıklandığında menüyü kapat
+      const menuItems = document.querySelectorAll('.menu a');
+      menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          mobileMenu.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

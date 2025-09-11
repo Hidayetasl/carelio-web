@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Teknik Panel — HTML Yükleme</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 900px; margin: 24px auto; padding: 0 12px; }
+    h1 { margin: 8px 0 16px; }
+    .bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
+    input[type=file] { padding: 6px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align:left; }
+    .muted { color:#666; font-size:12px }
+    .row { display:flex; justify-content:space-between; align-items:center }
+    .danger { color:#a00; }
+    .chip { background:#eef; padding:2px 8px; border-radius:10px; font-size:12px }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <h1>Teknik Panel</h1>
+    <button id="btnLogout">Çıkış</button>
+  </div>
+  <p><span class="chip">Sadece teknik@carelio.com</span> bu sayfaya erişebilir.</p>
+
+  <h3>HTML Dosyası Yükle</h3>
+  <div class="bar">
+    <input id="fileInput" type="file" accept=".html,text/html" multiple />
+    <button id="btnUpload">Yükle</button>
+    <span id="status" class="muted"></span>
+  </div>
+
+  <h3>Yüklenen Dosyalar</h3>
+  <table id="tbl">
+    <thead>
+      <tr><th>Dosya</th><th>Boyut</th><th>Tarih</th><th>Eylem</th></tr>
+    </thead>
+    <tbody id="tbody">
+      <tr><td colspan="4" class="muted">Liste yükleniyor…</td></tr>
+    </tbody>
+  </table>
+
+  <p class="muted">
+    Notlar: Dosyalar Firebase Storage içinde <code>tech-pages/</code> klasörüne yüklenir.
+    Bağlantılar yeni sekmede açılır. Silme işlemi kalıcıdır.
+  </p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getStorage, ref, listAll, getDownloadURL, uploadBytes, deleteObject, getMetadata } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {"apiKey": "AIzaSyDS-Yr56kYNxaLiCYcUapcJYHycy3ITuFY", "authDomain": "carelio-web.firebaseapp.com", "projectId": "carelio-web", "storageBucket": "carelio-web.firebasestorage.app", "messagingSenderId": "956481490629", "appId": "1:956481490629:web:c58c873d9d598380492aac"};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+
+    const tbody = document.getElementById('tbody');
+    const fileInput = document.getElementById('fileInput');
+    const statusEl = document.getElementById('status');
+
+    // Sadece teknik kullanıcı
+    document.documentElement.style.visibility = 'hidden';
+    onAuthStateChanged(auth, async (user) => {
+      const email = (user?.email || '').toLowerCase();
+      if(!email) { location.href='/auth.html'; return; }
+      if(email !== 'teknik@carelio.com') { await signOut(auth); location.href='/'; return; }
+      document.documentElement.style.visibility = 'visible';
+      await refreshList();
+    });
+
+    document.getElementById('btnLogout').onclick = async () => {
+      await signOut(auth); location.href='/';
+    };
+
+    async function refreshList() {
+      tbody.innerHTML = '<tr><td colspan="4" class="muted">Liste alınıyor…</td></tr>';
+      const folderRef = ref(storage, 'tech-pages');
+      try {
+        const res = await listAll(folderRef);
+        if (!res.items.length) {
+          tbody.innerHTML = '<tr><td colspan="4" class="muted">Henüz dosya yok.</td></tr>';
+          return;
+        }
+        const rows = await Promise.all(res.items.map(async (itemRef) => {
+          const [url, meta] = await Promise.all([getDownloadURL(itemRef), getMetadata(itemRef)]);
+          const sizeKB = Math.max(1, Math.round((meta.size || 0)/1024));
+          const date = meta.timeCreated ? new Date(meta.timeCreated).toLocaleString() : '-';
+          const name = itemRef.name;
+          return `<tr>
+            <td><a href="\${url}" target="_blank" rel="noreferrer noopener">\${name}</a></td>
+            <td>\${sizeKB} KB</td>
+            <td>\${date}</td>
+            <td><button data-del="\${name}" class="danger">Sil</button></td>
+          </tr>`;
+        }));
+        tbody.innerHTML = rows.join('');
+        // delete bindings
+        [...document.querySelectorAll('button[data-del]')].forEach(btn => {
+          btn.onclick = async () => {
+            if(!confirm('Silinsin mi?')) return;
+            try {
+              await deleteObject(ref(storage, 'tech-pages/' + btn.dataset.del));
+              await refreshList();
+            } catch (e) { alert('Silme hatası: ' + (e?.message||e)); }
+          };
+        });
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="4" class="danger">Listeleme hatası: ' + (e?.message||e) + '</td></tr>';
+      }
+    }
+
+    // Upload
+    document.getElementById('btnUpload').onclick = async () => {
+      const files = fileInput.files;
+      if(!files || files.length===0) { alert('Lütfen .html dosyası seçin'); return; }
+      statusEl.textContent = 'Yükleniyor…';
+      for (const f of files) {
+        if (!/\.html?$/i.test(f.name)) { alert('Sadece .html dosyası yükleyin: ' + f.name); continue; }
+        const dest = ref(storage, 'tech-pages/' + f.name);
+        try {
+          await uploadBytes(dest, f, { contentType: 'text/html; charset=utf-8' });
+        } catch(e) { alert('Yükleme hatası ('+f.name+'): ' + (e?.message||e)); }
+      }
+      statusEl.textContent = '';
+      fileInput.value = '';
+      await refreshList();
+    };
+  </script>
+</body>
+</html>

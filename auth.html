@@ -1,174 +1,118 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta name="description" content="Carelio – sağlık hizmetleri platformu. Bu sayfaya ait kısa açıklama sonradan özelleştirilecektir.">
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Üyelik • Carelio</title>
-  <link rel="icon" href="/favicon.ico">
+  <meta charset="utf-8" />
+  <title>Üye Girişi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;background:#f6f8fb;margin:0}
-    .wrap{max-width:880px;margin:48px auto;padding:24px}
-    .card{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:24px}
-    .tabs{display:flex;gap:12px;margin-bottom:16px}
-    .tab{padding:10px 16px;border-radius:999px;border:1px solid #cbd5e1;background:#fff;cursor:pointer}
-    .tab.active{background:#0b63b4;color:#fff;border-color:#0b63b4}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px}
-    button{padding:12px 14px;border-radius:10px;border:none;background:#0b63b4;color:#fff;cursor:pointer}
-    .btn-ghost{background:#eef6ff;color:#0b63b4}
-    .muted{color:#6b7280;font-size:14px}
-    .error{color:#b91c1c;margin-top:8px}
-    @media(max-width:720px){.grid{grid-template-columns:1fr}}
+    body{font-family:system-ui,Arial,sans-serif;max-width:720px;margin:40px auto;padding:16px}
+    h1{margin-bottom:12px}
+    input,button{padding:10px;margin:6px 0;width:100%}
+    .row{display:flex;gap:8px}
+    .row>*{flex:1}
+    .muted{color:#666;font-size:12px}
+    .btn-google,.btn-facebook{display:inline-block;padding:10px 16px;margin:6px 8px 6px 0;border:1px solid #ddd;border-radius:6px;cursor:pointer}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Carelio • Üyelik</h1>
-    <div class="card">
-      <div class="tabs">
-        <button id="tab-login"  class="tab active">Üye Girişi</button>
-        <button id="tab-signup" class="tab">Üye Ol</button>
-      </div>
+  <h1>Üye Girişi</h1>
 
-      <div class="grid">
-        <button id="googleBtn"  class="btn-ghost">Google ile devam et</button>
-        <button id="fbBtn"      class="btn-ghost">Facebook ile devam et</button>
-      </div>
+  <h3>E-posta ile Giriş</h3>
+  <form id="login-form">
+    <input id="login-email" type="email" placeholder="E-posta" required />
+    <input id="login-password" type="password" placeholder="Şifre" required />
+    <button type="submit">Giriş Yap</button>
+  </form>
 
-      <hr style="border:none;border-top:1px dashed #e2e8f0;margin:14px 0">
+  <h3>Üye Ol</h3>
+  <form id="register-form">
+    <input id="register-email" type="email" placeholder="E-posta" required />
+    <input id="register-password" type="password" placeholder="Şifre" required />
+    <input id="register-password-confirm" type="password" placeholder="Şifre (tekrar)" required />
+    <button type="submit">Üye Ol</button>
+  </form>
 
-      <div id="loginBox">
-        <h3>E-posta ile giriş</h3>
-        <div class="grid">
-          <input id="loginEmail" type="email" placeholder="E-posta"/>
-          <input id="loginPass"  type="password" placeholder="Şifre"/>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button id="loginBtn">Giriş Yap</button>
-          <button id="resetBtn" class="btn-ghost" type="button">Şifremi Sıfırla</button>
-        </div>
-        <div id="loginErr" class="error"></div>
-      </div>
+  <h3>Veya</h3>
+  <button class="btn-google">Google ile devam et</button>
+  <button class="btn-facebook">Facebook ile devam et</button>
 
-      <div id="signupBox" style="display:none">
-        <h3>E-posta ile üye ol</h3>
-        <div class="grid">
-          <input id="name" type="text" placeholder="Ad Soyad"/>
-          <input id="email" type="email" placeholder="E-posta"/>
-          <input id="pass"  type="password" placeholder="Şifre (min 6)"/>
-          <input id="pass2" type="password" placeholder="Şifre (tekrar)"/>
-        </div>
-        <div style="margin-top:12px">
-          <button id="signupBtn">Üye Ol</button>
-        </div>
-        <div class="muted">Kayıt ile KVKK ve Gizlilik koşullarını kabul etmiş olursunuz.</div>
-        <div id="signupErr" class="error"></div>
-      </div>
-    </div>
-  </div>
+  <p class="muted">
+    Girişten sonra: <b>teknik@carelio.com</b> → <code>/uye/</code>, diğer kullanıcılar → <code>/panel.html</code>.<br/>
+    Aktif hesabı sıfırlamak için: <a href="auth.html%3Flogout=1.html">/auth.html?logout=1</a>
+  </p>
 
-  <!-- Firebase SDK (modüler) -->
   <script type="module">
-    // TODO: Bu değerleri Firebase Console → Project settings → Web app (</>) 'Config' bölümünden alın
-    const firebaseConfig = {
-      apiKey: "API_KEY",
-      authDomain: "carelio-web.firebaseapp.com",
-      projectId: "carelio-web",
-      storageBucket: "carelio-web.appspot.com",
-      appId: "APP_ID"
-    };
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
-      getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged,
-      GoogleAuthProvider, FacebookAuthProvider, signInWithPopup,
-      createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      updateProfile, sendPasswordResetEmail
+      getAuth, onAuthStateChanged, signOut,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      GoogleAuthProvider, FacebookAuthProvider,
+      signInWithPopup, signInWithRedirect, getRedirectResult
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore, doc, setDoc, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const app  = initializeApp(firebaseConfig);
+    const firebaseConfig = {
+  apiKey: "AIzaSyDS-Yr56kYNxaLiCYcUapcJYHycy3ITuFY",
+  authDomain: "carelio-web.firebaseapp.com",
+  projectId: "carelio-web",
+  storageBucket: "carelio-web.firebasestorage.app",
+  messagingSenderId: "956481490629",
+  appId: "1:956481490629:web:c58c873d9d598380492aac"
+};
+    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db   = getFirestore(app);
-    setPersistence(auth, browserLocalPersistence);
+    const google = new GoogleAuthProvider();
+    const facebook = new FacebookAuthProvider();
 
-    // Sekme geçişi
-    const loginTab = document.getElementById('tab-login');
-    const signupTab= document.getElementById('tab-signup');
-    const loginBox = document.getElementById('loginBox');
-    const signupBox= document.getElementById('signupBox');
-    loginTab.onclick = () => { loginTab.classList.add('active'); signupTab.classList.remove('active'); loginBox.style.display='block'; signupBox.style.display='none'; }
-    signupTab.onclick= () => { signupTab.classList.add('active'); loginTab.classList.remove('active'); signupBox.style.display='block'; loginBox.style.display='none'; }
+    function routeAfterLogin(email) {
+      const e = (email||"").toLowerCase();
+      if (e === "teknik@carelio.com") window.location.href = "/uye/";
+      else window.location.href = "/panel.html";
+    }
 
-    // Kullanıcı profilini Firestore'a yaz
-    const saveProfile = async (user) => {
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        displayName: user.displayName || '',
-        email: user.email,
-        photoURL: user.photoURL || '',
-        provider: (user.providerData[0]?.providerId) || 'password',
-        updatedAt: serverTimestamp(),
-        createdAt: serverTimestamp()
-      }, { merge: true });
-    };
+    // Redirect dönüşünü yakala (Safari/Opera gibi durumlar için)
+    getRedirectResult(auth).then(res => {
+      if (res?.user?.email) routeAfterLogin(res.user.email);
+    }).catch(()=>{});
 
-    // Sosyal girişler
-    document.getElementById('googleBtn').onclick = async () => {
-      const provider = new GoogleAuthProvider();
-      const res = await signInWithPopup(auth, provider);
-      await saveProfile(res.user);
-      location.href = "/panel.html";
-    };
-    document.getElementById('fbBtn').onclick = async () => {
-      const provider = new FacebookAuthProvider();
-      const res = await signInWithPopup(auth, provider);
-      await saveProfile(res.user);
-      location.href = "/panel.html";
-    };
+    // Oturum açık ise otomatik yönlendir
+    onAuthStateChanged(auth, (user) => { if (user?.email) routeAfterLogin(user.email); });
 
-    // E-posta ile giriş
-    document.getElementById('loginBtn').onclick = async () => {
-      const e = document.getElementById('loginEmail').value.trim();
-      const p = document.getElementById('loginPass').value;
-      const out = document.getElementById('loginErr'); out.textContent='';
-      try{
-        const res = await signInWithEmailAndPassword(auth, e, p);
-        await saveProfile(res.user);
-        location.href = "/panel.html";
-      }catch(err){ out.textContent = err.message; }
-    };
+    // Email/şifre giriş
+    document.getElementById("login-form").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim();
+      const pass = document.getElementById("login-password").value;
+      try { await signInWithEmailAndPassword(auth, email, pass); routeAfterLogin(auth.currentUser.email); }
+      catch(err){ alert("Giriş başarısız: " + (err?.message||err)); }
+    });
 
-    // Şifre sıfırlama
-    document.getElementById('resetBtn').onclick = async () => {
-      const e = document.getElementById('loginEmail').value.trim();
-      if(!e){ return (document.getElementById('loginErr').textContent="E-posta girin."); }
-      await sendPasswordResetEmail(auth, e);
-      document.getElementById('loginErr').textContent = "Sıfırlama bağlantısı e-postanıza gönderildi.";
-    };
+    // Email/şifre üye ol
+    document.getElementById("register-form").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById("register-email").value.trim();
+      const p1 = document.getElementById("register-password").value;
+      const p2 = document.getElementById("register-password-confirm").value;
+      if (p1 !== p2) return alert("Şifreler eşleşmiyor");
+      try { await createUserWithEmailAndPassword(auth, email, p1); routeAfterLogin(auth.currentUser.email); }
+      catch(err){ alert("Kayıt başarısız: " + (err?.message||err)); }
+    });
 
-    // E-posta ile kayıt
-    document.getElementById('signupBtn').onclick = async () => {
-      const name = document.getElementById('name').value.trim();
-      const email= document.getElementById('email').value.trim();
-      const pass = document.getElementById('pass').value;
-      const pass2= document.getElementById('pass2').value;
-      const out = document.getElementById('signupErr'); out.textContent='';
-      if(pass !== pass2){ return out.textContent="Şifreler eşleşmiyor."; }
-      try{
-        const res = await createUserWithEmailAndPassword(auth, email, pass);
-        if(name) await updateProfile(res.user, { displayName: name });
-        await saveProfile({ ...res.user, displayName: name });
-        location.href = "/panel.html";
-      }catch(err){ out.textContent = err.message; }
-    };
+    // Google: popup dene, olmazsa redirect
+    document.querySelector(".btn-google").addEventListener("click", async ()=>{
+      try { await signInWithPopup(auth, google); routeAfterLogin(auth.currentUser.email); }
+      catch { await signInWithRedirect(auth, google); }
+    });
 
-    // Zaten girişliyse direkt panele
-    onAuthStateChanged(auth, (u)=>{ if(u) location.href="/panel.html"; });
+    // Facebook: popup → redirect
+    document.querySelector(".btn-facebook").addEventListener("click", async ()=>{
+      try { await signInWithPopup(auth, facebook); routeAfterLogin(auth.currentUser.email); }
+      catch { await signInWithRedirect(auth, facebook); }
+    });
+
+    // ?logout=1 ile gelenleri çıkışa zorla
+    if (new URLSearchParams(location.search).get("logout") === "1") {
+      signOut(auth).then(()=> location.replace("/auth.html"));
+    }
   </script>
 </body>
 </html>
-
