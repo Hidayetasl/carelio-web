@@ -212,31 +212,18 @@
 .btn-yellow{background:linear-gradient(145deg,#F8C531,#E8A90A);color:#1E293B;text-shadow:0 1px 0 rgba(255,255,255,.35)}
 .btn-yellow:hover{background:linear-gradient(145deg,#FFD24D,#F0B018)}
 @media(max-width:640px){.btn-3d{width:100%;height:52px}}
-</style></head>
+</style><script>
+document.addEventListener("DOMContentLoaded",function(){
+  var ROOT = location.pathname.startsWith("/carelio-web/") ? "/carelio-web" : "";
+  fetch(ROOT + "/partials/header.html")
+    .then(function(r){return r.text()})
+    .then(function(h){ document.body.insertAdjacentHTML("afterbegin", h); })
+    .catch(function(e){ console.error("header load failed", e); });
+});
+</script>
+</head>
 <body>
 <!-- Header -->
-<header class="site-header">
-<div class="container nav">
-<div class="brand">
-<img alt="Carelio" class="logo" src="images/logo.png"/>
-<span class="brand-name">Carelio</span>
-</div>
-<button class="mobile-menu-btn" id="mobileMenuBtn">
-<i class="fas fa-bars"></i>
-</button>
-<nav class="menu" id="mainMenu">
-<a class="active" href="index.html">Ana Sayfa</a>
-<a href="hizmetler.html">Hizmetler</a>
-<a href="paketler.html">Paketler</a>
-<a href="teknoloji.html">Teknoloji</a>
-<a href="hakkimizda.html">Hakkımızda</a>
-<a href="haberler.html">Haberler</a>
-<a href="iletisim.html">İletişim</a>
-<a href="anket.html">Anket</a>
-<a class="btn-login" href="auth.html">Üye Girişi</a>
-</nav>
-</div>
-</header>
 <!-- Hero Video -->
 <section class="hero-video">
 <video autoplay="" loop="" muted="" playsinline="">

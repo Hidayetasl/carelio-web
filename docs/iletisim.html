@@ -514,35 +514,17 @@
       }
     }
   </style>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var ROOT = location.pathname.startsWith("/carelio-web/") ? "/carelio-web" : "";
+  fetch(ROOT + "/partials/header.html")
+    .then(function(r){return r.text()})
+    .then(function(h){ document.body.insertAdjacentHTML("afterbegin", h); })
+    .catch(function(e){ console.error("header load failed", e); });
+});
+</script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <img class="logo" src="images/logo.png" alt="Carelio">
-        <span class="name">Carelio</span>
-      </div>
-      
-      <div class="menu-toggle" id="mobile-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      
-      <nav class="menu" id="nav-menu">
-        <a href="index.html">Ana Sayfa</a>
-        <a href="hizmetler.html">Hizmetler</a>
-        <a href="paketler.html">Paketler</a>
-        <a href="teknoloji.html">Teknoloji</a>
-        <a href="hakkimizda.html">Hakkımızda</a>
-        <a href="haberler.html">Haberler</a>
-        <a class="active" href="iletisim.html">İletişim</a>
-        <a href="anket.html">Anket</a>
-        <a class="btn-login" href="auth.html">Üye Girişi</a>
-      </nav>
-    </div>
-  </header>
-
   <!-- HERO BÖLÜMÜ - TEKNOLOJİ SAYFASINDAKİ GİBİ -->
   <section class="hero">
     <div class="container hero-inner">

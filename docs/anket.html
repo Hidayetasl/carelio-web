@@ -459,38 +459,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://docs.google.com">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700</head>display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var ROOT = location.pathname.startsWith("/carelio-web/") ? "/carelio-web" : "";
+  fetch(ROOT + "/partials/header.html")
+    .then(function(r){return r.text()})
+    .then(function(h){ document.body.insertAdjacentHTML("afterbegin", h); })
+    .catch(function(e){ console.error("header load failed", e); });
+});
+</script>
+</head>display=swap" rel="stylesheet">
 <style>body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}</style>
 </head>
 <body>
   <!-- ÜST MENÜ - Ana sayfayla tamamen uyumlu -->
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">
-        <img class="logo" src="images/logo.png" alt="Carelio">
-        <span class="name">Carelio</span>
-      </div>
-      
-      <div class="menu-toggle" id="mobile-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      
-      <nav class="menu" id="nav-menu">
-        <a href="index.html">Ana Sayfa</a>
-        <a href="hizmetler.html">Hizmetler</a>
-        <a href="paketler.html">Paketler</a>
-        <a href="teknoloji.html">Teknoloji</a>
-        <a href="hakkimizda.html">Hakkımızda</a>
-        <a href="haberler.html">Haberler</a>
-        <a href="iletisim.html">İletişim</a>
-        <a class="active" href="anket.html">Anket</a>
-        <a class="btn-login" href="auth.html">Üye Girişi</a>
-      </nav>
-    </div>
-  </header>
-
   <!-- HERO BÖLÜMÜ - Ana sayfayla uyumlu -->
   
 <section class="hero">
