@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin-local-google-compat.html
+Sitemap: https://carelio-web.web.app/sitemap.xml
