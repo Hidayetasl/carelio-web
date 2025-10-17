@@ -212,16 +212,7 @@
 .btn-yellow{background:linear-gradient(145deg,#F8C531,#E8A90A);color:#1E293B;text-shadow:0 1px 0 rgba(255,255,255,.35)}
 .btn-yellow:hover{background:linear-gradient(145deg,#FFD24D,#F0B018)}
 @media(max-width:640px){.btn-3d{width:100%;height:52px}}
-</style><!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KPS9ZNVXCL"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-KPS9ZNVXCL');
-</script>
-
-</head>
+</style></head>
 <body>
 <!-- Header -->
 <header class="site-header">
@@ -257,7 +248,7 @@
 <section class="combined-section">
 <div class="container combined-content">
 <div class="combined-text">
-<h2>Sağlığınızı <span class="rotate-highlight" id="rotateTarget">dijital asistanınıza</span> emanet edin</h2>
+<h2>Sağlığınızı <span class="rotate-highlight" id="rotateTarget">dijital asistanınıza</span> Emanet Edin</h2>
 <p>Carelio ile sağlık hizmetlerine erişim artık çok daha kolay, güvenli ve konforlu. İhtiyacınız olan tüm sağlık hizmetleri tek platformda.</p>
 <div class="btn-group"><a class="btn-navy btn-3d" href="hizmetler.html">Hizmetlerimiz</a><a class="btn-yellow btn-3d" href="anket.html">Anketimize Katılın</a></div>
 </div>
@@ -278,8 +269,8 @@
 <div class="features-grid">
 <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>7/24 Erişim</h3><p>İhtiyacınız olan sağlık hizmetlerine dilediğiniz zaman, dilediğiniz yerden ulaşın.</p></div>
 <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Güvenli</h3><p>Sağlık verileriniz şifrelenmiş olarak saklanır, maksimum gizlilik ve güvenlik.</p></div>
-<div class="feature-card"><div class="feature-icon"><i class="fas fa-user-md"></i></div><h3>Uzman Doktorlar</h3><p>Alanında uzman hekimlerle online görüşme imkanı.</p></div>
-<div class="feature-card"><div class="feature-icon"><i class="fas fa-house-user"></i></div><h3>Ev Konforu</h3><p>Evden çıkmadan sağlık hizmeti almanın konforunu yaşayın.</p></div>
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-user-md"></i></div><h3>Akıllı-Düzenli Takip</h3><p>Sağlık verileriniz düzenli ölçüm, akıllı takip ve kişisel analizlerle güvende.</p></div>
+<div class="feature-card"><div class="feature-icon"><i class="fas fa-house-user"></i></div><h3>Ev Konforu</h3><p>Evden çıkmadan sağlık hizmetlerini alanında uzman doktor, psikolog ve diyetisyenlerin kontrolünde almanın konforunu yaşayın</p></div>
 </div>
 </div>
 </section>
@@ -310,10 +301,10 @@
 <h3>Carelio</h3>
 <p>Sağlık hizmetlerini dijital platforma taşıyarak herkes için erişilebilir kılmak vizyonuyla yola çıktık.</p>
 <div class="social-links">
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-twitter"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="index.html#"><i class="fab fa-facebook-f"></i></a>
+<a href="index.html#"><i class="fab fa-twitter"></i></a>
+<a href="index.html#"><i class="fab fa-instagram"></i></a>
+<a href="index.html#"><i class="fab fa-linkedin-in"></i></a>
 </div>
 </div>
 <div class="footer-column">
@@ -386,3 +377,4 @@
 })();
 </script></body>
 </html>
+<!-- audit: 2025-09-06 -->
