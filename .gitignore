@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# yedekler
+*.bak
+*.bak.*
+index.html.bak
+index.html.bak.*
+
+# Firebase cache
+.firebase/*.cache
