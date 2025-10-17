@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carelio – Teknik Sistem Haritaları</title>
+<style>
+  :root{
+    --bg:#0a0f16; --card:#0f1622; --stroke:#253247; --text:#e8f1fb; --muted:#a9b6c7; --brand:#8fd1ff;
+  }
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:1100px;margin:0 auto;padding:20px}
+  header{background:#0c1524;border-bottom:1px solid var(--stroke)}
+  .header-inner{display:flex;align-items:center;gap:14px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:40px;width:auto;display:block;filter:drop-shadow(0 2px 10px rgba(0,0,0,.35))}
+  .brand h1{margin:0;color:var(--brand);font-size:22px;letter-spacing:.2px}
+  .subtitle{margin-top:2px;color:var(--muted);font-size:13px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  .card{background:var(--card);border:1px solid var(--stroke);border-radius:14px;padding:16px}
+  h2{margin:0 0 8px;font-size:18px;color:#cfe6ff}
+  a{color:var(--brand);text-decoration:none;font-weight:600}
+  a:hover{text-decoration:underline}
+  .desc{color:var(--muted);font-size:14px}
+  .footer{margin-top:24px;color:#95a7bf;font-size:12.5px}
+  @media (max-width:840px){.grid{grid-template-columns:1fr}}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var ok=new URLSearchParams(location.search).get("t")==="pons40mkx3eh07c2af14a6h5";var base=location.pathname.startsWith("/carelio-web/")?"/carelio-web":"/";if(!ok){location.replace(base);}})();</script>
+</head>
+<body>
+<header>
+  <div class="wrap header-inner">
+    <div class="brand">
+      <img src="../images/logo.png" alt="Carelio logo">
+      <div>
+        <h1>Carelio – Teknik Sistem Haritaları</h1>
+        <div class="subtitle">Eski/Yeni şema, Aksiyon senaryoları ve 3D ev maketi</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <div class="card">
+      <h2>📄 Eski Sürüm</h2>
+      <p class="desc">İlk hazırlanan teknik şema. Basit akışlar.</p>
+      <p><a href="carelio_sys_map.html" target="_blank">→ carelio_sys_map.html</a></p>
+    </div>
+
+    <div class="card">
+      <h2>📄 Yeni Sürüm (v7)</h2>
+      <p class="desc">Tüm cihazlar ve senaryolar; adım adım oynatma, sesli anlatım ve protokol detayları.</p>
+      <p><a href="carelio_sys_map_v7.html" target="_blank">→ carelio_sys_map_v7.html</a></p>
+    </div>
+
+    <div class="card">
+      <h2>⚙️ Aksiyon Senaryoları</h2>
+      <p class="desc">Örnek: Gaz/Duman/Kapı/Düşme/Lamba/Tansiyon/İlaç gibi aksiyon akışlarının odaklı sunumu.</p>
+      <p><a href="carelio_sys_map_aksiyon.html" target="_blank">→ carelio_sys_map_aksiyon.html</a></p>
+    </div>
+
+    <div class="card">
+      <h2>🏠 3D Ev Maketi</h2>
+      <p class="desc">Three.js tabanlı 3D ev modeli. <code>devices.json</code> ile sensör/cihaz yerleşimleri tanımlıdır.</p>
+      <p><a href="3d/index.html" target="_blank">→ 3D ev maketini aç</a></p>
+    </div>
+
+    <div class="card" style="grid-column:1/-1">
+      <h2>📚 Protokol Açıklamaları</h2>
+      <ul class="desc">
+        <li><b>MQTT</b> – <i>Message Queuing Telemetry Transport</i>: IoT için hafif publish/subscribe mesajlaşma.</li>
+        <li><b>BLE</b> – <i>Bluetooth Low Energy</i>: Düşük enerji tüketimli kısa mesafe iletişim.</li>
+        <li><b>HTTP / HTTPS</b> – Web üzerinden veri alışverişi (HTTPS güvenli sürüm).</li>
+        <li><b>TTS</b> – <i>Text‑to‑Speech</i>: Yazıyı seslendirme.</li>
+        <li><b>REST</b> – <i>Representational State Transfer</i>: HTTP tabanlı hafif servis mimarisi.</li>
+        <li><b>Webhook</b> – Olay tetiklenince diğer sisteme otomatik HTTP isteği gönderme.</li>
+        <li><b>IVR</b> – <i>Interactive Voice Response</i>: Çağrı merkezlerinde otomatik sesli yanıt sistemi.</li>
+        <li><a href="finansal-analiz.html?t=pons40mkx3eh07c2af14a6h5" target="_blank">Carelio Sistemi Finansal Analiz</a> — <small>carelio sistemi finansal analiz</small></li>
+</ul>
+    </div>
+  </div>
+
+  <div class="footer">© Carelio – Teknik dokümantasyon sayfası</div>
+</main>
+</body>
+</html>

@@ -375,8 +375,6 @@
   }
   setInterval(function(){ i=(i+1)%words.length; swap(words[i]); }, 2200);
 })();
-</script>$'
-'  <script src="rotate.js"></script>
-</body>
+</script></body>
 </html>
 <!-- audit: 2025-09-06 -->

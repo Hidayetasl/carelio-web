@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carelio • Senaryo Akışları + Sesli Anons (Tek Dosya)</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#0f1629; --ink:#e5e7eb; --muted:#9ca3af;
+    --line:#344155; --accent:#7c3aed; --ok:#16a34a; --warn:#f59e0b; --danger:#ef4444;
+    --chip:#111a33; --chip-b:#22314a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;background:var(--bg);color:var(--ink)}
+  header{padding:14px 18px;border-bottom:1px solid #151d33;background:linear-gradient(180deg,#121a33,#0b1020)}
+  h1{margin:0;font-size:18px;font-weight:800;letter-spacing:.2px}
+  .wrap{display:grid;grid-template-columns:310px 1fr;gap:14px;padding:14px}
+  @media (max-width:1100px){.wrap{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid #16213a;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+  .left{padding:12px;max-height:calc(100vh - 90px);overflow:auto}
+  .left h2{font-size:15px;margin:6px 0 10px}
+  .gtitle{font-size:11px;font-weight:800;opacity:.85;text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px}
+  .btn{display:block;width:100%;margin:6px 0;padding:10px 12px;border-radius:12px;background:#0c1429;border:1px solid #1b2945;color:var(--ink);cursor:pointer;font-weight:700;text-align:left}
+  .btn:hover{background:#101a33;border-color:#223355}
+  .btn:active{transform:translateY(1px)}
+  .btn.warn{border-color:#5a4314}
+  .btn.danger{border-color:#5a1a1a}
+  .reset{margin-top:10px;background:#111a33}
+  .canvas{position:relative;overflow:hidden}
+  .grid{display:grid;grid-template-columns:1fr 420px;gap:14px;height:100%}
+  @media (max-width:1100px){.grid{grid-template-columns:1fr}}
+  svg{width:100%;height:740px;display:block}
+  .node rect{fill:#0c1323;stroke:#2a3650;stroke-width:1.25} .node text{fill:#e5e7eb;font-size:12px;font-weight:700}
+  .edge{stroke:#54627a;stroke-width:2;opacity:.95} .edge-label{fill:#9ca3af;font-size:11px}
+  .muted{opacity:.2!important;filter:saturate(.35)}
+  .active-edge{stroke:var(--ok);stroke-width:4;opacity:1}
+  .active-edge.warn{stroke:var(--warn)} .active-edge.danger{stroke:var(--danger)}
+  .active-node rect{stroke:var(--accent);stroke-width:2.6;filter:drop-shadow(0 0 10px rgba(124,58,237,.55))}
+  .dashflow line, .dashflow path{stroke-dasharray:8 10;animation:flow 1.6s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-18}}
+  /* Flow panel */
+  .flow{padding:12px;height:100%}
+  .flow header{background:none;border:none;padding:0;margin-bottom:8px}
+  .flow h3{margin:0 0 8px 0;font-size:16px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .chip{font-size:11px;background:var(--chip);border:1px solid var(--chip-b);padding:6px 8px;border-radius:999px;opacity:.9}
+  .steps{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow:auto;padding-right:4px}
+  .step{position:relative;padding:10px 12px;border:1px dashed #2a3550;border-radius:12px;background:#0c1426}
+  .step .t{font-weight:800;font-size:13px;margin-bottom:4px}
+  .step .d{font-size:12px;color:#c9d2e1}
+  .step.active{border-style:solid;border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,58,237,.22)}
+  .step.ok{border-left:6px solid var(--ok)} .step.warn{border-left:6px solid var(--warn)} .step.danger{border-left:6px solid var(--danger)}
+  .arrow:before{content:"→";position:absolute;right:10px;top:10px;opacity:.6}
+  .controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .k{flex:1 1 auto;padding:10px 12px;border-radius:12px;border:1px solid #1c2a47;background:#0d1529;color:var(--ink);cursor:pointer;font-weight:800}
+  .k:disabled{opacity:.5;cursor:not-allowed}
+  .bar{margin-top:10px;height:6px;background:#0b1326;border:1px solid #1b2946;border-radius:999px;overflow:hidden}
+  .bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#22d3ee);transition:width .25s}
+  footer{padding:10px 14px;font-size:12px;opacity:.72}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var ok=new URLSearchParams(location.search).get("t")==="pons40mkx3eh07c2af14a6h5";var base=location.pathname.startsWith("/carelio-web/")?"/carelio-web":"/";if(!ok){location.replace(base);}})();</script>
+</head>
+<body>
+<header><h1>Carelio • Etkileşimli Sistem Haritası + Senaryo Akışları (Sesli)</h1></header>
+
+<div class="wrap">
+  <aside class="panel left">
+    <h2>İşlem & Senaryo Seç</h2>
+    <div class="gtitle">Hatırlatma & Sağlık</div>
+    <button class="btn" onclick="runScenario('ilac')">💊 İlaç Zamanı</button>
+    <button class="btn" onclick="runScenario('doktor')">👩‍⚕️ Doktor Görüşmesi</button>
+    <button class="btn" onclick="runScenario('olcum_bp')">🩺 Tansiyon Ölçümü</button>
+    <button class="btn" onclick="runScenario('olcum_kilo')">⚖️ Kilo / InBody</button>
+    <button class="btn" onclick="runScenario('olcum_glucose')">🩸 Glukoz / Libre 2</button>
+
+    <div class="gtitle">Güvenlik & Alarm</div>
+    <button class="btn danger" onclick="runScenario('dusme')">🆘 Düşme Algılandı</button>
+    <button class="btn danger" onclick="runScenario('gaz')">🔥 Gaz Alarmı</button>
+    <button class="btn danger" onclick="runScenario('yangin')">🚨 Duman / Yangın</button>
+    <button class="btn warn" onclick="runScenario('kapical')">🔔 Kapı Zili / Misafir</button>
+    <button class="btn" onclick="runScenario('kapiac')">🔓 Kapıyı Aç (Yale)</button>
+
+    <div class="gtitle">Rutinler</div>
+    <button class="btn" onclick="runScenario('sabah')">🌅 Sabah Rutini</button>
+    <button class="btn" onclick="runScenario('gece')">🌙 Gece Rutini</button>
+    <button class="btn" onclick="runScenario('uyku')">😴 Uyku Modu</button>
+    <button class="btn" onclick="runScenario('hepsini')">🛑 Hepsini Kapat</button>
+
+    <div class="gtitle">Kişi Talepleri</div>
+    <button class="btn" onclick="runScenario('su')">🥤 “Su isterim”</button>
+    <button class="btn" onclick="runScenario('yalniz')">🗣️ “Konuşmak istiyorum”</button>
+    <button class="btn" onclick="runScenario('tv')">📺 “TV’yi aç”</button>
+    <button class="btn" onclick="runScenario('yardim')">📞 “Yardım lazım”</button>
+
+    <div class="gtitle">Radyo & Müzik</div>
+    <button class="btn" onclick="runScenario('radyo_klasik')">📻 Radyo: Klasik</button>
+    <button class="btn" onclick="runScenario('radyo_haber')">📰 Radyo: Haber</button>
+    <button class="btn" onclick="runScenario('radyo_rahat')">🌿 Radyo: Rahatlama</button>
+    <button class="btn" onclick="runScenario('muzik')">🎵 Çalma Listesi</button>
+
+    <div class="gtitle">Yardımcı</div>
+    <button class="btn reset" onclick="resetAll()">Tüm vurguları sıfırla</button>
+  </aside>
+
+  <main class="grid">
+    <section class="panel canvas">
+      <!-- Simplified version of the previous system map -->
+      <svg viewBox="0 0 1400 740" xmlns="http://www.w3.org/2000/svg" id="map">
+        <defs>
+          <marker id="mArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><polygon points="0 0, 10 5, 0 10" fill="#a0a9b8"/></marker>
+          <marker id="mActive" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#16a34a"/></marker>
+          <marker id="mWarn" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#f59e0b"/></marker>
+          <marker id="mDanger" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><polygon points="0 0, 12 6, 0 12" fill="#ef4444"/></marker>
+        </defs>
+
+        <!-- Nodes -->
+        <g id="nAlexa" class="node"><rect x="60" y="20" rx="14" ry="14" width="240" height="86"/><text x="180" y="55" text-anchor="middle">Alexa Cloud</text><text x="180" y="75" text-anchor="middle">(Skills/Routines)</text></g>
+        <g id="nCarelioCloud" class="node"><rect x="340" y="20" rx="14" ry="14" width="260" height="86"/><text x="470" y="55" text-anchor="middle">Carelio Bulut</text><text x="470" y="75" text-anchor="middle">(Bildirim/Analitik)</text></g>
+        <g id="nCallCenter" class="node"><rect x="640" y="20" rx="14" ry="14" width="240" height="86"/><text x="760" y="55" text-anchor="middle">Çağrı Merkezi</text><text x="760" y="75" text-anchor="middle">(Agent/IVR)</text></g>
+        <g id="nDoctor" class="node"><rect x="940" y="20" rx="14" ry="14" width="220" height="86"/><text x="1050" y="55" text-anchor="middle">Doktor/Nurse</text><text x="1050" y="75" text-anchor="middle">(Telehealth)</text></g>
+
+        <g id="nEcho" class="node"><rect x="60" y="140" rx="14" ry="14" width="260" height="100"/><text x="190" y="175" text-anchor="middle">Echo Show</text><text x="190" y="195" text-anchor="middle">(STT/TTS · Ekran)</text></g>
+        <g id="nPi" class="node"><rect x="360" y="150" rx="14" ry="14" width="340" height="140"/><text x="530" y="185" text-anchor="middle">Raspberry Pi</text><text x="530" y="205" text-anchor="middle">Home Assistant • Node‑RED • MQTT</text><text x="530" y="225" text-anchor="middle">TTS(Flask:5005) • Rules</text></g>
+        <g id="nLoona" class="node"><rect x="740" y="150" rx="14" ry="14" width="220" height="120"/><text x="850" y="185" text-anchor="middle">Loona Robot</text><text x="850" y="205" text-anchor="middle">(Animasyon/Ses)</text></g>
+        <g id="nRadio" class="node"><rect x="990" y="150" rx="14" ry="14" width="220" height="120"/><text x="1100" y="185" text-anchor="middle">Radyo/Müzik</text><text x="1100" y="205" text-anchor="middle">(Stream/Playlist)</text></g>
+
+        <g id="nSensors" class="node"><rect x="740" y="300" rx="14" ry="14" width="220" height="120"/><text x="850" y="335" text-anchor="middle">Sensörler</text><text x="850" y="355" text-anchor="middle">Düşme • Gaz • Duman</text></g>
+        <g id="nActuators" class="node"><rect x="990" y="300" rx="14" ry="14" width="220" height="120"/><text x="1100" y="335" text-anchor="middle">Aktüatörler</text><text x="1100" y="355" text-anchor="middle">Işık • Priz • Kilit</text></g>
+        <g id="nHealth" class="node"><rect x="60" y="300" rx="14" ry="14" width="260" height="120"/><text x="190" y="335" text-anchor="middle">Sağlık Cihazları</text><text x="190" y="355" text-anchor="middle">BP • Oksimetre • Kilo • Libre2</text></g>
+        <g id="nArduino" class="node"><rect x="360" y="300" rx="14" ry="14" width="320" height="120"/><text x="520" y="335" text-anchor="middle">Arduino/ESP32 Buton</text><text x="520" y="355" text-anchor="middle">İlaç Alındı • Panik</text></g>
+
+        <g id="nUser" class="node"><rect x="60" y="450" rx="14" ry="14" width="260" height="100"/><text x="190" y="485" text-anchor="middle">Kullanıcı</text><text x="190" y="505" text-anchor="middle">(Yaşlı birey)</text></g>
+        <g id="nFamily" class="node"><rect x="360" y="450" rx="14" ry="14" width="260" height="100"/><text x="490" y="485" text-anchor="middle">Aile Uygulaması</text><text x="490" y="505" text-anchor="middle">(Bildirim/Arama)</text></g>
+        <g id="nTV" class="node"><rect x="660" y="450" rx="14" ry="14" width="240" height="100"/><text x="780" y="485" text-anchor="middle">TV / Medya</text><text x="780" y="505" text-anchor="middle">(Cast / CEC)</text></g>
+        <g id="nDoorbell" class="node"><rect x="940" y="450" rx="14" ry="14" width="270" height="100"/><text x="1075" y="485" text-anchor="middle">Kapı Zili / Interkom</text><text x="1075" y="505" text-anchor="middle">(Kamera/Buton)</text></g>
+
+        <!-- Edges -->
+        <g id="eAlexaEcho" class="edge"><line x1="300" y1="63" x2="340" y2="63" marker-end="url(#mArrow)"/><text class="edge-label" x="320" y="48">Voice/Intent</text></g>
+        <g id="eEchoPi" class="edge"><path d="M190,240 C190,280 530,100 530,150" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="350" y="210">Routine → HA</text></g>
+        <g id="ePiEcho" class="edge"><path d="M530,150 C530,110 200,220 200,200" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="340" y="150">TTS Anons</text></g>
+        <g id="ePiRadio" class="edge"><line x1="700" y1="210" x2="990" y2="210" marker-end="url(#mArrow)"/><text class="edge-label" x="845" y="195">HTTP 5005 → Stream</text></g>
+        <g id="eRadioLoona" class="edge"><line x1="990" y1="240" x2="960" y2="240" marker-end="url(#mArrow)"/><text class="edge-label" x="975" y="225">Ses Alanı</text></g>
+        <g id="eSensorsPi" class="edge"><path d="M850,300 C850,260 700,260 700,200" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="780" y="250">MQTT/Zigbee</text></g>
+        <g id="ePiAct" class="edge"><path d="M700,200 C880,200 1100,300 1100,300" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="960" y="240">light/switch/lock</text></g>
+        <g id="eHealthPi" class="edge"><path d="M320,360 C360,360 360,220 360,220" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="340" y="285">BLE/Wi‑Fi/Cloud</text></g>
+        <g id="eArduinoPi" class="edge"><path d="M520,420 C520,390 520,300 520,300" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="535" y="355">USB Serial</text></g>
+        <g id="eUserEcho" class="edge"><path d="M320,500 C380,460 190,220 190,220" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="250" y="410">Konuşma/Komut</text></g>
+        <g id="eEchoUser" class="edge"><path d="M190,240 C190,350 190,450 190,450" fill="none" marker-end="url(#mArrow)"/><text class="edge-label" x="205" y="360">Anons/Ekran</text></g>
+        <g id="ePiFamily" class="edge"><line x1="530" y1="290" x2="490" y2="450" marker-end="url(#mArrow)"/><text class="edge-label" x="500" y="370">Bildirim/WebRTC</text></g>
+        <g id="ePiCloud" class="edge"><line x1="530" y1="150" x2="470" y2="86" marker-end="url(#mArrow)"/><text class="edge-label" x="495" y="110">Sync/API</text></g>
+        <g id="ePiCall" class="edge"><line x1="600" y1="150" x2="760" y2="86" marker-end="url(#mArrow)"/><text class="edge-label" x="680" y="110">Alarm Bildir</text></g>
+        <g id="ePiDoctor" class="edge"><line x1="680" y1="150" x2="940" y2="86" marker-end="url(#mArrow)"/><text class="edge-label" x="820" y="110">Telehealth/WebRTC</text></g>
+        <g id="eDoorPi" class="edge"><line x1="1075" y1="450" x2="700" y2="300" marker-end="url(#mArrow)"/><text class="edge-label" x="925" y="395">RTSP/MQTT</text></g>
+        <g id="ePiDoorAct" class="edge"><line x1="700" y1="300" x2="1100" y2="360" marker-end="url(#mArrow)"/><text class="edge-label" x="935" y="320">lock.open</text></g>
+        <g id="eEchoDoor" class="edge"><line x1="1075" y1="450" x2="190" y2="240" marker-end="url(#mArrow)"/><text class="edge-label" x="610" y="330">Ekranda Zil/Video</text></g>
+        <g id="ePiTV" class="edge"><line x1="700" y1="300" x2="780" y2="450" marker-end="url(#mArrow)"/><text class="edge-label" x="750" y="370">Cast/CEC</text></g>
+      </svg>
+    </section>
+
+    <aside class="panel flow">
+      <header>
+        <h3 id="flowTitle">Senaryo Akışı</h3>
+        <div class="chips" id="flowChips"></div>
+      </header>
+      <div class="steps" id="steps"></div>
+      <div class="controls">
+        <button class="k" id="btnPrev">◀︎ Geri</button>
+        <button class="k" id="btnPlay">▶︎ Oynat</button>
+        <button class="k" id="btnPause" disabled>⏸ Duraklat</button>
+        <button class="k" id="btnNext">İleri ▶︎</button>
+        <button class="k" id="btnStop">⏹ Sıfırla</button>
+        <button class="k" id="btnMute">🔈 Ses Açık</button>
+      </div>
+      <div class="bar"><div id="progress"></div></div>
+      <footer style="opacity:.7;margin-top:8px">Her adımı tıklayarak atlayabilirsiniz. Oynat tuşu tüm akışı sesli olarak ilerletir.</footer>
+    </aside>
+  </main>
+</div>
+
+<script>
+// ====== Highlight engine (same ids as in map) ======
+const EDGES = ["eAlexaEcho","eEchoPi","ePiEcho","ePiRadio","eRadioLoona","eSensorsPi","ePiAct","eHealthPi","eArduinoPi","eUserEcho","eEchoUser","ePiFamily","ePiCloud","ePiCall","ePiDoctor","eDoorPi","ePiDoorAct","eEchoDoor","ePiTV"];
+const NODES = ["nAlexa","nCarelioCloud","nCallCenter","nDoctor","nEcho","nPi","nLoona","nRadio","nSensors","nActuators","nHealth","nArduino","nUser","nFamily","nTV","nDoorbell"];
+function resetAll(){
+  EDGES.forEach(id=>{ const g = document.getElementById(id);
+    g?.classList.remove("active-edge","warn","danger","muted","dashflow");
+    g?.querySelectorAll("line,path").forEach(el=>el.setAttribute("marker-end","url(#mArrow)"));
+  });
+  NODES.forEach(id=>{ const n = document.getElementById(id); n?.classList.remove("active-node","muted"); });
+}
+function muteOthers(activeEdges, activeNodes){
+  EDGES.forEach(id=>{ const g = document.getElementById(id); if(!activeEdges.includes(id)) g?.classList.add("muted"); else g?.classList.remove("muted"); });
+  NODES.forEach(id=>{ const n = document.getElementById(id); if(!activeNodes.includes(id)) n?.classList.add("muted"); else n?.classList.remove("muted"); });
+}
+function paintEdges(list, tone="ok", dashed=false){
+  list.forEach(id=>{
+    const g = document.getElementById(id); if(!g) return;
+    g.classList.add("active-edge");
+    if(tone==="warn") g.classList.add("warn");
+    if(tone==="danger") g.classList.add("danger");
+    if(dashed) g.classList.add("dashflow");
+    g.querySelectorAll("line,path").forEach(el=>{
+      el.setAttribute("marker-end", tone==="danger" ? "url(#mDanger)" : tone==="warn" ? "url(#mWarn)" : "url(#mActive)");
+    });
+  });
+}
+function paintNodes(list){ list.forEach(id=>{ const n=document.getElementById(id); n?.classList.add("active-node"); }); }
+
+// ====== Scenarios & Flow steps ======
+const SCENARIOS = {
+  ilac:{
+    title:"İlaç Zamanı",
+    tone:"ok",
+    chips:["Hatırlatma","TTS","Aileye Bildirim"],
+    steps:[
+      {t:"Komut / Zamanlayıcı", d:"Planlanan saatte hatırlatma tetiklenir veya kullanıcı 'Alexa, ilaç saatim' der.", say:"İlaç saatiniz geldi.", edges:["eAlexaEcho","eEchoPi"], nodes:["nAlexa","nEcho","nPi"]},
+      {t:"Anons + Ekran", d:"Echo Show ekranda ilaç kartını gösterir ve anons eder.", say:"Lütfen ilacınızı içiniz. İçtiyseniz düğmeye basın.", edges:["ePiEcho"], nodes:["nEcho","nPi"]},
+      {t:"Buton Onayı", d:"Kullanıcı fiziksel butona veya ekrandaki onay düğmesine basar.", say:"Teşekkürler, ilaç alımı kaydedildi.", edges:["eArduinoPi"], nodes:["nArduino","nPi"]},
+      {t:"Kayıt & Bildirim", d:"Veri buluta yazılır ve aile uygulamasına bildirim gider.", say:"Kayıt alındı. Ailenize bilgi veriliyor.", edges:["ePiCloud","ePiFamily"], nodes:["nCarelioCloud","nFamily","nPi"]},
+      {t:"İsteğe Bağlı Eşlik", d:"Rahatlatıcı müzik açılır.", say:"Rahatlatıcı müzik açılıyor.", edges:["ePiRadio"], nodes:["nRadio","nPi"]}
+    ]
+  },
+  doktor:{
+    title:"Doktor Görüşmesi",
+    tone:"ok",
+    chips:["Telehealth","WebRTC","Aile"],
+    steps:[
+      {t:"Randevu Hatırlatma", d:"Planlanan zamanda anımsatıcı.", say:"Beş dakika sonra doktor bağlantınız var.", edges:["ePiEcho"], nodes:["nEcho","nPi"]},
+      {t:"Bağlantı Kur", d:"WebRTC ile doktor tarafına bağlan.", say:"Doktorunuza bağlanıyorum.", edges:["ePiDoctor"], nodes:["nDoctor","nPi"]},
+      {t:"Eş Zamanlı Bildirim", d:"Aile uygulamasına bilgilendirme.", say:"Ailenize bilgilendirme gönderildi.", edges:["ePiFamily"], nodes:["nFamily","nPi"]},
+      {t:"Görüşme", d:"Görüntülü/sesli görüşme gerçekleşir.", say:"Görüşme başladı.", edges:[], nodes:["nEcho","nDoctor"]},
+      {t:"Kapanış & Kayıt", d:"Özet notlar buluta işlenir.", say:"Görüşme tamamlandı. Özet kaydedildi.", edges:["ePiCloud"], nodes:["nCarelioCloud","nPi"]}
+    ]
+  },
+  olcum_bp:{
+    title:"Tansiyon Ölçümü",
+    tone:"ok",
+    chips:["Sağlık","BP","Bulut"],
+    steps:[
+      {t:"Ölçüm Başlat", d:"Cihazdan ölçüm tetiklenir veya hatırlatma ile başlatılır.", say:"Tansiyon ölçümü başlıyor.", edges:["eHealthPi"], nodes:["nHealth","nPi"]},
+      {t:"Anons", d:"Echo Show yönlendirme yapar.", say:"Kol manşonunu takın ve hareketsiz kalın.", edges:["ePiEcho"], nodes:["nEcho","nPi"]},
+      {t:"Kayıt & Analiz", d:"Sonuçlar buluta ve aileye.", say:"Sonuçlarınız kaydedildi ve paylaşıldı.", edges:["ePiCloud","ePiFamily"], nodes:["nCarelioCloud","nFamily","nPi"]}
+    ]
+  },
+  olcum_kilo:{
+    title:"Kilo / InBody",
+    tone:"ok",
+    chips:["Vücut Kompozisyonu","Bulut"],
+    steps:[
+      {t:"Ölçümü Al", d:"Withings/akıllı tartıdan veri alınır.", say:"Kilo ölçümü alınıyor.", edges:["eHealthPi"], nodes:["nHealth","nPi"]},
+      {t:"Analiz & Trend", d:"Bulut analizi ve geçmiş karşılaştırma.", say:"Analiz tamamlandı, trend güncellendi.", edges:["ePiCloud"], nodes:["nCarelioCloud","nPi"]},
+      {t:"Aileye Bilgi", d:"Aile uygulamasına bildirim.", say:"Aileniz bilgilendirildi.", edges:["ePiFamily"], nodes:["nFamily","nPi"]}
+    ]
+  },
+  olcum_glucose:{
+    title:"Glukoz / Libre 2",
+    tone:"ok",
+    chips:["Libre2","Telehealth"],
+    steps:[
+      {t:"Değer Okuma", d:"Libre 2 sensörden veri okunur.", say:"Glukoz değeri okunuyor.", edges:["eHealthPi"], nodes:["nHealth","nPi"]},
+      {t:"Eşik Kontrol", d:"Riskli aralıkta ise uyar.", say:"Değer sınırın dışında ise doktor bilgilendirilecek.", edges:["ePiCloud"], nodes:["nCarelioCloud","nPi"]},
+      {t:"Doktora Bildir", d:"Gerekirse doktor tarafına ilet.", say:"Doktor bilgilendiriliyor.", edges:["ePiDoctor"], nodes:["nDoctor","nPi"]},
+      {t:"Aile Bilgilendirme", d:"Aile uygulaması.", say:"Ailenizle paylaşıldı.", edges:["ePiFamily"], nodes:["nFamily","nPi"]}
+    ]
+  },
+  dusme:{
+    title:"Düşme Algılandı",
+    tone:"danger",
+    chips:["Acil","Çağrı Merkezi","Aktüatör"],
+    steps:[
+      {t:"Sensör Tetik", d:"Düşme sensörü alarm verir.", say:"Acil durum: Düşme algılandı!", edges:["eSensorsPi"], nodes:["nSensors","nPi"]},
+      {t:"Anons + Işık", d:"Echo anons, ışıklar açılır.", say:"Lütfen iyi misiniz? Yardıma gidiliyor.", edges:["ePiEcho","ePiAct"], nodes:["nEcho","nActuators","nPi"]},
+      {t:"Çağrı Merkezi", d:"Agent/IVR devreye girer.", say:"Çağrı merkezi bilgilendiriliyor.", edges:["ePiCall"], nodes:["nCallCenter","nPi"]},
+      {t:"Aile & Doktor", d:"Aile ve doktor bilgilendirme.", say:"Aile ve doktor bilgilendirildi.", edges:["ePiFamily","ePiDoctor"], nodes:["nFamily","nDoctor","nPi"]}
+    ]
+  },
+  gaz:{
+    title:"Gaz Alarmı",
+    tone:"danger",
+    chips:["Acil","Aktüatör"],
+    steps:[
+      {t:"Sensör Alarmı", d:"Gaz algılandı.", say:"Acil durum: Gaz algılandı!", edges:["eSensorsPi"], nodes:["nSensors","nPi"]},
+      {t:"Anons + Havalandır", d:"Işık/siren/kapı pencereler.", say:"Pencereleri açın, ortamı havalandırın.", edges:["ePiEcho","ePiAct"], nodes:["nEcho","nActuators","nPi"]},
+      {t:"Çağrı Merkezi", d:"Agent uyarılır.", say:"Çağrı merkezine bilgi veriliyor.", edges:["ePiCall"], nodes:["nCallCenter","nPi"]},
+      {t:"Aile", d:"Aileye bildirim.", say:"Ailenize acil durum bildirildi.", edges:["ePiFamily"], nodes:["nFamily","nPi"]}
+    ]
+  },
+  yangin:{
+    title:"Duman / Yangın",
+    tone:"danger",
+    chips:["Acil","Siren","Aile"],
+    steps:[
+      {t:"Sensör Alarmı", d:"Duman/yangın algılandı.", say:"Acil durum: Yangın algılandı!", edges:["eSensorsPi"], nodes:["nSensors","nPi"]},
+      {t:"Anons + Siren", d:"Siren/ışık/kapı kilidi yönetimi.", say:"Lütfen hızla güvenli alana geçin.", edges:["ePiEcho","ePiAct"], nodes:["nEcho","nActuators","nPi"]},
+      {t:"Aile & Çağrı", d:"Aile ve çağrı merkezi.", say:"Yakınlarınıza ve çağrı merkezine bilgi veriliyor.", edges:["ePiFamily","ePiCall"], nodes:["nFamily","nCallCenter","nPi"]}
+    ]
+  },
+  kapical:{
+    title:"Kapı Zili / Misafir",
+    tone:"warn",
+    chips:["Interkom","Video","Kilit"],
+    steps:[
+      {t:"Zil Tetik", d:"Kapı zili RTSP/MQTT.", say:"Kapıda biri var.", edges:["eDoorPi"], nodes:["nDoorbell","nPi"]},
+      {t:"Ekrana Bas", d:"Echo Show ekranda görüntü.", say:"Görüntü ekranda. Kapıyı açmak ister misiniz?", edges:["eEchoDoor","ePiEcho"], nodes:["nEcho","nPi"]},
+      {t:"Kilit Aç", d:"Yale kilit komutu.", say:"Kapı açılıyor.", edges:["ePiDoorAct"], nodes:["nActuators","nPi"]}
+    ]
+  },
+  kapiac:{
+    title:"Kapıyı Aç (Yale)",
+    tone:"ok",
+    chips:["Kilit"],
+    steps:[
+      {t:"Komut", d:"'Alexa, kapıyı aç' komutu.", say:"Kapıyı açıyorum.", edges:["eEchoPi"], nodes:["nEcho","nPi"]},
+      {t:"Kilit", d:"lock.open komutu.", say:"Kilit komutu gönderildi.", edges:["ePiDoorAct"], nodes:["nActuators","nPi"]}
+    ]
+  },
+  sabah:{
+    title:"Sabah Rutini",
+    tone:"ok",
+    chips:["Işık","Radyo","TV"],
+    steps:[
+      {t:"Işıklar", d:"Aydınlatma açılır.", say:"Işıklar açılıyor.", edges:["ePiAct"], nodes:["nActuators","nPi"]},
+      {t:"Radyo", d:"Müzik/haber açılır.", say:"Radyo açılıyor.", edges:["ePiRadio"], nodes:["nRadio","nPi"]},
+      {t:"TV", d:"Cast/CEC ile TV.", say:"TV açılıyor.", edges:["ePiTV"], nodes:["nTV","nPi"]}
+    ]
+  },
+  gece:{
+    title:"Gece Rutini",
+    tone:"ok",
+    chips:["Işık","Sessizlik"],
+    steps:[
+      {t:"Işıklar", d:"Gereksiz ışıklar kapanır.", say:"Işıklar kısılıyor.", edges:["ePiAct"], nodes:["nActuators","nPi"]},
+      {t:"Anons", d:"Günlük özet ve iyi geceler.", say:"İyi geceler, yardım için sadece söyleyin.", edges:["ePiEcho"], nodes:["nEcho","nPi"]}
+    ]
+  },
+  uyku:{
+    title:"Uyku Modu",
+    tone:"ok",
+    chips:["Sessiz Mod","Güvenlik"],
+    steps:[
+      {t:"Sessiz Mod", d:"Bildirimler azaltılır.", say:"Sessiz moda geçiliyor.", edges:["eEchoPi"], nodes:["nEcho","nPi"]},
+      {t:"Güvenlik", d:"Sensörler aktif izleme.", say:"Güvenlik sensörleri aktif.", edges:["eSensorsPi"], nodes:["nSensors","nPi"]}
+    ]
+  },
+  hepsini:{
+    title:"Hepsini Kapat",
+    tone:"ok",
+    chips:["Temizlik"],
+    steps:[
+      {t:"Cihazlar", d:"Işık/müzik/TV kapat.", say:"Tüm cihazlar kapatılıyor.", edges:["ePiAct","ePiRadio","ePiTV"], nodes:["nActuators","nRadio","nTV","nPi"]}
+    ]
+  },
+  su:{
+    title:"'Su isterim'",
+    tone:"ok",
+    chips:["Asistan","Aile"],
+    steps:[
+      {t:"Komut", d:"Kullanıcı talebi.", say:"Size su getiriyorum diye haber veriyorum.", edges:["eUserEcho","eEchoPi"], nodes:["nUser","nEcho","nPi"]},
+      {t:"Aileye Bildir", d:"Aileye istek gider.", say:"Aileye su talebi gönderildi.", edges:["ePiFamily"], nodes:["nFamily","nPi"]}
+    ]
+  },
+  yalniz:{
+    title:"'Konuşmak istiyorum'",
+    tone:"ok",
+    chips:["Asistan","Radyo/Loona"],
+    steps:[
+      {t:"Komut", d:"Kullanıcı talebi.", say:"Tabii, sizinle buradayım.", edges:["eUserEcho","eEchoPi"], nodes:["nUser","nEcho","nPi"]},
+      {t:"Eşlik", d:"Rahatlatıcı radyo/Loona.", say:"Rahatlatıcı müzik açılıyor.", edges:["ePiRadio","eRadioLoona"], nodes:["nRadio","nLoona","nPi"]}
+    ]
+  },
+  tv:{
+    title:"'TV’yi aç'",
+    tone:"ok",
+    chips:["TV","CEC"],
+    steps:[
+      {t:"Komut", d:"Kullanıcı talebi.", say:"TV açılıyor.", edges:["eUserEcho","eEchoPi"], nodes:["nUser","nEcho","nPi"]},
+      {t:"TV", d:"Cast/CEC ile kontrol.", say:"Kanal ve ses ayarlanabilir.", edges:["ePiTV"], nodes:["nTV","nPi"]}
+    ]
+  },
+  yardim:{
+    title:"'Yardım lazım'",
+    tone:"warn",
+    chips:["Aile","Çağrı Merkezi"],
+    steps:[
+      {t:"Komut", d:"Kullanıcı yardım ister.", say:"Yardım çağrısı başlatıldı.", edges:["eUserEcho","eEchoPi"], nodes:["nUser","nEcho","nPi"]},
+      {t:"Aile", d:"Aileye acil bildirim.", say:"Ailenize bilgi veriliyor.", edges:["ePiFamily"], nodes:["nFamily","nPi"]},
+      {t:"Çağrı Merkezi", d:"Agent bilgilendirme.", say:"Çağrı merkezi devreye giriyor.", edges:["ePiCall"], nodes:["nCallCenter","nPi"]}
+    ]
+  }
+};
+
+// ====== Flow UI + TTS ======
+const flowTitle = document.getElementById('flowTitle');
+const flowChips = document.getElementById('flowChips');
+const stepsEl = document.getElementById('steps');
+const progressEl = document.getElementById('progress');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnPlay = document.getElementById('btnPlay');
+const btnPause = document.getElementById('btnPause');
+const btnStop = document.getElementById('btnStop');
+const btnMute = document.getElementById('btnMute');
+
+let currentScenario = null;
+let idx = 0;
+let playing = false;
+let muted = false;
+let playTimer = null;
+
+function speak(text){
+  if(muted) return;
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'tr-TR';
+  // Try Turkish voice if available
+  const vs = speechSynthesis.getVoices();
+  const tr = vs.find(v => /tr-|Turk/i.test(v.lang||""));
+  if(tr) u.voice = tr;
+  u.rate = 1.0; u.pitch = 1.0; u.volume = 1.0;
+  speechSynthesis.speak(u);
+}
+
+function renderFlow(){
+  stepsEl.innerHTML = "";
+  progressEl.style.width = "0%";
+  flowChips.innerHTML = "";
+  (currentScenario.chips||[]).forEach(c=>{
+    const chip = document.createElement('div'); chip.className="chip"; chip.textContent=c; flowChips.appendChild(chip);
+  });
+  currentScenario.steps.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className = "step arrow " + (i===0?"active ":"") + toneClass(currentScenario.tone);
+    div.innerHTML = `<div class="t">${i+1}. ${s.t}</div><div class="d">${s.d}</div>`;
+    div.onclick = ()=>{ goTo(i,true); };
+    stepsEl.appendChild(div);
+  });
+  updateProgress();
+}
+
+function toneClass(t){ return t==="danger"?"danger":t==="warn"?"warn":"ok"; }
+
+function highlightStep(i){
+  resetAll();
+  const step = currentScenario.steps[i];
+  const tone = currentScenario.tone;
+  // dashed flow animation on edges to indicate direction
+  paintEdges(step.edges||[], tone, true);
+  paintNodes(step.nodes||[]);
+  // mute others
+  const activeEdges = step.edges||[];
+  const activeNodes = step.nodes||[];
+  EDGES.forEach(id=>{ if(!activeEdges.includes(id)) document.getElementById(id)?.classList.add("muted"); });
+  NODES.forEach(id=>{ if(!activeNodes.includes(id)) document.getElementById(id)?.classList.add("muted"); });
+}
+
+function markActive(i){
+  [...document.querySelectorAll('.step')].forEach((el,j)=>{
+    if(j===i) el.classList.add('active'); else el.classList.remove('active');
+  });
+}
+
+function updateProgress(){
+  const pct = Math.round(((idx+1)/currentScenario.steps.length)*100);
+  progressEl.style.width = pct + "%";
+}
+
+function goTo(i, speakIt=false){
+  if(!currentScenario) return;
+  idx = Math.max(0, Math.min(i, currentScenario.steps.length-1));
+  markActive(idx);
+  highlightStep(idx);
+  updateProgress();
+  if(speakIt){
+    const s = currentScenario.steps[idx];
+    speak(s.say || s.d || s.t);
+  }
+}
+
+function next(auto=false){
+  if(!currentScenario) return;
+  if(idx < currentScenario.steps.length-1){
+    goTo(idx+1, true);
+  }else{
+    // finished
+    stop();
+  }
+}
+
+function prev(){
+  if(!currentScenario) return;
+  goTo(idx-1, true);
+}
+
+function play(){
+  if(!currentScenario || playing) return;
+  playing = true;
+  btnPlay.disabled = true; btnPause.disabled = false;
+  const run = ()=>{
+    const s = currentScenario.steps[idx];
+    speak(s.say || s.d || s.t);
+    highlightStep(idx);
+    markActive(idx);
+    updateProgress();
+    // Step duration heuristic: 2.2s base + 0.04s per char, capped 6s
+    const dur = Math.min(6000, 2200 + (s.say||s.d||s.t).length*40);
+    playTimer = setTimeout(()=>{
+      if(!playing) return;
+      if(idx < currentScenario.steps.length-1){ idx++; run(); }
+      else { stop(); }
+    }, dur);
+  };
+  run();
+}
+
+function pause(){
+  playing = false;
+  btnPlay.disabled = false; btnPause.disabled = true;
+  if(playTimer) clearTimeout(playTimer);
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+function stop(){
+  pause();
+  idx = 0;
+  goTo(0,false);
+}
+
+function toggleMute(){
+  muted = !muted;
+  btnMute.textContent = muted ? "🔇 Ses Kapalı" : "🔈 Ses Açık";
+  if(muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+function runScenario(key){
+  const sc = SCENARIOS[key];
+  if(!sc) return;
+  currentScenario = sc;
+  flowTitle.textContent = "Senaryo: " + sc.title;
+  renderFlow();
+  idx = 0;
+  goTo(0,true);
+}
+
+btnPrev.onclick = ()=>prev();
+btnNext.onclick = ()=>next();
+btnPlay.onclick = () => { window.speechSynthesis?.resume?.(); play(); };
+btnPause.onclick = ()=>pause();
+btnStop.onclick = ()=>stop();
+btnMute.onclick = ()=>toggleMute();
+
+// Default scenario
+// runScenario('ilac');
+</script>
+</body>
+</html>

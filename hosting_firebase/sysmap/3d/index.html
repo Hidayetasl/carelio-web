@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carelio 3D – Senaryolu Maket</title>
+<style>
+  :root{--bg:#0a0f16;--panel:#0f1622;--stroke:#1e2a3d;--text:#e8f1fb;--muted:#9eb0c9;--accent:#8fd1ff;--ok:#22c55e;--warn:#f59e0b;--err:#ef4444}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,Segoe UI,Roboto,Arial}
+  header{position:sticky;top:0;background:#0b1321;border-bottom:1px solid var(--stroke);z-index:20}
+  .wrap{max-width:1200px;margin:0 auto;padding:10px 14px}
+  h1{margin:4px 0 0;font-size:18px;color:var(--accent)}
+  .subtitle{color:var(--muted);font-size:12px}
+  .layout{display:grid;grid-template-columns:320px 1fr;grid-template-rows:auto 1fr;gap:10px;height:calc(100vh - 62px);padding:10px;max-width:1200px;margin:0 auto}
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:12px}
+  .controls{padding:12px;overflow:auto}
+  .controls h2{margin:0 0 8px;font-size:14px;color:#cfe6ff}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  select,button{background:#0d1423;border:1px solid #22324a;color:#d9ebff;border-radius:10px;padding:7px 10px;font-size:13px}
+  button:hover{background:#121c2d}
+  .pill{font-size:12px;color:var(--muted)}
+  .scene{position:relative}
+  canvas{display:block;width:100%;height:100%;border-radius:12px;border:1px solid var(--stroke)}
+  .narr{position:absolute;left:50%;top:12px;transform:translateX(-50%);padding:8px 12px;border-radius:10px;background:rgba(15,22,34,.85);border:1px solid #22324a;color:#e9f2ff;z-index:15}
+  .toast{position:absolute;right:12px;bottom:12px;background:#0f1622;border:1px solid #21324a;color:#e9f2ff;padding:8px 10px;border-radius:8px;font-size:12.5px}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%}
+  .d-sensor{background:#3b82f6}.d-gateway{background:#a855f7}.d-compute{background:#fb923c}.d-actuator{background:#ef4444}.d-notify{background:#22c55e}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var ok=new URLSearchParams(location.search).get("t")==="pons40mkx3eh07c2af14a6h5";var base=location.pathname.startsWith("/carelio-web/")?"/carelio-web":"/";if(!ok){location.replace(base);}})();</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Carelio 3D – Senaryolu Maket</h1>
+    <div class="subtitle">Soldan senaryo seç; Oynat/İleri ile adımları izle. Uygun cihazlar sahnede vurgulanır.</div>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="card controls">
+    <h2>🎛️ Kontroller</h2>
+    <div class="row">
+      <label>Senaryo</label>
+      <select id="scenario">
+        <option value="gaz">Gaz Algılama → Gaz Kesme</option>
+        <option value="duman">Duman Algılama → Havalandırma</option>
+        <option value="kapi">Kapı Sensörü → Güvenlik</option>
+        <option value="dusme">Düşme Bilekliği → Acil</option>
+        <option value="lamba">Gece Hareket → Lamba %20</option>
+        <option value="tansiyon">Tansiyon Yüksek → Bildirim</option>
+        <option value="ilac">İlaç Hatırlatma + Akıllı Kutu</option>
+      </select>
+    </div>
+    <div class="row">
+      <button id="btnPlay">▶︎ Oynat</button>
+      <button id="btnNext">➤ İleri</button>
+      <button id="btnPause">⏸︎ Dur</button>
+      <button id="btnReset">⟲ Sıfırla</button>
+    </div>
+    <div class="row">
+      <label>Hız</label>
+      <select id="speed">
+        <option value="4800" selected>Yavaş (~4.8 sn)</option>
+        <option value="2500">Orta (2.5 sn)</option>
+        <option value="1200">Hızlı (1.2 sn)</option>
+      </select>
+      <label class="pill"><input type="checkbox" id="voice" checked> Sesli anlatım</label>
+    </div>
+
+    <h2>📌 Eşleşme İpuçları</h2>
+    <p class="pill">Aşağıdaki tip anahtarları devices.json içindeki <code>type</code> alanıyla eşleşir: <b>gas|gaz</b>, <b>smoke|duman</b>, <b>door|kapi</b>, <b>fall|dusme</b>, <b>light|lamba</b>, <b>bp|tansiyon</b>, <b>pill|ilac</b>, <b>gateway|mqtt|zigbee</b>, <b>pi|raspberry</b>, <b>valve|vana</b>, <b>fan</b>, <b>lock|kilit</b>, <b>echo|show</b>, <b>family|app</b>, <b>call|ivr</b>.</p>
+
+    <h2>Lejand</h2>
+    <div class="legend">
+      <span><span class="dot d-sensor"></span> Sensör</span>
+      <span><span class="dot d-gateway"></span> Gateway</span>
+      <span><span class="dot d-compute"></span> İşlem/AI</span>
+      <span><span class="dot d-actuator"></span> Aktüatör</span>
+      <span><span class="dot d-notify"></span> Bildirim</span>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="narr" id="narr">Model yükleniyor…</div>
+    <canvas id="view"></canvas>
+    <div class="toast" id="toast">Durum: bekleniyor</div>
+  </section>
+</main>
+
+<!-- Three.js & loaders -->
+<script src="https://unpkg.com/three@0.156.1/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.156.1/examples/js/controls/OrbitControls.js"></script>
+<script src="https://unpkg.com/three@0.156.1/examples/js/loaders/GLTFLoader.js"></script>
+
+<script>
+const narr = document.getElementById('narr');
+const toast = document.getElementById('toast');
+const scenarioSel = document.getElementById('scenario');
+const speedSel = document.getElementById('speed');
+const voiceOn = ()=>document.getElementById('voice').checked;
+
+function tts(msg){ try{ if(!voiceOn()) return; const u=new SpeechSynthesisUtterance(msg); u.lang='tr-TR'; u.rate=0.95; speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
+
+// --- 3D Scene ---
+let renderer, scene, camera, controls, mixer=null, model=null;
+let markers=[];
+init3D(); loadEverything();
+
+function init3D(){
+  const canvas = document.getElementById('view');
+  renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  resize();
+  window.addEventListener('resize', resize);
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0b111a);
+
+  camera = new THREE.PerspectiveCamera(55, 2, 0.1, 1000);
+  camera.position.set(6, 6, 6);
+  controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x334, 0.8);
+  const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+  dir.position.set(5,10,5);
+  scene.add(hemi, dir);
+
+  animate();
+}
+function resize(){
+  const canvas = renderer.domElement;
+  const w = canvas.clientWidth || canvas.parentElement.clientWidth;
+  const h = canvas.clientHeight || canvas.parentElement.clientHeight;
+  renderer.setSize(w, h, false);
+  if(camera){ camera.aspect = w / h; camera.updateProjectionMatrix(); }
+}
+function animate(time){
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+// Load model + devices
+const MODEL_URL = "./ev.glb?v="+Date.now();
+async function loadEverything(){
+  try{
+    const loader = new THREE.GLTFLoader();
+    loader.load(MODEL_URL, (gltf)=>{
+      model = gltf.scene;
+      scene.add(model);
+      narr.textContent = "Model yüklendi.";
+      toast.textContent = "Model: ev.glb yüklendi";
+      loadDevices();
+    }, undefined, (err)=>{
+      narr.textContent = "Model açılmadı – teşhis";
+      toast.textContent = "Model hatası: " + (err&&err.message?err.message:String(err));
+    });
+  }catch(e){
+    narr.textContent = "Model hata: " + e;
+  }
+}
+
+let devices = [];
+async function loadDevices(){
+  try{
+    const res = await fetch("./devices.json?v="+Date.now());
+    devices = await res.json();
+    toast.textContent = "Cihaz listesi yüklendi ("+devices.length+")";
+    narr.textContent = "Senaryo seçip Oynat'a basın.";
+  }catch(e){
+    toast.textContent = "devices.json okunamadı: " + (e&&e.message?e.message:String(e));
+  }
+}
+
+// Helper to find a device by keywords in type/name/id (case-insens, includes)
+function findByKey(...keys){
+  const q = keys.join("|");
+  const re = new RegExp(q, "i");
+  return devices.find(d=>re.test(d.type||"") || re.test(d.id||"") || re.test(d.name||""));
+}
+function focusDevice(dev, color=0xffff66){
+  if(!dev) return;
+  // Expecting dev.x,y,z in meters. If not present, skip marker.
+  if(typeof dev.x!=='number') return;
+  const geo = new THREE.SphereGeometry(0.15, 16, 16);
+  const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.95});
+  const sphere = new THREE.Mesh(geo, mat);
+  sphere.position.set(dev.x, dev.y||1, dev.z);
+  scene.add(sphere);
+  markers.push(sphere);
+  // soft camera move
+  camera.position.lerp(new THREE.Vector3(dev.x+2, (dev.y||1)+2, dev.z+2), 0.35);
+  controls.target.lerp(new THREE.Vector3(dev.x, dev.y||1, dev.z), 0.35);
+  setTimeout(()=>{ mat.opacity = 0.15; }, 1600);
+}
+function clearMarkers(){
+  markers.forEach(m=>scene.remove(m));
+  markers=[];
+}
+
+// Flows
+const FLOWS = {
+  gaz: [
+    {say:"Gaz sensörü sızıntı algıladı.", find:['gas','gaz']},
+    {say:"Zigbee ile köprüye (Zigbee2MQTT).", find:['gateway','zigbee','mqtt']},
+    {say:"MQTT ile Raspberry Pi'ye.", find:['pi','raspberry']},
+    {say:"Gazı kes komutu → vana.", find:['valve','vana']},
+    {say:"Echo Show + Bildirim + Log.", find:['echo','show']},
+  ],
+  duman: [
+    {say:"Duman sensörü alarm verdi.", find:['smoke','duman']},
+    {say:"Zigbee → Köprü.", find:['gateway','zigbee','mqtt']},
+    {say:"Pi karar: fan aç.", find:['pi','raspberry']},
+    {say:"Havalandırma açılıyor.", find:['fan']},
+  ],
+  kapi: [
+    {say:"Kapı sensörü tetiklendi.", find:['door','kapi']},
+    {say:"Zigbee → Köprü → MQTT.", find:['gateway','zigbee','mqtt']},
+    {say:"Pi: Güvenlik akışı.", find:['pi','raspberry']},
+    {say:"Akıllı kilit kapanıyor.", find:['lock','kilit']},
+  ],
+  dusme: [
+    {say:"Bileklik düşmeyi algıladı.", find:['fall','dusme','bileklik']},
+    {say:"BLE Gateway'e aktarıldı.", find:['gateway','ble']},
+    {say:"Pi acil planı başlattı.", find:['pi','raspberry']},
+    {say:"Echo uyarı yaptı; çağrı.", find:['echo','call','ivr']},
+  ],
+  lamba: [
+    {say:"Gece hareket algılandı.", find:['motion','hareket','kapi']},
+    {say:"Pi lamba %20 kararı verdi.", find:['pi','raspberry']},
+    {say:"Lamba %20 açıldı.", find:['light','lamba']},
+  ],
+  tansiyon: [
+    {say:"Tansiyon ölçümü yüksek.", find:['bp','tansiyon']},
+    {say:"BLE Gateway'e aktarıldı.", find:['gateway','ble']},
+    {say:"Pi: aileye bildirim.", find:['pi','raspberry']},
+  ],
+  ilac: [
+    {say:"İlaç saati hatırlatıldı.", find:['pi','raspberry']},
+    {say:"Echo Show: TTS uyarı.", find:['echo','show']},
+    {say:"Akıllı ilaç kutusu bildiriyor.", find:['pill','ilac']},
+  ]
+};
+
+let playing=false, idx=0, timer=null;
+function stepDelay(){ const v=parseInt(speedSel.value,10); return isNaN(v)?4800:v; }
+function applyStep(s){
+  narr.textContent = s.say;
+  toast.textContent = "Adım: " + s.say;
+  tts(s.say);
+  clearMarkers();
+  if(s.find){
+    const dev = findByKey(...s.find);
+    if(dev) focusDevice(dev);
+  }
+}
+function playLoop(){
+  if(!playing) return;
+  const key = scenarioSel.value;
+  const flow = FLOWS[key]||[];
+  if(idx>=flow.length){ playing=false; return; }
+  applyStep(flow[idx++]);
+  timer = setTimeout(playLoop, stepDelay());
+}
+
+document.getElementById('btnPlay').onclick = ()=>{ if(!playing){ playing=true; playLoop(); } };
+document.getElementById('btnPause').onclick = ()=>{ playing=false; clearTimeout(timer); };
+document.getElementById('btnNext').onclick = ()=>{
+  const key=scenarioSel.value; const flow = FLOWS[key]||[];
+  if(idx<flow.length){ applyStep(flow[idx++]); }
+};
+document.getElementById('btnReset').onclick = ()=>{ playing=false; clearTimeout(timer); idx=0; narr.textContent="Senaryo seçip Oynat'a basın."; clearMarkers(); };
+scenarioSel.onchange = ()=>{ playing=false; clearTimeout(timer); idx=0; narr.textContent="Senaryo seçildi: "+scenarioSel.options[scenarioSel.selectedIndex].text; clearMarkers(); };
+
+</script>
+</body>
+</html>

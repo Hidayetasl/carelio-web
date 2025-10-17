@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Carelio – Teknik Sistem Haritası (Tek Dosya)</title>
+<style>
+  :root{
+    --bg:#0b0f14;
+    --panel:#121824;
+    --text:#e6eef7;
+    --muted:#a9b6c7;
+    --accent:#7c4dff;
+    --ok:#27c93f;
+    --warn:#ffbd2e;
+    --danger:#ff5f57;
+    --link:#7cd1ff;
+
+    /* node families */
+    --sensor:#3b82f6;   /* mavi */
+    --gateway:#a855f7;  /* mor */
+    --compute:#fb923c;  /* turuncu */
+    --actuator:#ef4444; /* kırmızı */
+    --notify:#22c55e;   /* yeşil */
+    --cloud:#94a3b8;    /* gri */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;background:linear-gradient(180deg,#0b0f14 0%,#0a0f18 100%);
+    color:var(--text);font:14px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Arial;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  header{
+    position:sticky;top:0;z-index:10;
+    background:rgba(10,15,24,.75);backdrop-filter:blur(8px);
+    border-bottom:1px solid #1e2735;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:16px}
+  h1{margin:6px 0 2px;font-size:20px}
+  .subtitle{color:var(--muted);font-size:13px}
+  .grid{display:grid;gap:16px}
+  @media(min-width:960px){ .grid{grid-template-columns: 1.4fr .9fr} }
+  section.card{
+    background:var(--panel);border:1px solid #1e2735;border-radius:14px;padding:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,.22);
+  }
+  h2{font-size:16px;margin:0 0 8px}
+  h3{font-size:14px;margin:10px 0 6px;color:#d6e2f2}
+  code,.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0c1220;color:#d6f3ff;padding:.2em .45em;border-radius:6px}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;background:#0f1523;color:#cfe6ff;border:1px solid #1e2735;font-size:12px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px}
+  .legend .dot{width:10px;height:10px;border-radius:50%}
+  .dot.sensor{background:var(--sensor)}
+  .dot.gateway{background:var(--gateway)}
+  .dot.compute{background:var(--compute)}
+  .dot.actuator{background:var(--actuator)}
+  .dot.notify{background:var(--notify)}
+  .dot.cloud{background:var(--cloud)}
+
+  /* SVG map */
+  .map-wrap{background:#0b1220;border:1px solid #1a2230;border-radius:12px;padding:8px}
+  svg{width:100%;height:auto}
+  .node rect{rx:10;ry:10;fill:#111827;stroke:#293244;stroke-width:1.4}
+  .node text{fill:#eaf2ff;font-size:12px}
+  .node.sensor rect{fill:#0b1b35;stroke:var(--sensor)}
+  .node.gateway rect{fill:#1a1130;stroke:var(--gateway)}
+  .node.compute rect{fill:#2a170a;stroke:var(--compute)}
+  .node.actuator rect{fill:#2b0e0e;stroke:var(--actuator)}
+  .node.notify rect{fill:#0f2315;stroke:var(--notify)}
+  .node.cloud rect{fill:#12161b;stroke:var(--cloud)}
+
+  .edge path{stroke:#3a4a63;stroke-width:2;fill:none;marker-end:url(carelio_sys_map_aksiyon.html);opacity:.8}
+  .edge.active path{stroke:#fff;filter:drop-shadow(0 0 4px rgba(255,255,255,.6))}
+  .edge.label{font-size:11px;fill:#c4d3ea}
+
+  .controls{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}
+  select,button{background:#0e1422;border:1px solid #223048;color:#d9ecff;border-radius:10px;padding:8px 10px;font-size:13px}
+  button:hover{background:#121a2c}
+  .kbd{font-size:12px;color:#a9b6c7}
+  .kbd code{background:#0c1220}
+  .table{width:100%;border-collapse:collapse;border:1px solid #1e2735;border-radius:10px;overflow:hidden}
+  .table th,.table td{border-bottom:1px solid #1e2735;padding:8px 10px;vertical-align:top}
+  .table th{background:#0d1526;color:#cfe3ff;text-align:left}
+  .muted{color:var(--muted)}
+  details{background:#0d1423;border:1px solid #1e2735;border-radius:10px;padding:8px 10px}
+  details+details{margin-top:8px}
+  details summary{cursor:pointer}
+  .foot{color:#9ab0c9;font-size:12px;margin-top:8px}
+  a{color:var(--link)}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var ok=new URLSearchParams(location.search).get("t")==="pons40mkx3eh07c2af14a6h5";var base=location.pathname.startsWith("/carelio-web/")?"/carelio-web":"/";if(!ok){location.replace(base);}})();</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Carelio – Teknik Sistem Haritası</h1>
+    <div class="subtitle">Cihaz → Bağlantı → Karar → Eylem zinciri • Protokoller, veri yapıları ve aktiviteler</div>
+  </div>
+</header>
+
+<div class="wrap grid">
+  <section class="card">
+    <h2>👁‍🗨 Sistem Haritası (Etkileşimli)</h2>
+    <div class="legend" style="margin:6px 0 10px">
+      <span class="pill"><span class="dot sensor"></span>Sensör</span>
+      <span class="pill"><span class="dot gateway"></span>Gateway</span>
+      <span class="pill"><span class="dot compute"></span>İşlem/AI</span>
+      <span class="pill"><span class="dot actuator"></span>Aktüatör</span>
+      <span class="pill"><span class="dot notify"></span>Bildirim/Asistan</span>
+      <span class="pill"><span class="dot cloud"></span>Bulut/Kayıt</span>
+    </div>
+
+    <div class="controls">
+      <label>Senaryo: 
+        <select id="scenario">
+          <option value="none">– Seç –</option>
+          <option value="gaz">Gaz Algılama → Gaz Kesme</option>
+          <option value="duman">Duman Algılama → Havalandırma</option>
+          <option value="kapi">Kapı Sensörü → Güvenlik</option>
+          <option value="dusme">Düşme Bilekliği → Acil</option>
+          <option value="lamba">Gece Hareket → Lamba %20</option>
+          <option value="tansiyon">Tansiyon Yüksek → Bildirim</option>
+          <option value="ilac">İlaç Hatırlatma + Akıllı Kutu</option>
+        </select>
+      </label>
+      <button id="btnClear">Vurguyu Temizle</button>
+      <span class="kbd">İpucu: <code>Senaryo</code> seç, veri yolları beyaz vurgulanır.</span>
+    </div>
+
+    <div class="map-wrap">
+      <svg viewBox="0 0 1050 620" aria-label="System Map">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8aa2c7"></path>
+          </marker>
+        </defs>
+
+        <!-- Row 1: Sensors -->
+        <g class="node sensor" transform="translate(40,40)" id="nGas">
+          <rect width="170" height="54"></rect>
+          <text x="10" y="22">Gaz Sensörü</text>
+          <text x="10" y="40" class="muted">binary_sensor.mutfak_gaz</text>
+        </g>
+        <g class="node sensor" transform="translate(250,40)" id="nSmoke">
+          <rect width="170" height="54"></rect>
+          <text x="10" y="22">Duman Sensörü</text>
+          <text x="10" y="40" class="muted">binary_sensor.salon_duman</text>
+        </g>
+        <g class="node sensor" transform="translate(460,40)" id="nDoor">
+          <rect width="170" height="54"></rect>
+          <text x="10" y="22">Kapı Sensörü</text>
+          <text x="10" y="40" class="muted">binary_sensor.kapi</text>
+        </g>
+        <g class="node sensor" transform="translate(670,40)" id="nFall">
+          <rect width="170" height="54"></rect>
+          <text x="10" y="22">Düşme Bilekliği</text>
+          <text x="10" y="40" class="muted">binary_sensor.bileklik_dusme</text>
+        </g>
+        <g class="node sensor" transform="translate(880,40)" id="nBP">
+          <rect width="170" height="54"></rect>
+          <text x="10" y="22">Tansiyon Cihazı</text>
+          <text x="10" y="40" class="muted">sensor.bp_sistol/diastol</text>
+        </g>
+
+        <!-- Row 2: Gateways -->
+        <g class="node gateway" transform="translate(140,140)" id="nZ2M">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">Zigbee2MQTT</text>
+          <text x="10" y="42" class="muted">MQTT bridge</text>
+        </g>
+        <g class="node gateway" transform="translate(550,140)" id="nBLE">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">BLE Gateway</text>
+          <text x="10" y="42" class="muted">Bileklik/BP</text>
+        </g>
+
+        <!-- Row 3: Compute / Pi -->
+        <g class="node compute" transform="translate(350,250)" id="nPi">
+          <rect width="330" height="80"></rect>
+          <text x="10" y="26">Raspberry Pi</text>
+          <text x="10" y="44" class="muted">Mosquitto (MQTT) • Home Assistant • Node-RED • AI Kuralları</text>
+        </g>
+
+        <!-- Row 4: Actuators / Notify -->
+        <g class="node actuator" transform="translate(70,380)" id="nValve">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">Gaz Kesme Vanası</text>
+          <text x="10" y="42" class="muted">valve.gaz_ana</text>
+        </g>
+        <g class="node actuator" transform="translate(290,380)" id="nFan">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">Havalandırma Fanı</text>
+          <text x="10" y="42" class="muted">switch.fan</text>
+        </g>
+        <g class="node actuator" transform="translate(510,380)" id="nLock">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">Akıllı Kilit</text>
+          <text x="10" y="42" class="muted">lock.giris_kapi</text>
+        </g>
+        <g class="node actuator" transform="translate(730,380)" id="nLight">
+          <rect width="190" height="60"></rect>
+          <text x="10" y="24">Hol Lambası</text>
+          <text x="10" y="42" class="muted">light.hol</text>
+        </g>
+
+        <g class="node notify" transform="translate(70,480)" id="nEcho">
+          <rect width="230" height="64"></rect>
+          <text x="10" y="26">Echo Show</text>
+          <text x="10" y="44" class="muted">TTS • Görüntülü Arama</text>
+        </g>
+        <g class="node notify" transform="translate(330,480)" id="nFamily">
+          <rect width="230" height="64"></rect>
+          <text x="10" y="26">Aile Uygulaması</text>
+          <text x="10" y="44" class="muted">Push Bildirim</text>
+        </g>
+        <g class="node notify" transform="translate(590,480)" id="nCall">
+          <rect width="230" height="64"></rect>
+          <text x="10" y="26">Çağrı Merkezi</text>
+          <text x="10" y="44" class="muted">IVR / Agent</text>
+        </g>
+        <g class="node cloud" transform="translate(850,480)" id="nCloud">
+          <rect width="160" height="64"></rect>
+          <text x="10" y="26">Carelio Bulut</text>
+          <text x="10" y="44" class="muted">Log/Analitik</text>
+        </g>
+
+        <!-- Edges -->
+        <!-- Sensors -> Gateways -->
+        <g class="edge" id="eGasZ2M"><path d="M 210 94 C 210 110, 210 120, 210 140" /></g>
+        <g class="edge" id="eSmokeZ2M"><path d="M 420 94 C 420 110, 420 120, 235 140" /></g>
+        <g class="edge" id="eDoorZ2M"><path d="M 630 94 C 630 120, 450 120, 235 140" /></g>
+        <g class="edge" id="eFallBLE"><path d="M 755 94 C 755 120, 645 120, 645 140" /></g>
+        <g class="edge" id="eBPBLE"><path d="M 965 94 C 965 120, 740 120, 645 140" /></g>
+
+        <!-- Gateways -> Pi -->
+        <g class="edge" id="eZ2MPi"><path d="M 235 200 C 320 230, 380 240, 515 250" /></g>
+        <g class="edge" id="eBLEPi"><path d="M 645 200 C 620 230, 575 240, 515 250" /></g>
+
+        <!-- Pi -> Actuators -->
+        <g class="edge" id="ePiValve"><path d="M 400 330 C 360 360, 220 360, 165 380" /></g>
+        <g class="edge" id="ePiFan"><path d="M 515 330 C 490 350, 415 360, 385 380" /></g>
+        <g class="edge" id="ePiLock"><path d="M 585 330 C 600 360, 605 360, 605 380" /></g>
+        <g class="edge" id="ePiLight"><path d="M 650 330 C 700 360, 820 360, 825 380" /></g>
+
+        <!-- Pi -> Notify/Cloud -->
+        <g class="edge" id="ePiEcho"><path d="M 430 330 C 320 420, 200 440, 185 480" /></g>
+        <g class="edge" id="ePiFamily"><path d="M 515 330 C 480 410, 430 440, 445 480" /></g>
+        <g class="edge" id="ePiCall"><path d="M 610 330 C 640 410, 700 440, 705 480" /></g>
+        <g class="edge" id="ePiCloud"><path d="M 665 330 C 760 410, 900 440, 930 480" /></g>
+
+        <!-- Edge labels (protocol/examples) -->
+        <text class="edge label" x="188" y="125">Zigbee</text>
+        <text class="edge label" x="615" y="125">BLE</text>
+        <text class="edge label" x="470" y="245">MQTT</text>
+        <text class="edge label" x="725" y="430">TTS / Webhook</text>
+      </svg>
+    </div>
+
+    <div class="foot">Renkler: Sensör (mavi), Gateway (mor), İşlem/AI (turuncu), Aktüatör (kırmızı), Bildirim (yeşil), Bulut (gri). Kenar vurguları seçilen senaryoya göre otomatik yanar.</div>
+  </section>
+
+  <section class="card">
+    <h2>🔎 Protokol & Veri Yapısı Özeti</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Bileşen</th><th>Bağlantı/Protokol</th><th>Topic/Endpoint</th><th>Örnek Payload</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Gaz Sensörü</b></td>
+          <td>Zigbee → Zigbee2MQTT</td>
+          <td><span class="code">zigbee2mqtt/mutfak_gaz</span></td>
+          <td class="muted">{ "gas": true, "battery": 92, "linkquality": 138, "ts": 1694280000 }</td>
+        </tr>
+        <tr>
+          <td><b>Duman Sensörü</b></td>
+          <td>Zigbee → Zigbee2MQTT</td>
+          <td><span class="code">zigbee2mqtt/salon_duman</span></td>
+          <td class="muted">{ "smoke": true, "battery": 88 }</td>
+        </tr>
+        <tr>
+          <td><b>Kapı Sensörü</b></td>
+          <td>Zigbee → Zigbee2MQTT</td>
+          <td><span class="code">zigbee2mqtt/giris_kapi</span></td>
+          <td class="muted">{ "contact": false }</td>
+        </tr>
+        <tr>
+          <td><b>Düşme Bilekliği</b></td>
+          <td>BLE → BLE Gateway</td>
+          <td><span class="code">ble/bileklik_dusme</span></td>
+          <td class="muted">{ "fall": true, "rssi": -64 }</td>
+        </tr>
+        <tr>
+          <td><b>Tansiyon</b></td>
+          <td>BLE → Gateway</td>
+          <td><span class="code">ble/bp</span></td>
+          <td class="muted">{ "sistol": 145, "diastol": 95, "pulse": 78 }</td>
+        </tr>
+        <tr>
+          <td><b>Gaz Vanası</b></td>
+          <td>MQTT → Zigbee2MQTT</td>
+          <td><span class="code">zigbee2mqtt/gaz_valf/set</span></td>
+          <td class="muted">{ "state": "OFF" }</td>
+        </tr>
+        <tr>
+          <td><b>Havalandırma</b></td>
+          <td>MQTT / HA Service</td>
+          <td><span class="code">switch.fan</span></td>
+          <td class="muted">{ "state": "ON" }</td>
+        </tr>
+        <tr>
+          <td><b>Akıllı Kilit</b></td>
+          <td>HA Service</td>
+          <td><span class="code">lock.giris_kapi</span></td>
+          <td class="muted">{ "action": "LOCK" }</td>
+        </tr>
+        <tr>
+          <td><b>Lamba</b></td>
+          <td>HA Service</td>
+          <td><span class="code">light.hol</span></td>
+          <td class="muted">{ "brightness_pct": 20 }</td>
+        </tr>
+        <tr>
+          <td><b>Echo Show</b></td>
+          <td>TTS / Alexa Routine</td>
+          <td><span class="code">http://pi:5005/echo_say</span></td>
+          <td class="muted">{ "message": "Acil durum..." }</td>
+        </tr>
+        <tr>
+          <td><b>Akıllı İlaç Kutusu</b></td>
+          <td>Zigbee/BLE → Gateway</td>
+          <td><span class="code">med/box/state</span></td>
+          <td class="muted">{ "opened": true, "slot": 3, "ts": 1694280000 }</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Genel Kurallar</h3>
+    <ul>
+      <li>MQTT topicleri: <span class="code">home/&lt;oda&gt;/&lt;cihaz&gt;/state</span>, komut: <span class="code">.../set</span></li>
+      <li>JSON alanları: olay bayrakları (<span class="code">gas</span>, <span class="code">smoke</span>, <span class="code">fall</span>), metrikler (<span class="code">sistol</span>, <span class="code">pulse</span>), meta (<span class="code">battery</span>, <span class="code">linkquality</span>, <span class="code">ts</span>)</li>
+      <li>Karar mantığı: eşik + debounce (ör. 2–3 ardışık okuma) + bağlamsal koşul (gece modu, ev modu)</li>
+      <li>Fail-safe: gaz/su vanası gibi kritik aktuatorlar kapalıya dönebilen tip olmalı; manuel override bulunmalı.</li>
+    </ul>
+  </section>
+
+  <section class="card" style="grid-column:1/-1">
+    <h2>⚙️ Senaryolar (Aksiyon Zincirleri)</h2>
+
+    <details>
+      <summary><b>Gaz Algılama → Gaz Kesme</b></summary>
+      <ol>
+        <li>Gaz sensörü <code>{"gas": true}</code> yayınlar → Zigbee → MQTT</li>
+        <li>Pi (HA/Node-RED) eşik + debounce doğrular</li>
+        <li>Vana kapat: <code>zigbee2mqtt/gaz_valf/set</code> → <code>{"state":"OFF"}</code></li>
+        <li>TTS + Push + Bulut kaydı</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>Duman Algılama → Havalandırma</b></summary>
+      <ol>
+        <li>Duman sensörü <code>{"smoke": true}</code></li>
+        <li>Fan aç: <code>switch.fan → ON</code></li>
+        <li>TTS + Push + Log</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>Kapı Sensörü → Güvenlik</b></summary>
+      <ol>
+        <li>Kapı <code>{"contact": false}</code> (açık)</li>
+        <li>Ev modu “away” ise kilidi kontrol et: <code>lock.giris_kapi</code></li>
+        <li>Kamera snapshot + Push + Log</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>Düşme Bilekliği → Acil</b></summary>
+      <ol>
+        <li>Bileklik <code>{"fall": true}</code></li>
+        <li>Echo TTS: “Acil durum: düşme algılandı”</li>
+        <li>Kapıyı geçici aç (10 dk): <code>lock.giris_kapi → UNLOCK</code></li>
+        <li>Çağrı merkezi + Push + Log</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>Gece Hareket → Lamba %20</b></summary>
+      <ol>
+        <li>Hol hareketi + saat 23:00–06:00</li>
+        <li><code>light.hol → brightness_pct:20</code> (90 sn sonra OFF)</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>Tansiyon Yüksek → Bildirim</b></summary>
+      <ol>
+        <li>BP cihazı: <code>{"sistol":145,"diastol":95}</code></li>
+        <li>Eşik kontrol → Push + TTS</li>
+        <li>Doktor paneline veri gönder + Log</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary><b>İlaç Hatırlatma + Akıllı Kutu</b></summary>
+      <ol>
+        <li>Saat = reçete zamanı → TTS + push</li>
+        <li>10 dk <i>wait</i> → <code>binary_sensor.ilac_kutusu == on</code> ise “alındı”</li>
+        <li>Alınmadıysa: tekrar hatırlat + çağrı merkezi uyarısı (opsiyonel)</li>
+      </ol>
+    </details>
+  </section>
+</div>
+
+<script>
+  // Basit senaryo vurgulayıcı
+  const edgesByScenario = {
+    gaz:    ["eGasZ2M","eZ2MPi","ePiValve","ePiEcho","ePiFamily","ePiCloud"],
+    duman:  ["eSmokeZ2M","eZ2MPi","ePiFan","ePiEcho","ePiFamily","ePiCloud"],
+    kapi:   ["eDoorZ2M","eZ2MPi","ePiLock","ePiFamily","ePiCloud"],
+    dusme:  ["eFallBLE","eBLEPi","ePiEcho","ePiLock","ePiCall","ePiFamily","ePiCloud"],
+    lamba:  ["eDoorZ2M","eZ2MPi","ePiLight","ePiFamily"],
+    tansiyon:["eBPBLE","eBLEPi","ePiFamily","ePiCloud"],
+    ilac:   ["eZ2MPi","ePiEcho","ePiFamily","ePiCloud"] // kutu Zigbee/BLE üzerinden geliyor varsayımı
+  };
+  const sel = document.getElementById('scenario');
+  const btn = document.getElementById('btnClear');
+
+  function clearAll(){
+    document.querySelectorAll('.edge').forEach(e=>e.classList.remove('active'));
+  }
+  sel.addEventListener('change', e=>{
+    clearAll();
+    const val = e.target.value;
+    if(val==='none') return;
+    (edgesByScenario[val]||[]).forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.classList.add('active');
+    });
+  });
+  btn.addEventListener('click', clearAll);
+</script>
+</body>
+</html>

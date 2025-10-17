@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Carelio – Teknik Sistem Haritası (Adımlı Akış v7)</title>
+<style>
+  :root{
+    --bg:#0a0f16; --panel:#0f1622; --text:#e8f1fb; --muted:#a9b6c7; --stroke:#253247; --link:#8fd1ff;
+    --sensor:#3b82f6; --gateway:#a855f7; --compute:#fb923c; --actuator:#ef4444; --notify:#22c55e; --cloud:#94a3b8;
+    --neon:#fff76a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#0a0f16,#0a0f19);color:var(--text);
+       font:14px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:10;background:rgba(12,18,32,.7);backdrop-filter:blur(8px);
+         border-bottom:1px solid #1b2637}
+  .wrap{max-width:1800px;margin:0 auto;padding:10px 16px}
+  h1{font-size:20px;margin:6px 0 2px}.subtitle{color:var(--muted);font-size:12.5px}
+
+  .layout{
+    display:grid;gap:12px;
+    grid-template-columns: 300px 1.8fr 320px;
+    grid-template-rows:auto 1fr auto;
+    grid-template-areas:"controls canvas side" "controls canvas side" "report report report";
+    height:calc(100vh - 66px);padding:12px;max-width:1800px;margin:0 auto
+  }
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,.22)}
+  .card h2{font-size:15px;margin:0 0 8px;padding:10px 12px;border-bottom:1px solid #142033}
+
+  .controls{grid-area:controls;display:flex;flex-direction:column;gap:10px;overflow:auto}
+  .controls .inner{padding:10px 12px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  select,button,input[type="checkbox"]{background:#0e1421;border:1px solid #21324a;color:#d8e8ff;border-radius:10px;padding:8px 10px;font-size:13px}
+  button:hover{background:#121b2d}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;background:#0f1523;color:#cfe6ff;border:1px solid #1e2735;font-size:12px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px}.dot{width:10px;height:10px;border-radius:50%}
+  .sensor{background:var(--sensor)} .gateway{background:var(--gateway)} .compute{background:var(--compute)}
+  .actuator{background:var(--actuator)} .notify{background:var(--notify)} .cloud{background:var(--cloud)}
+
+  .canvas{grid-area:canvas;position:relative;display:flex;align-items:center;justify-content:center;overflow:auto}
+  .svg-wrap{background:#0b1220;border:1px solid #162238;border-radius:14px;height:100%;width:100%;
+            display:flex;align-items:center;justify-content:center}
+  .zoom{transform:scale(1.18); transform-origin:center; width:100%; height:100%}
+  svg{width:100%;height:100%;max-height:100%}
+
+  .node rect{rx:10;ry:10;fill:#111827;stroke:#293244;stroke-width:1.4}
+  .node text{fill:#eaf2ff;font-size:12px}
+  .node.sensor rect{fill:#0b1b35;stroke:var(--sensor)}
+  .node.gateway rect{fill:#1a1130;stroke:var(--gateway)}
+  .node.compute rect{fill:#2a170a;stroke:var(--compute)}
+  .node.actuator rect{fill:#2b0e0e;stroke:var(--actuator)}
+  .node.notify rect{fill:#0f2315;stroke:var(--notify)}
+  .node.cloud rect{fill:#12161b;stroke:var(--cloud)}
+
+  .edge path{stroke:#3a4a63;stroke-width:2.4;fill:none;marker-end:url(carelio_sys_map_v7.html);opacity:.35;transition:opacity .2s}
+  .edge.active path{opacity:.98;stroke:#ffffff;filter:drop-shadow(0 0 10px rgba(255,255,255,.9))}
+  .edge.flash path{animation:flash 1.8s ease-in-out infinite}
+  @keyframes flash{0%,100%{filter:drop-shadow(0 0 0 rgba(255,255,255,0))}50%{filter:drop-shadow(0 0 16px rgba(255,255,160,1))}}
+
+  .edge-label{font-size:12px;fill:#c4d3ea}
+  .highlight-node rect{stroke:var(--neon)!important;filter:drop-shadow(0 0 14px rgba(255,247,106,.95));}
+  .dimmed {opacity:.28}
+  .narration{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:#0f1624;border:1px solid #1f2c45;
+             color:#e9f2ff;padding:10px 14px;border-radius:10px;font-size:13px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+
+  .side{grid-area:side;display:flex;flex-direction:column}
+  .side .inner{padding:10px 12px}
+  .keyvals{display:grid;grid-template-columns: 120px 1fr;gap:8px}
+  .kv{display:contents}.kv div:first-child{color:#a9b6c7}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0c1220;color:#d6f3ff;padding:.15em .45em;border-radius:6px}
+  .badge{padding:2px 6px;border:1px solid #20304b;border-radius:8px;background:#0d1626;font-size:12px}
+
+  .report{grid-area:report;overflow:auto}
+  .report .inner{padding:10px 12px}
+  details{background:#0d1423;border:1px solid #1e2735;border-radius:12px;padding:8px 10px}
+  details+details{margin-top:10px}
+  details summary{cursor:pointer;font-weight:600}
+  .steps{counter-reset: step}.steps li{list-style:none;margin:8px 0;padding-left:10px;position:relative}
+  .steps li::before{counter-increment: step; content: counter(step) "."; position:absolute;left:-18px;top:0;color:#8fb5ff}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var ok=new URLSearchParams(location.search).get("t")==="pons40mkx3eh07c2af14a6h5";var base=location.pathname.startsWith("/carelio-web/")?"/carelio-web":"/";if(!ok){location.replace(base);}})();</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Carelio – Teknik Sistem Haritası (Adım Adım Akış v7)</h1>
+    <div class="subtitle">Varsayılan hız: ~5 sn/adım. Şema büyük; tüm senaryolar eklendi. Oynat/İleri/Duraklat/Sıfırla çalışır.</div>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- Controls -->
+  <section class="card controls">
+    <h2>🎛️ Kontroller</h2>
+    <div class="inner">
+      <label>Senaryo</label>
+      <div class="row">
+        <select id="scenario">
+          <option value="gaz">Gaz Algılama → Gaz Kesme</option>
+          <option value="duman">Duman Algılama → Havalandırma</option>
+          <option value="kapi">Kapı Sensörü → Güvenlik</option>
+          <option value="dusme">Düşme Bilekliği → Acil</option>
+          <option value="lamba">Gece Hareket → Lamba %20</option>
+          <option value="tansiyon">Tansiyon Yüksek → Bildirim</option>
+          <option value="ilac">İlaç Hatırlatma + Akıllı Kutu</option>
+        </select>
+      </div>
+
+      <label>Oynatma</label>
+      <div class="row">
+        <button id="btnPlay">▶︎ Oynat</button>
+        <button id="btnNext">➤ İleri Adım</button>
+        <button id="btnPause">⏸︎ Duraklat</button>
+        <button id="btnReset">⟲ Sıfırla</button>
+      </div>
+
+      <label>Hız</label>
+      <div class="row">
+        <select id="speed">
+          <option value="5000" selected>Yavaş (5 sn/adım)</option>
+          <option value="2500">Orta (2.5 sn/adım)</option>
+          <option value="1100">Hızlı (1.1 sn/adım)</option>
+        </select>
+        <label class="row" style="gap:6px"><input type="checkbox" id="voice" checked/> Sesli anlatım (TTS)</label>
+        <label class="row" style="gap:6px"><input type="checkbox" id="dimOthers" checked/> Diğer hatları kıs</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Canvas -->
+  <section class="card canvas">
+    <div class="svg-wrap">
+      <div class="narration" id="narr">Oynatınca; düğüm → ok → düğüm sırayla, protokol adıyla vurgulanır.</div>
+      <div class="zoom">
+      <svg class="svg-view" viewBox="0 0 1200 720" aria-label="System Map">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8aa2c7"></path>
+          </marker>
+        </defs>
+
+        <!-- Row 1: Sensors -->
+        <g class="node sensor" transform="translate(50,40)" id="nGas">
+          <rect width="190" height="58"></rect>
+          <text x="10" y="24">Gaz Sensörü</text>
+          <text x="10" y="42" class="muted">binary_sensor.mutfak_gaz</text>
+        </g>
+        <g class="node sensor" transform="translate(260,40)" id="nSmoke">
+          <rect width="190" height="58"></rect>
+          <text x="10" y="24">Duman Sensörü</text>
+          <text x="10" y="42" class="muted">binary_sensor.salon_duman</text>
+        </g>
+        <g class="node sensor" transform="translate(470,40)" id="nDoor">
+          <rect width="190" height="58"></rect>
+          <text x="10" y="24">Kapı Sensörü</text>
+          <text x="10" y="42" class="muted">binary_sensor.kapi</text>
+        </g>
+        <g class="node sensor" transform="translate(680,40)" id="nFall">
+          <rect width="190" height="58"></rect>
+          <text x="10" y="24">Düşme Bilekliği</text>
+          <text x="10" y="42" class="muted">binary_sensor.bileklik_dusme</text>
+        </g>
+        <g class="node sensor" transform="translate(890,40)" id="nBP">
+          <rect width="190" height="58"></rect>
+          <text x="10" y="24">Tansiyon Cihazı</text>
+          <text x="10" y="42" class="muted">sensor.bp_sistol/diastol</text>
+        </g>
+
+        <!-- Row 2: Gateways -->
+        <g class="node gateway" transform="translate(170,140)" id="nZ2M">
+          <rect width="220" height="62"></rect>
+          <text x="10" y="26">Zigbee2MQTT</text>
+          <text x="10" y="46" class="muted">MQTT Bridge</text>
+        </g>
+        <g class="node gateway" transform="translate(620,140)" id="nBLE">
+          <rect width="220" height="62"></rect>
+          <text x="10" y="26">BLE Gateway</text>
+          <text x="10" y="46" class="muted">Bileklik/BP</text>
+        </g>
+
+        <!-- Row 3: Compute -->
+        <g class="node compute" transform="translate(350,260)" id="nPi">
+          <rect width="500" height="94"></rect>
+          <text x="10" y="30">Raspberry Pi</text>
+          <text x="10" y="50" class="muted">Mosquitto • Home Assistant • Node-RED • AI Kuralları</text>
+          <text x="10" y="70" class="muted">Karar: eşik + debounce + bağlam</text>
+        </g>
+
+        <!-- Row 4: Actuators -->
+        <g class="node actuator" transform="translate(90,400)" id="nValve">
+          <rect width="210" height="66"></rect>
+          <text x="10" y="28">Gaz Kesme Vanası</text>
+          <text x="10" y="48" class="muted">valve.gaz_ana</text>
+        </g>
+        <g class="node actuator" transform="translate(330,400)" id="nFan">
+          <rect width="210" height="66"></rect>
+          <text x="10" y="28">Havalandırma Fanı</text>
+          <text x="10" y="48" class="muted">switch.fan</text>
+        </g>
+        <g class="node actuator" transform="translate(570,400)" id="nLock">
+          <rect width="210" height="66"></rect>
+          <text x="10" y="28">Akıllı Kilit</text>
+          <text x="10" y="48" class="muted">lock.giris_kapi</text>
+        </g>
+        <g class="node actuator" transform="translate(810,400)" id="nLight">
+          <rect width="210" height="66"></rect>
+          <text x="10" y="28">Hol Lambası</text>
+          <text x="10" y="48" class="muted">light.hol</text>
+        </g>
+
+        <!-- Row 5: Notify/Cloud -->
+        <g class="node notify" transform="translate(90,510)" id="nEcho">
+          <rect width="250" height="70"></rect>
+          <text x="10" y="28">Echo Show</text>
+          <text x="10" y="48" class="muted">TTS • Görüntülü Arama</text>
+        </g>
+        <g class="node notify" transform="translate(370,510)" id="nFamily">
+          <rect width="250" height="70"></rect>
+          <text x="10" y="28">Aile Uygulaması</text>
+          <text x="10" y="48" class="muted">Push Bildirim</text>
+        </g>
+        <g class="node notify" transform="translate(650,510)" id="nCall">
+          <rect width="250" height="70"></rect>
+          <text x="10" y="28">Çağrı Merkezi</text>
+          <text x="10" y="48" class="muted">IVR / Agent</text>
+        </g>
+        <g class="node cloud" transform="translate(930,510)" id="nCloud">
+          <rect width="210" height="70"></rect>
+          <text x="10" y="28">Carelio Bulut</text>
+          <text x="10" y="48" class="muted">Log/Analitik</text>
+        </g>
+
+        <!-- Edges -->
+        <g class="edge" id="eGasZ2M"><path d="M 145 98 C 145 120, 195 120, 230 140" /></g>
+        <g class="edge" id="eSmokeZ2M"><path d="M 355 98 C 355 120, 275 120, 230 140" /></g>
+        <g class="edge" id="eDoorZ2M"><path d="M 565 98 C 545 120, 360 120, 290 140" /></g>
+        <g class="edge" id="eFallBLE"><path d="M 775 98 C 785 120, 820 120, 730 140" /></g>
+        <g class="edge" id="eBPBLE"><path d="M 985 98 C 995 120, 1000 120, 840 140" /></g>
+
+        <g class="edge" id="eZ2MPi"><path d="M 390 202 C 430 230, 470 250, 470 260" /></g>
+        <g class="edge" id="eBLEPi"><path d="M 730 202 C 700 230, 640 250, 640 260" /></g>
+
+        <g class="edge" id="ePiValve"><path d="M 480 354 C 420 380, 280 385, 195 400" /></g>
+        <g class="edge" id="ePiFan"><path d="M 540 354 C 520 380, 470 385, 435 400" /></g>
+        <g class="edge" id="ePiLock"><path d="M 610 354 C 630 380, 675 385, 675 400" /></g>
+        <g class="edge" id="ePiLight"><path d="M 750 354 C 790 380, 900 385, 915 400" /></g>
+
+        <g class="edge" id="ePiEcho"><path d="M 430 354 C 320 430, 220 450, 215 510" /></g>
+        <g class="edge" id="ePiFamily"><path d="M 540 354 C 520 430, 440 450, 495 510" /></g>
+        <g class="edge" id="ePiCall"><path d="M 650 354 C 680 430, 720 450, 775 510" /></g>
+        <g class="edge" id="ePiCloud"><path d="M 760 354 C 820 430, 980 450, 1035 510" /></g>
+
+        <!-- Labels -->
+        <text class="edge-label" x="260" y="135">Zigbee</text>
+        <text class="edge-label" x="790" y="135">Bluetooth (BLE)</text>
+        <text class="edge-label" x="560" y="255">MQTT (Yerel ağ)</text>
+        <text class="edge-label" x="810" y="465">Wi‑Fi (HTTP/TTS) • İnternet (Webhook/REST)</text>
+      </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side panel -->
+  <aside class="card side">
+    <h2>ℹ️ Akış Bilgisi</h2>
+    <div class="inner">
+      <div class="keyvals">
+        <div class="kv"><div>Senaryo:</div><div id="kvName" class="badge">Gaz Algılama → Gaz Kesme</div></div>
+        <div class="kv"><div>Adım:</div><div id="kvStep" class="badge">–</div></div>
+        <div class="kv"><div>Kanal:</div><div id="kvProto" class="code">–</div></div>
+        <div class="kv"><div>Kaynak:</div><div id="kvSrc" class="code">–</div></div>
+        <div class="kv"><div>Hedef:</div><div id="kvDst" class="code">–</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Report -->
+  <section class="card report">
+    <h2>📜 Ayrıntılı Rapor</h2>
+    <div class="inner">
+      <details open id="repFlow">
+        <summary>Akış Adımları</summary>
+        <ol class="steps" id="repSteps"><li>Oynat'a basın.</li></ol>
+      </details>
+      <details id="repPayloads">
+        <summary>Örnek Payload / Komut</summary>
+        <pre id="repCode" class="code">Senaryo oynatılınca örnekler burada belirecek.</pre>
+      </details>
+    </div>
+  </section>
+</main>
+
+<script>
+const voice = ()=>document.getElementById('voice').checked;
+const dimOthers = ()=>document.getElementById('dimOthers').checked;
+const narr = document.getElementById('narr');
+const repSteps = document.getElementById('repSteps');
+const repCode = document.getElementById('repCode');
+const kvStep = document.getElementById('kvStep');
+const kvProto = document.getElementById('kvProto');
+const kvSrc = document.getElementById('kvSrc');
+const kvDst = document.getElementById('kvDst');
+const scenarioSel = document.getElementById('scenario');
+const speedSel = document.getElementById('speed');
+
+// Steps for all scenarios (explicit protocols)
+const flows = {
+  gaz: [
+    {type:'node', id:'nGas', say:"Gaz sensörü sızıntıyı algıladı.", proto:"–", src:"Gaz sensörü", dst:"–"},
+    {type:'edge', id:'eGasZ2M', say:"Gaz verisi Zigbee ile Zigbee2MQTT köprüsüne gönderiliyor.", proto:"Zigbee (kablosuz, düşük güç)", src:"Gaz sensörü", dst:"Zigbee2MQTT"},
+    {type:'node', id:'nZ2M', say:"Zigbee2MQTT veriyi MQTT'ye çevirdi.", proto:"Yerel ağ (MQTT)", src:"Zigbee2MQTT", dst:"Raspberry Pi"},
+    {type:'edge', id:'eZ2MPi', say:"MQTT ile Raspberry Pi'ye iletim.", proto:"MQTT (Wi‑Fi/Ethernet)", src:"Zigbee2MQTT", dst:"Raspberry Pi"},
+    {type:'node', id:'nPi', say:"Raspberry Pi – AI/kurallar gaz alarmını doğruladı.", proto:"–", src:"Raspberry Pi", dst:"Gaz vanası"},
+    {type:'edge', id:'ePiValve', say:"Gazı kes komutu MQTT üzerinden Zigbee ağına, oradan vanaya iletiliyor.", proto:"MQTT → Zigbee", src:"Raspberry Pi", dst:"Gaz vanası"},
+    {type:'node', id:'nValve', say:"Gaz kesme vanası kapandı.", proto:"–", src:"Raspberry Pi", dst:"Gaz vanası"},
+    {type:'edge', id:'ePiEcho', say:"Uyarı Wi‑Fi üzerinden Echo Show'a gönderiliyor.", proto:"Wi‑Fi (HTTP/TTS)", src:"Raspberry Pi", dst:"Echo Show"},
+    {type:'node', id:'nEcho', say:"Echo Show: 'Gaz algılandı, vana kapatıldı.'", proto:"TTS", src:"Raspberry Pi", dst:"Echo Show"},
+    {type:'edge', id:'ePiFamily', say:"Aile uygulamasına internet üzerinden bildirim.", proto:"İnternet (Push/HTTPS)", src:"Raspberry Pi", dst:"Aile Uygulaması"},
+    {type:'node', id:'nFamily', say:"Aile uygulaması bildirimi aldı.", proto:"Push", src:"Raspberry Pi", dst:"Aile Uygulaması"},
+    {type:'edge', id:'ePiCloud', say:"Olay kaydı internetten buluta gönderiliyor.", proto:"İnternet (REST/HTTPS)", src:"Raspberry Pi", dst:"Carelio Bulut"},
+    {type:'node', id:'nCloud', say:"Carelio Bulut: Log kaydı tamamlandı.", proto:"REST", src:"Raspberry Pi", dst:"Carelio Bulut"}
+  ],
+  duman: [
+    {type:'node', id:'nSmoke', say:"Duman sensörü duman algıladı.", proto:"–", src:"Duman sensörü", dst:"–"},
+    {type:'edge', id:'eSmokeZ2M', say:"Veri Zigbee ile Zigbee2MQTT'ye gönderiliyor.", proto:"Zigbee", src:"Duman sensörü", dst:"Z2M"},
+    {type:'node', id:'nZ2M', say:"Z2M veriyi MQTT'ye çevirdi.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'edge', id:'eZ2MPi', say:"MQTT ile Raspberry Pi'ye iletim.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Karar: Havalandırma açılacak.", proto:"–", src:"Pi", dst:"Fan"},
+    {type:'edge', id:'ePiFan', say:"Komut MQTT/HA ile fan'a.", proto:"Wi‑Fi/Ethernet (MQTT/HA)", src:"Pi", dst:"Fan"},
+    {type:'node', id:'nFan', say:"Havalandırma açıldı.", proto:"–", src:"Pi", dst:"Fan"},
+    {type:'edge', id:'ePiEcho', say:"Wi‑Fi ile Echo Show'a uyarı.", proto:"Wi‑Fi (HTTP/TTS)", src:"Pi", dst:"Echo"},
+    {type:'node', id:'nEcho', say:"Echo Show bilgilendirdi.", proto:"TTS", src:"Pi", dst:"Echo"},
+    {type:'edge', id:'ePiCloud', say:"Log internetten buluta.", proto:"REST/HTTPS", src:"Pi", dst:"Bulut"},
+    {type:'node', id:'nCloud', say:"Kayıt tamam.", proto:"REST", src:"Pi", dst:"Bulut"}
+  ],
+  kapi: [
+    {type:'node', id:'nDoor', say:"Kapı sensörü kapının açıldığını bildirdi.", proto:"–", src:"Kapı sensörü", dst:"–"},
+    {type:'edge', id:'eDoorZ2M', say:"Veri Zigbee ile Zigbee2MQTT'ye.", proto:"Zigbee", src:"Kapı sensörü", dst:"Z2M"},
+    {type:'node', id:'nZ2M', say:"Z2M → MQTT.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'edge', id:'eZ2MPi', say:"MQTT ile Pi'ye iletim.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Ev modu 'away' → kilidi kapat.", proto:"–", src:"Pi", dst:"Kilit"},
+    {type:'edge', id:'ePiLock', say:"Komut MQTT/HA ile kilide.", proto:"Wi‑Fi/Ethernet (MQTT/HA)", src:"Pi", dst:"Kilit"},
+    {type:'node', id:'nLock', say:"Kapı kilitlendi.", proto:"–", src:"Pi", dst:"Kilit"},
+    {type:'edge', id:'ePiFamily', say:"Aileye internetten push.", proto:"Push/HTTPS", src:"Pi", dst:"Aile"},
+    {type:'node', id:'nFamily', say:"Bildirim alındı.", proto:"Push", src:"Pi", dst:"Aile"},
+    {type:'edge', id:'ePiCloud', say:"Log buluta.", proto:"REST/HTTPS", src:"Pi", dst:"Bulut"},
+    {type:'node', id:'nCloud', say:"Kayıt tamam.", proto:"REST", src:"Pi", dst:"Bulut"}
+  ],
+  dusme: [
+    {type:'node', id:'nFall', say:"Bileklik düşmeyi algıladı.", proto:"–", src:"Bileklik", dst:"–"},
+    {type:'edge', id:'eFallBLE', say:"Veri Bluetooth Low Energy ile gateway'e.", proto:"Bluetooth (BLE)", src:"Bileklik", dst:"BLE Gateway"},
+    {type:'node', id:'nBLE', say:"Gateway veriyi Pi'ye aktarıyor.", proto:"MQTT/HA", src:"BLE GW", dst:"Pi"},
+    {type:'edge', id:'eBLEPi', say:"MQTT/HA ile Raspberry Pi'ye.", proto:"MQTT/HA", src:"BLE GW", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Acil akış tetiklendi: TTS + kapı + arama.", proto:"–", src:"Pi", dst:"Echo/Kilit/Çağrı"},
+    {type:'edge', id:'ePiEcho', say:"Wi‑Fi ile Echo Show'a TTS.", proto:"Wi‑Fi (HTTP/TTS)", src:"Pi", dst:"Echo"},
+    {type:'node', id:'nEcho', say:"Echo uyarı yaptı.", proto:"TTS", src:"Pi", dst:"Echo"},
+    {type:'edge', id:'ePiLock', say:"Kilit 10 dk açılıyor.", proto:"Wi‑Fi/Ethernet (MQTT/HA)", src:"Pi", dst:"Kilit"},
+    {type:'node', id:'nLock', say:"Kilit geçici açıldı.", proto:"–", src:"Pi", dst:"Kilit"},
+    {type:'edge', id:'ePiCall', say:"Çağrı merkezine internetten webhook.", proto:"İnternet (Webhook)", src:"Pi", dst:"Çağrı Merkezi"},
+    {type:'node', id:'nCall', say:"Çağrı merkezi devrede.", proto:"Webhook", src:"Pi", dst:"Çağrı"},
+    {type:'edge', id:'ePiFamily', say:"Aile uygulamasına push.", proto:"Push/HTTPS", src:"Pi", dst:"Aile"},
+    {type:'node', id:'nFamily', say:"Push iletildi.", proto:"Push", src:"Pi", dst:"Aile"},
+    {type:'edge', id:'ePiCloud', say:"Log buluta.", proto:"REST/HTTPS", src:"Pi", dst:"Bulut"},
+    {type:'node', id:'nCloud', say:"Kayıt tamam.", proto:"REST", src:"Pi", dst:"Bulut"}
+  ],
+  lamba: [
+    {type:'node', id:'nDoor', say:"Gece hol hareketi algılandı.", proto:"–", src:"Hareket sensörü", dst:"–"},
+    {type:'edge', id:'eDoorZ2M', say:"Veri Zigbee ile Zigbee2MQTT'ye.", proto:"Zigbee", src:"Hareket", dst:"Z2M"},
+    {type:'node', id:'nZ2M', say:"Z2M → MQTT.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'edge', id:'eZ2MPi', say:"MQTT ile Pi'ye.", proto:"MQTT", src:"Z2M", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Karar: Lamba %20, 90 sn sonra kapat.", proto:"–", src:"Pi", dst:"Lamba"},
+    {type:'edge', id:'ePiLight', say:"Komut Wi‑Fi/Ethernet ile lambaya.", proto:"Wi‑Fi/Ethernet (MQTT/HA)", src:"Pi", dst:"Lamba"},
+    {type:'node', id:'nLight', say:"Lamba %20 açıldı.", proto:"–", src:"Pi", dst:"Lamba"}
+  ],
+  tansiyon: [
+    {type:'node', id:'nBP', say:"Tansiyon ölçümü alındı (145/95).", proto:"–", src:"BP cihazı", dst:"–"},
+    {type:'edge', id:'eBPBLE', say:"Ölçüm Bluetooth (BLE) ile gateway'e.", proto:"Bluetooth (BLE)", src:"BP", dst:"BLE GW"},
+    {type:'node', id:'nBLE', say:"Gateway → Pi.", proto:"MQTT/HA", src:"BLE GW", dst:"Pi"},
+    {type:'edge', id:'eBLEPi', say:"MQTT ile Pi'ye.", proto:"MQTT", src:"BLE GW", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Karar: yüksek, bildirim yap.", proto:"–", src:"Pi", dst:"Push/TTS"},
+    {type:'edge', id:'ePiFamily', say:"Aile app'e internetten push.", proto:"Push/HTTPS", src:"Pi", dst:"Aile"},
+    {type:'node', id:'nFamily', say:"Push gönderildi.", proto:"Push", src:"Pi", dst:"Aile"},
+    {type:'edge', id:'ePiCloud', say:"Log buluta.", proto:"REST/HTTPS", src:"Pi", dst:"Bulut"},
+    {type:'node', id:'nCloud', say:"Kayıt tamam.", proto:"REST", src:"Pi", dst:"Bulut"}
+  ],
+  ilac: [
+    {type:'node', id:'nPi', say:"Reçete saatinde hatırlatma başlatıldı.", proto:"–", src:"Pi", dst:"Echo/Aile"},
+    {type:'edge', id:'ePiEcho', say:"Wi‑Fi ile Echo Show'a TTS.", proto:"Wi‑Fi (HTTP/TTS)", src:"Pi", dst:"Echo"},
+    {type:'node', id:'nEcho', say:"Echo: 'İlaç zamanı.'", proto:"TTS", src:"Pi", dst:"Echo"},
+    {type:'edge', id:'eZ2MPi', say:"Akıllı kutu Zigbee/BLE ile köprüye; MQTT ile Pi'ye.", proto:"Zigbee/BLE → MQTT", src:"İlaç kutusu", dst:"Pi"},
+    {type:'node', id:'nZ2M', say:"Köprü bilgiyi aktardı.", proto:"MQTT", src:"Bridge", dst:"Pi"},
+    {type:'node', id:'nPi', say:"Kutu açıldı → alındı olarak işaretlendi.", proto:"–", src:"Pi", dst:"Bulut"},
+    {type:'edge', id:'ePiCloud', say:"Log internetten buluta.", proto:"REST/HTTPS (İnternet)", src:"Pi", dst:"Bulut"},
+    {type:'node', id:'nCloud', say:"Kayıt tamam.", proto:"REST", src:"Pi", dst:"Bulut"}
+  ]
+};
+
+let timer=null, idx=0, playing=false;
+
+function tts(text){
+  try{
+    if(!voice()) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang='tr-TR';
+    u.rate = 0.9;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function dimAll(on){
+  document.querySelectorAll('.edge').forEach(e=>e.classList.toggle('dimmed', on));
+  document.querySelectorAll('.node').forEach(e=>e.classList.toggle('dimmed', on));
+}
+
+function clearHighlights(){
+  document.querySelectorAll('.edge').forEach(e=>e.classList.remove('active','flash'));
+  document.querySelectorAll('.node').forEach(e=>e.classList.remove('highlight-node','dimmed'));
+  narr.textContent = "Oynatınca; düğüm → ok → düğüm sırayla, protokol adıyla vurgulanır.";
+  document.getElementById('repSteps').innerHTML = "<li>Oynat'a basın.</li>";
+  repCode.textContent = 'Senaryo oynatılınca örnekler burada belirecek.';
+  idx=0;
+}
+
+function applyStep(step){
+  if(dimOthers()) dimAll(true);
+  const el = document.getElementById(step.id);
+  if(!el) return;
+  if(step.type==='node'){
+    el.classList.remove('dimmed');
+    el.classList.add('highlight-node');
+  }else{
+    el.classList.remove('dimmed');
+    el.classList.add('active','flash');
+  }
+  narr.textContent = step.say + (step.proto ? " • Protokol: " + step.proto : "");
+  kvStep.textContent = step.say;
+  kvProto.textContent = step.proto || '–';
+  kvSrc.textContent = step.src || '–';
+  kvDst.textContent = step.dst || '–';
+  const li = document.createElement('li'); li.textContent = step.say + (step.proto?' ['+step.proto+']':'');
+  document.getElementById('repSteps').appendChild(li);
+
+  const key = scenarioSel.value;
+  if(key==='gaz' && step.id==='ePiValve'){
+    repCode.textContent = `zigbee2mqtt/gaz_valf/set\n{"state":"OFF"}`;
+  }else if(key==='duman' && step.id==='ePiFan'){
+    repCode.textContent = `switch.fan\n{"state":"ON"}`;
+  }else if(key==='kapi' && step.id==='ePiLock'){
+    repCode.textContent = `lock.giris_kapi\n{"action":"LOCK"}`;
+  }else if(key==='lamba' && step.id==='ePiLight'){
+    repCode.textContent = `light.hol\n{"brightness_pct":20}`;
+  }
+  tts(step.say + (step.proto ? ". Protokol: " + step.proto : ""));
+}
+
+function stepDelay(){
+  const v = parseInt(speedSel.value,10);
+  return isNaN(v) ? 5000 : v;
+}
+
+function playLoop(){
+  if(!playing) return;
+  const key = scenarioSel.value;
+  const flow = flows[key]; if(!flow) return;
+  if(idx >= flow.length){ playing=false; return; }
+  applyStep(flow[idx++]);
+  timer = setTimeout(playLoop, stepDelay());
+}
+
+document.getElementById('btnPlay').addEventListener('click', ()=>{
+  if(playing) return;
+  playing = true; playLoop();
+});
+document.getElementById('btnPause').addEventListener('click', ()=>{
+  playing = false; if(timer) clearTimeout(timer);
+});
+document.getElementById('btnNext').addEventListener('click', ()=>{
+  const key = scenarioSel.value, flow = flows[key]; if(!flow) return;
+  if(idx===0 && dimOthers()) dimAll(true);
+  if(idx < flow.length){ applyStep(flow[idx++]); }
+});
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  playing=false; if(timer) clearTimeout(timer); clearHighlights();
+});
+scenarioSel.addEventListener('change', ()=>{ playing=false; if(timer) clearTimeout(timer); clearHighlights();
+  document.getElementById('kvName').textContent = scenarioSel.options[scenarioSel.selectedIndex].text;
+});
+
+// init
+clearHighlights();
+document.getElementById('kvName').textContent = scenarioSel.options[scenarioSel.selectedIndex].text;
+</script>
+</body>
+</html>
